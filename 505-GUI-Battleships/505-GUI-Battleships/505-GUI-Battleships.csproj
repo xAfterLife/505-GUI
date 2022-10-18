@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>_505_GUI_Battleships</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Game\" />
+    <Folder Include="MVVM\Model\" />
+    <Folder Include="MVVM\Viewmodel\" />
+    <Folder Include="MVVM\View\" />
+    <Folder Include="Core\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Style\" />
+  </ItemGroup>
+
+</Project>
