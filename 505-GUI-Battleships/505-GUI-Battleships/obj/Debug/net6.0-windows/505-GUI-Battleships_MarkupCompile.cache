@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Lucas\Desktop\Programming\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\
 _505_GUI_Battleships
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\Lucas\Desktop\Programming\505-GUI-Battleships\505-GUI-Battleships\App.xaml
-11407045341
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\App.xaml
+31568766849
 
-3-1233169557
-194-97651837
-MainWindow.xaml;
+61571977293
+1941142463650
+MainWindow.xaml;MVVM\View\StartPage.xaml;Style\MenuButtonStyle.xaml;
 
-True
+False
 
