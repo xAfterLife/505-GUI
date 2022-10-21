@@ -1,28 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <RootNamespace>_505_GUI_Battleships</RootNamespace>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<RootNamespace>_505_GUI_Battleships</RootNamespace>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="BG1.png" />
-    <None Remove="Resources\BG1.jpg" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="BG1.png" />
+		<None Remove="Resources\BG1.jpg" />
+		<None Remove="Services\ILoggableService" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Game\" />
-    <Folder Include="MVVM\Model\" />
-    <Folder Include="MVVM\Viewmodel\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="MVVM\Model\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Resources\BG1.jpg">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+	<ItemGroup>
+		<Resource Include="Resources\BG1.jpg">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</Resource>
+	</ItemGroup>
 
 </Project>

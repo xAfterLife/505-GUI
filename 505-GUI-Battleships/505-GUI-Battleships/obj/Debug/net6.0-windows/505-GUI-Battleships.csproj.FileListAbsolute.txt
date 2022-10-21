@@ -19,6 +19,8 @@ D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\505-GUI-Battleships.pdb
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\505-GUI-Battleships.genruntimeconfig.cache
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\Style\MenuButtonStyle.baml
-D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\StartPage.baml
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\App.baml
-D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\StartPage.g.cs
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\505-GUI-Battleships_MarkupCompile.lref
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\StartView.g.cs
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\StartView.baml

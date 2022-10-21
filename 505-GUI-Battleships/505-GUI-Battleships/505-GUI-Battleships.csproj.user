@@ -7,7 +7,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MVVM\View\StartPage.xaml.cs">
+    <Compile Update="MVVM\View\StartView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -15,7 +15,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\StartPage.xaml">
+    <Page Update="MVVM\View\StartView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\MenuButtonStyle.xaml">
