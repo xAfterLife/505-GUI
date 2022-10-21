@@ -1,5 +1,5 @@
 ﻿using System;
-using _505_GUI_Battleships.Structs;
+using _505_GUI_Battleships.Types;
 
 namespace _505_GUI_Battleships.Services;
 
@@ -7,13 +7,15 @@ public class ServiceBase
 {
     public event EventHandler<LogMessageEventArgs>? Log;
 
-    public void AttachLogger(ref LogService logService)
+    public void AttachLogger(LogService logService)
     {
         Log += logService.OnLogEventHandler;
+        OnLog(new LogMessage(LogService.Severity.Debug, $"{GetType().Name} Logger-Attached"));
     }
 
-    private void OnLog(LogMessageEventArgs e)
+    // ReSharper disable once UnusedMember.Local
+    private void OnLog(LogMessage e)
     {
-        Log?.Invoke(this, e);
+        Log?.Invoke(this, new LogMessageEventArgs(e));
     }
 }

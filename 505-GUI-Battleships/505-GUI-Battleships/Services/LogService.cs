@@ -3,14 +3,21 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using _505_GUI_Battleships.Structs;
-
-// ReSharper disable UnusedMember.Global
+using _505_GUI_Battleships.Types;
 
 namespace _505_GUI_Battleships.Services;
 
 public sealed class LogService
 {
+    public enum FilterSeverity
+    {
+        All,
+        NoDebug,
+        Extended,
+        Production,
+        None
+    }
+
     public enum OutputType
     {
         None,
@@ -30,17 +37,21 @@ public sealed class LogService
 
     private readonly OutputType _debugType;
 
+    private readonly FilterSeverity _filterSeverity;
+
     private readonly string? _logPath;
 
-    public LogService(OutputType outputType)
+    public LogService(OutputType outputType, FilterSeverity filterSeverity)
     {
         _debugType = outputType;
+        _filterSeverity = filterSeverity;
     }
 
-    public LogService(OutputType outputType, string logPath)
+    public LogService(OutputType outputType, FilterSeverity filterSeverity, string logPath)
     {
         _debugType = outputType;
         _logPath = logPath;
+        _filterSeverity = filterSeverity;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining & MethodImplOptions.AggressiveOptimization)]
@@ -74,9 +85,23 @@ public sealed class LogService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining & MethodImplOptions.AggressiveOptimization)]
+    private static bool ShouldLog(in Severity severity, in FilterSeverity filterSeverity)
+    {
+        return filterSeverity switch
+        {
+            FilterSeverity.All        => true,
+            FilterSeverity.NoDebug    => severity is not Severity.Debug,
+            FilterSeverity.Extended   => severity is Severity.Warning or Severity.Error,
+            FilterSeverity.Production => severity is Severity.Error,
+            FilterSeverity.None       => false,
+            _                         => throw new ArgumentOutOfRangeException(nameof(filterSeverity), filterSeverity, null)
+        };
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining & MethodImplOptions.AggressiveOptimization)]
     private void Log(Severity severity, string message = "", [CallerMemberName] string caller = "", [CallerFilePath] string file = "", [CallerLineNumber] int line = 0)
     {
-        if ( string.IsNullOrEmpty(message) || _debugType == OutputType.None )
+        if ( string.IsNullOrEmpty(message) || _debugType == OutputType.None || !ShouldLog(in severity, in _filterSeverity) )
             return;
 
         if ( _debugType is OutputType.Console or OutputType.All )
@@ -104,34 +129,7 @@ public sealed class LogService
     [MethodImpl(MethodImplOptions.AggressiveInlining & MethodImplOptions.AggressiveOptimization)]
     public void OnLogEventHandler(object? sender, LogMessageEventArgs e)
     {
-        Log(e.LogMessage);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining & MethodImplOptions.AggressiveOptimization)]
-    private void Log(LogMessage logMessage)
-    {
-        if ( string.IsNullOrEmpty(logMessage.Message) || _debugType == OutputType.None )
-            return;
-
-        if ( _debugType is OutputType.Console or OutputType.All )
-        {
-            Console.ForegroundColor = (ConsoleColor)logMessage.Severity;
-            Console.Write($@"{DateTime.Now.ToLongTimeString()} [{Path.GetFileNameWithoutExtension(logMessage.File)}->{logMessage.Caller} L{logMessage.Line}] ");
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write($@"{logMessage.Message}{Environment.NewLine}");
-        }
-
-        if ( _logPath != null && _debugType is OutputType.LogFile or OutputType.All )
-            File.WriteAllText(_logPath, $@"[{Path.GetFileNameWithoutExtension(logMessage.File)}->{logMessage.Caller} L{logMessage.Line}] {logMessage.Message}");
-
-        if ( _debugType is OutputType.MessageBox or OutputType.All )
-            MessageBox.Show($@"[{Path.GetFileNameWithoutExtension(logMessage.File)}->{logMessage.Caller} L{logMessage.Line}] {logMessage.Message}", Enum.GetName(typeof(Severity), logMessage.Severity), MessageBoxButton.OK, logMessage.Severity switch
-            {
-                Severity.Debug   => MessageBoxImage.Question,
-                Severity.Info    => MessageBoxImage.Information,
-                Severity.Warning => MessageBoxImage.Warning,
-                Severity.Error   => MessageBoxImage.Error,
-                _                => throw new ArgumentOutOfRangeException(nameof(logMessage.Severity), logMessage.Severity, null)
-            });
+        var logMessage = e.LogMessage;
+        Log(logMessage.Severity, logMessage.Message, logMessage.Caller, logMessage.File, logMessage.Line);
     }
 }
