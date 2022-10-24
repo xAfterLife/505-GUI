@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using _505_GUI_Battleships.Types;
+using ErrorEventArgs = _505_GUI_Battleships.Types.ErrorEventArgs;
 
 namespace _505_GUI_Battleships.Services;
 
@@ -131,5 +132,11 @@ public sealed class LogService
     {
         var logMessage = e.LogMessage;
         Log(logMessage.Severity, logMessage.Message, logMessage.Caller, logMessage.File, logMessage.Line);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining & MethodImplOptions.AggressiveOptimization)]
+    public void OnErrorEventHandler(object? sender, ErrorEventArgs e)
+    {
+        Error(e.Exception);
     }
 }
