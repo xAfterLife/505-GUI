@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\App.xaml
-31906742767
+4-1708163415
 
-15-2046782448
+16361593989
 1941142463650
-MainWindow.xaml;MVVM\View\StartView.xaml;Style\MenuButtonStyle.xaml;
+MainWindow.xaml;MVVM\View\StartView.xaml;Style\MenuButtonStyle.xaml;Style\TaskButtonStyle.xaml;
 
 True
 

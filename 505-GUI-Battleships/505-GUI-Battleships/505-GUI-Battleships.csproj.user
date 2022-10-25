@@ -21,5 +21,8 @@
     <Page Update="Style\MenuButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Style\TaskButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 </Project>

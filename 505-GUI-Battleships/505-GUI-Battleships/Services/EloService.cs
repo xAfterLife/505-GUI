@@ -2,7 +2,7 @@
 
 namespace _505_GUI_Battleships.Services;
 
-internal class EloService : ServiceBase
+internal sealed class EloService : ServiceBase
 {
     public enum EloCalculationTarget
     {

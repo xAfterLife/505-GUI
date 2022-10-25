@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
         mc:Ignorable="d"
-        Background="#424242"
-
+        Background="#1e1e1e"
+        WindowStyle="None"
         FontFamily="Segoe UI"
         Title="MainWindow" Height="450" Width="800">
 
@@ -14,15 +14,28 @@
         <viewModel:MainViewModel />
     </Window.DataContext>
 
-    <WindowChrome.WindowChrome>
-        <WindowChrome
-            ResizeBorderThickness="5"
-            CaptionHeight="12"
-            CornerRadius="12"
-            GlassFrameThickness="0" />
-    </WindowChrome.WindowChrome>
+    <Grid Margin="0 2 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-    <Border>
-        <ContentControl Content="{Binding CurrentView}" />
-    </Border>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Margin="2">
+            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="../../Resources/BG1.jpg"/>
+            <TextBlock DockPanel.Dock="Left" Foreground="White">Das ist ein Text</TextBlock>
+
+            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="X"/>
+            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="🗖"/>
+            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="_"/>
+            <TextBlock DockPanel.Dock="Right"/>
+        </DockPanel>
+
+        <Border Grid.Row="1" Background="#4a4a4a">
+            <ContentControl Content="{Binding CurrentView}" />
+        </Border>
+    </Grid>
 </Window>

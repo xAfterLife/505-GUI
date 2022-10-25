@@ -11,7 +11,46 @@
 	<ItemGroup>
 		<None Remove="BG1.png" />
 		<None Remove="Resources\BG1.jpg" />
+		<None Remove="Resources\Sounds\Final_Treffer_1.mp3" />
+		<None Remove="Resources\Sounds\Final_Treffer_1.wav" />
+		<None Remove="Resources\Sounds\Final_Treffer_2.mp3" />
+		<None Remove="Resources\Sounds\Final_Treffer_2.wav" />
+		<None Remove="Resources\Sounds\Final_Treffer_3.mp3" />
+		<None Remove="Resources\Sounds\Final_Treffer_3.wav" />
+		<None Remove="Resources\Sounds\Geschoss_1.mp3" />
+		<None Remove="Resources\Sounds\Geschoss_1.wav" />
+		<None Remove="Resources\Sounds\Geschoss_2.mp3" />
+		<None Remove="Resources\Sounds\Geschoss_2.wav" />
+		<None Remove="Resources\Sounds\Treffer_1.mp3" />
+		<None Remove="Resources\Sounds\Treffer_1.wav" />
+		<None Remove="Resources\Sounds\Treffer_2.mp3" />
+		<None Remove="Resources\Sounds\Treffer_2.wav" />
+		<None Remove="Resources\Sounds\Treffer_3.mp3" />
+		<None Remove="Resources\Sounds\Treffer_3.wav" />
+		<None Remove="Resources\Sounds\Treffer_4.mp3" />
+		<None Remove="Resources\Sounds\Treffer_4.wav" />
+		<None Remove="Resources\Sounds\Wassertreffer_1.mp3" />
+		<None Remove="Resources\Sounds\Wassertreffer_1.wav" />
+		<None Remove="Resources\Sounds\Wassertreffer_2.mp3" />
+		<None Remove="Resources\Sounds\Wassertreffer_2.wav" />
+		<None Remove="Resources\Sounds\Wassertreffer_3.mp3" />
+		<None Remove="Resources\Sounds\Wassertreffer_3.wav" />
 		<None Remove="Services\ILoggableService" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_3.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Geschoss_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Geschoss_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_3.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_4.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Wassertreffer_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Wassertreffer_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Wassertreffer_3.wav" />
 	</ItemGroup>
 
 	<ItemGroup>
