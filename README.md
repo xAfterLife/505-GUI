@@ -27,7 +27,7 @@ Re-Creating Battle-Ships in C# using the WPF Framework and MVVM
 
 ## Tech Stack
 
-* Python 3.11
-* MongoDB
-* Flask
-* Amazon Skill SDK
+* .NET 6.0
+* WPF
+* MVVM
+* Dependency Injection
