@@ -16,22 +16,22 @@
 
     <Grid Margin="0 2 0 0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <DockPanel Margin="2">
-            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="../../Resources/BG1.jpg"/>
+            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="../../Resources/BG1.jpg" />
             <TextBlock DockPanel.Dock="Left" Foreground="White">Das ist ein Text</TextBlock>
 
-            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="X"/>
-            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="🗖"/>
-            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="_"/>
-            <TextBlock DockPanel.Dock="Right"/>
+            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="X" />
+            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="🗖" />
+            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="_" />
+            <TextBlock DockPanel.Dock="Right" />
         </DockPanel>
 
         <Border Grid.Row="1" Background="#4a4a4a">

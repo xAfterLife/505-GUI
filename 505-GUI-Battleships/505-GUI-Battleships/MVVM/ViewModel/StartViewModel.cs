@@ -1,3 +1,16 @@
-﻿namespace _505_GUI_Battleships.MVVM.ViewModel;
+﻿using _505_GUI_Battleships.Core;
 
-internal class StartViewModel {}
+namespace _505_GUI_Battleships.MVVM.ViewModel;
+
+internal class StartViewModel : IChildViewModel
+{
+    public RelayCommand DummyViewModelCommand { get; internal set; }
+
+    public StartViewModel(MainViewModel parentViewModel)
+    {
+        ParentViewModel = parentViewModel;
+        DummyViewModelCommand = new RelayCommand(_ => ParentViewModel.CurrentView = new StartViewModel(ParentViewModel));
+    }
+
+    public MainViewModel ParentViewModel { get; internal set; }
+}

@@ -1,18 +1,17 @@
-﻿using System.Windows;
-using _505_GUI_Battleships.Services;
+﻿using _505_GUI_Battleships.Core;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal class MainViewModel
 {
-    public object CurrentView { get; set; } = new StartViewModel();
+    public RelayCommand StartViewModelCommand { get; internal set; }
+
+    public IChildViewModel CurrentView { get; set; }
 
     public MainViewModel()
     {
-        var mainApp = Application.Current as App;
+        CurrentView = new StartViewModel(this);
 
-        //Beispiel wie man Services erstellt und den Log-Service Attached
-        var eloService = new EloService();
-        eloService.AttachLogger(mainApp?.LogService!);
+        StartViewModelCommand = new RelayCommand(_ => CurrentView = new StartViewModel(this));
     }
 }

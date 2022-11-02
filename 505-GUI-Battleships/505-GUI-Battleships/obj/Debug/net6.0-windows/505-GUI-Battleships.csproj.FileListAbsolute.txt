@@ -25,3 +25,5 @@ D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\StartView.g.cs
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\StartView.baml
 D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\Style\TaskButtonStyle.baml
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\DummyView.baml
+D:\Programmieren\505-GUI\505-GUI-Battleships\505-GUI-Battleships\obj\Debug\net6.0-windows\MVVM\View\DummyView.g.cs
