@@ -537,6 +537,11 @@ _NCrunch*
 .vs[/\]*
 /.vs/
 \.vs\
+/.vs/*
+\.vs\*
 *.v2
 *.v1
 bin\
+bin\*
+bin/
+bin/*
