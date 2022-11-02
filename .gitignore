@@ -533,3 +533,10 @@ $RECYCLE.BIN/
 .DS_Store
 
 _NCrunch*
+
+.vs[/\]*
+/.vs/
+\.vs\
+*.v2
+*.v1
+bin\

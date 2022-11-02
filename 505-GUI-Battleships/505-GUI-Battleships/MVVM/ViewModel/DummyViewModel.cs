@@ -1,11 +1,5 @@
-﻿namespace _505_GUI_Battleships.MVVM.ViewModel;
+﻿using _505_GUI_Battleships.Core;
 
-internal class DummyViewModel : IChildViewModel
-{
-    public DummyViewModel(MainViewModel parentViewModel)
-    {
-        ParentViewModel = parentViewModel;
-    }
+namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-    public MainViewModel ParentViewModel { get; internal set; }
-}
+internal class DummyViewModel : ObservableObject {}

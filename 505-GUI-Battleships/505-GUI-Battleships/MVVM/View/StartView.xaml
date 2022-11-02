@@ -3,8 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:core="clr-namespace:_505_GUI_Battleships.Core"
+             xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
+             d:DataContext="{d:DesignInstance Type=core:ObservableObject}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <viewModel:MainViewModel />
+    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,7 +26,7 @@
 
         <Image Grid.ColumnSpan="3"
                Stretch="Fill"
-               Source="../../Resources/BG1.jpg"
+               Source="/Resources/BG1.jpg"
                RenderOptions.BitmapScalingMode="HighQuality">
             <Image.OpacityMask>
                 <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,0">
@@ -35,7 +42,7 @@
         <TextBlock Grid.Column="1" TextAlignment="Center" FontSize="48" Foreground="White">Battleships</TextBlock>
 
         <DockPanel Grid.Column="2" Margin="0 10 15 0">
-            <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}">
+            <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}" Command="{Binding DummyViewModelCommand}">
                 <TextBlock>Start Game</TextBlock>
             </Button>
 

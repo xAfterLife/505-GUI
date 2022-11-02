@@ -16,7 +16,7 @@
 
     <Grid Margin="0 2 0 0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
+            <RowDefinition Height="28" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -25,16 +25,18 @@
         </Grid.ColumnDefinitions>
 
         <DockPanel Margin="2">
-            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="../../Resources/BG1.jpg" />
+            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="Resources/BG1.jpg" />
             <TextBlock DockPanel.Dock="Left" Foreground="White">Das ist ein Text</TextBlock>
-
-            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="X" />
-            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="🗖" />
-            <Button Style="{StaticResource TaskButton}" Width="20" Height="20" DockPanel.Dock="Right" Content="_" />
+            <Button Style="{StaticResource TaskButton}" Command="{Binding ExitCommand}" Width="20" Height="20"
+                    DockPanel.Dock="Right" Content="X" />
+            <Button Style="{StaticResource TaskButton}" Command="{Binding MaximizeCommand}" Width="20" Height="20"
+                    DockPanel.Dock="Right" Content="🗖" />
+            <Button Style="{StaticResource TaskButton}" Command="{Binding MinimizeCommand}" Width="20" Height="20"
+                    DockPanel.Dock="Right" Content="_" />
             <TextBlock DockPanel.Dock="Right" />
         </DockPanel>
 
-        <Border Grid.Row="1" Background="#4a4a4a">
+        <Border Grid.Row="1" Background="Transparent">
             <ContentControl Content="{Binding CurrentView}" />
         </Border>
     </Grid>

@@ -5,29 +5,22 @@ namespace _505_GUI_Battleships.Core;
 
 internal class RelayCommand : ICommand
 {
-    private readonly Func<object, bool> _canExecute;
-    private readonly Action<object> _execute;
+    private readonly Action<object?> _method;
 
-    public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null!)
+    public RelayCommand(Action<object?> method)
     {
-        _execute = execute;
-        _canExecute = canExecute;
+        _method = method;
     }
 
-    public event EventHandler? CanExecuteChanged
-    {
-        add => CommandManager.RequerySuggested += value;
-        remove => CommandManager.RequerySuggested -= value;
-    }
+    public event EventHandler? CanExecuteChanged;
 
     public bool CanExecute(object? parameter)
     {
-        return parameter != null && _canExecute(parameter);
+        return true;
     }
 
     public void Execute(object? parameter)
     {
-        if ( parameter != null )
-            _execute(parameter);
+        _method.Invoke(parameter);
     }
 }
