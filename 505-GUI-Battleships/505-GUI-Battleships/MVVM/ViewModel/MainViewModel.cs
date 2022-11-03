@@ -1,30 +1,23 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using _505_GUI_Battleships.Core;
+using _505_GUI_Battleships.MVVM.Model;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal class MainViewModel : ObservableObject
+public class MainViewModel : ObservableObject
 {
-    internal readonly DummyViewModel? DummyVm;
-    internal readonly StartViewModel? StartVm;
-
-    private object _currentView;
-
-    public RelayCommand StartViewModelCommand { get; set; }
-    public RelayCommand DummyViewModelCommand { get; set; }
-    public RelayCommand ExitCommand { get; set; }
-    public RelayCommand MaximizeCommand { get; set; }
-    public RelayCommand MinimizeCommand { get; set; }
+    private object _currentView = new StartViewModel();
 
     public object CurrentView
     {
         get => _currentView;
-        set
-        {
-            _currentView = value;
-            OnPropertyChanged();
-        }
+        set => Update(ref _currentView, value);
     }
+
+    public static ICommand ExitCommand => new RelayCommand(_ => Application.Current.Shutdown());
+    public static ICommand MaximizeCommand => new RelayCommand(_ => WState = WState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
+    public static ICommand MinimizeCommand => new RelayCommand(_ => WState = WState == WindowState.Minimized ? WindowState.Normal : WindowState.Minimized);
 
     internal static WindowState WState
     {
@@ -34,34 +27,9 @@ internal class MainViewModel : ObservableObject
 
     public MainViewModel()
     {
-        StartVm = new StartViewModel();
-        DummyVm = new DummyViewModel();
-
-        _currentView = StartVm;
-
-        ExitCommand = new RelayCommand(_ =>
+        ChangeViewModel.ViewChanged += (_, view) =>
         {
-            Application.Current.Shutdown();
-        });
-
-        MaximizeCommand = new RelayCommand(_ =>
-        {
-            WState = WState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-        });
-
-        MinimizeCommand = new RelayCommand(_ =>
-        {
-            WState = WState == WindowState.Minimized ? WindowState.Normal : WindowState.Minimized;
-        });
-
-        StartViewModelCommand = new RelayCommand(_ =>
-        {
-            CurrentView = StartVm;
-        });
-
-        DummyViewModelCommand = new RelayCommand(_ =>
-        {
-            CurrentView = DummyVm;
-        });
+            CurrentView = view;
+        };
     }
 }

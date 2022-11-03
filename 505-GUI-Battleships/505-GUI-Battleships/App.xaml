@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:view="clr-namespace:_505_GUI_Battleships.MVVM.View"
              xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
+             xmlns:mainView="clr-namespace:_505_GUI_Battleships"
              StartupUri="MainWindow.xaml">
 
     <Application.Resources>
@@ -11,6 +12,9 @@
                 <ResourceDictionary Source="Style/MenuButtonStyle.xaml" />
                 <ResourceDictionary Source="Style/TaskButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModel:MainViewModel}">
+                <mainView:MainWindow />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
                 <view:StartView />
             </DataTemplate>

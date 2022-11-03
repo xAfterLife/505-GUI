@@ -3,24 +3,28 @@ using System.Windows.Input;
 
 namespace _505_GUI_Battleships.Core;
 
-internal class RelayCommand : ICommand
+public class RelayCommand : ICommand
 {
-    private readonly Action<object?> _method;
+    private readonly Action<object?> _action;
 
-    public RelayCommand(Action<object?> method)
+    public RelayCommand(Action<object?> action)
     {
-        _method = method;
+        _action = action;
     }
 
-    public event EventHandler? CanExecuteChanged;
+    public void Execute(object? parameter)
+    {
+        _action(parameter);
+    }
 
     public bool CanExecute(object? parameter)
     {
         return true;
     }
 
-    public void Execute(object? parameter)
+    public event EventHandler? CanExecuteChanged
     {
-        _method.Invoke(parameter);
+        add {}
+        remove {}
     }
 }

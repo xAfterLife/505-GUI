@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using _505_GUI_Battleships.MVVM.ViewModel;
 
 namespace _505_GUI_Battleships;
 
@@ -10,5 +11,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        DataContext = new MainViewModel();
     }
 }

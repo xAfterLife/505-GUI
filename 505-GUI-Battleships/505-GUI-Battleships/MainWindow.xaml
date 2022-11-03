@@ -24,6 +24,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
+
         <DockPanel Margin="2">
             <Image DockPanel.Dock="Left" Width="20" Height="20" Source="Resources/BG1.jpg" />
             <TextBlock DockPanel.Dock="Left" Foreground="White">Das ist ein Text</TextBlock>
@@ -36,8 +37,6 @@
             <TextBlock DockPanel.Dock="Right" />
         </DockPanel>
 
-        <Border Grid.Row="1" Background="Transparent">
-            <ContentControl Content="{Binding CurrentView}" />
-        </Border>
+        <ContentControl Grid.Row="1" Content="{Binding CurrentView, PresentationTraceSources.TraceLevel=High }" />
     </Grid>
 </Window>

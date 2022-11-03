@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:core="clr-namespace:_505_GUI_Battleships.Core"
              xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
-             d:DataContext="{d:DesignInstance Type=core:ObservableObject}"
+             d:DataContext="{d:DesignInstance Type=viewModel:StartViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.DataContext>
-        <viewModel:MainViewModel />
+        <viewModel:StartViewModel />
     </UserControl.DataContext>
 
     <Grid>
