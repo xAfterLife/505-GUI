@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
-using _505_GUI_Battleships.MVVM.Model;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
