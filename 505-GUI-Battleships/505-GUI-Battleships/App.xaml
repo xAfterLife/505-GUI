@@ -8,10 +8,12 @@
 
     <Application.Resources>
         <ResourceDictionary>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style/MenuButtonStyle.xaml" />
                 <ResourceDictionary Source="Style/TaskButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
             <DataTemplate DataType="{x:Type viewModel:MainViewModel}">
                 <mainView:MainWindow />
             </DataTemplate>
@@ -21,6 +23,10 @@
             <DataTemplate DataType="{x:Type viewModel:DummyViewModel}">
                 <view:DummyView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:PlayerConfigurationViewModel}">
+                <view:PlayerConfigurationView />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

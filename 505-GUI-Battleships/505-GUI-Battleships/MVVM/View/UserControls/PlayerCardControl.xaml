@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="_505_GUI_Battleships.MVVM.View.UserControls.PlayerCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="350" d:DesignWidth="225"
+             Background="BlueViolet"
+             Padding="5">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+        </Grid.RowDefinitions>
+
+        <DockPanel Background="AliceBlue">
+            <TextBlock TextAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="{Binding PlayerName}" />
+        </DockPanel>
+
+        <DockPanel Grid.Row="1" Background="BlueViolet">
+            <TextBlock TextAlignment="Center" VerticalAlignment="Center" Foreground="Black" Text="{Binding Elo}" />
+        </DockPanel>
+    </Grid>
+</UserControl>
