@@ -10,13 +10,7 @@
     <Compile Update="MVVM\View\DummyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MVVM\View\PlayerConfigurationView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="MVVM\View\StartView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="MVVM\View\UserControls\PlayerCardControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -27,13 +21,19 @@
     <Page Update="MVVM\View\DummyView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\PlayerConfigurationView.xaml">
+    <Page Update="MVVM\View\PlayerSelectionView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\StartView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\UserControls\PlayerCardControl.xaml">
+    <Page Update="MVVM\View\UserControls\PlayerSelectitonCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\AddPlayerButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\PlayerDeleteButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\MenuButtonStyle.xaml">

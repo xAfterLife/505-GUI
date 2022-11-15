@@ -11,6 +11,7 @@
 	<ItemGroup>
 		<None Remove="BG1.png" />
 		<None Remove="Resources\BG1.jpg" />
+		<None Remove="Resources\BG2.jpg" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.mp3" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.wav" />
 		<None Remove="Resources\Sounds\Final_Treffer_2.mp3" />
@@ -57,6 +58,7 @@
 		<Resource Include="Resources\BG1.jpg">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Resources\BG2.jpg" />
 	</ItemGroup>
 
 </Project>

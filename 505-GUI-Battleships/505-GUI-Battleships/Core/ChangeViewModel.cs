@@ -10,10 +10,10 @@ public sealed class ChangeViewModel
     {
         Dummy = 0,
         Start = 1,
-        PlayerConfiguration = 2
+        PlayerSelection = 2
     }
 
-    private static readonly Dictionary<ViewType, Type> Views = new() { { ViewType.Dummy, typeof(DummyViewModel) }, { ViewType.Start, typeof(StartViewModel) }, { ViewType.PlayerConfiguration, typeof(PlayerConfigurationViewModel) } };
+    private static readonly Dictionary<ViewType, Type> Views = new() { { ViewType.Dummy, typeof(DummyViewModel) }, { ViewType.Start, typeof(StartViewModel) }, { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) } };
 
     public static event EventHandler<object>? ViewChanged;
 
