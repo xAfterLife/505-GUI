@@ -1,17 +1,14 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Controls;
 
-namespace _505_GUI_Battleships.MVVM.View
+namespace _505_GUI_Battleships.MVVM.View;
+
+/// <summary>
+///     Interaktionslogik für PlayerSelectitonCard.xaml
+/// </summary>
+public partial class PlayerSelectitonCard : UserControl
 {
-    /// <summary>
-    /// Interaktionslogik für PlayerSelectitonCard.xaml
-    /// </summary>
-    public partial class PlayerSelectitonCard : UserControl
+    public PlayerSelectitonCard()
     {
-        public PlayerSelectitonCard()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

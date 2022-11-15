@@ -1,14 +1,24 @@
-﻿using _505_GUI_Battleships.Core;
-using System;
+﻿using System;
 using System.Windows.Input;
+using _505_GUI_Battleships.Core;
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
 public sealed class PlayerModel : ObservableObject
 {
     private uint _elo;
-    private string _playerName;
     private Guid _playerId;
+    private string _playerName;
+    public PlayerModel Instance { get; }
+
+    public static ICommand DeleteButtonCommand =>
+        new RelayCommand(instance =>
+        {
+            if ( instance is not PlayerModel player )
+                return;
+
+            DeleteButtonPressed?.Invoke(player, EventArgs.Empty);
+        });
 
     public string PlayerName
     {
@@ -30,8 +40,11 @@ public sealed class PlayerModel : ObservableObject
 
     public PlayerModel(string playerName = "Enter name", uint elo = 1000)
     {
+        Instance = this;
         _playerName = playerName;
         _elo = elo;
         _playerId = Guid.NewGuid();
     }
+
+    public static event EventHandler? DeleteButtonPressed;
 }
