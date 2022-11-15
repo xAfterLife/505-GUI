@@ -6,6 +6,9 @@ namespace _505_GUI_Battleships.Services;
 
 internal sealed class SoundPlayerService : ServiceBase
 {
+    /// <summary>
+    ///     Type of Sound (Name)
+    /// </summary>
     public enum SoundType
     {
         FinalTreffer,
@@ -14,8 +17,15 @@ internal sealed class SoundPlayerService : ServiceBase
         Wassertreffer
     }
 
+    /// <summary>
+    ///     Random
+    /// </summary>
     private static readonly Random Rnd = new((int)(Environment.TickCount * DateTime.Now.ToFileTimeUtc()));
 
+    /// <summary>
+    ///     Plays Sound based on SoundType enum
+    /// </summary>
+    /// <param name="type">SoundType</param>
     public void PlaySound(SoundType type)
     {
         try

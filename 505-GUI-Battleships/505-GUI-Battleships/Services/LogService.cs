@@ -10,6 +10,10 @@ namespace _505_GUI_Battleships.Services;
 
 public sealed class LogService
 {
+    /// <summary>
+    ///     Type of FilterSeverity
+    ///     (f.E. All/Production/None/etc.)
+    /// </summary>
     public enum FilterSeverity
     {
         All,
@@ -19,6 +23,10 @@ public sealed class LogService
         None
     }
 
+    /// <summary>
+    ///     Type of Output
+    ///     (f.E. All/Console/None/etc.)
+    /// </summary>
     public enum OutputType
     {
         None,
@@ -28,6 +36,10 @@ public sealed class LogService
         All
     }
 
+    /// <summary>
+    ///     Type of Severity
+    ///     (f.E. Debug/Info/Error/etc.)
+    /// </summary>
     public enum Severity
     {
         Debug = ConsoleColor.DarkBlue,

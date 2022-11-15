@@ -4,12 +4,18 @@ namespace _505_GUI_Battleships.Services;
 
 internal sealed class EloService : ServiceBase
 {
+    /// <summary>
+    ///     Weigthing for the EloCalculation
+    /// </summary>
     public enum EloCalculationTarget
     {
         Winner,
         Looser
     }
 
+    /// <summary>
+    ///     Type of Protection against Elo-Loss
+    /// </summary>
     public enum EloLossProtection
     {
         None,
@@ -17,6 +23,15 @@ internal sealed class EloService : ServiceBase
         Percentual
     }
 
+    /// <summary>
+    ///     ctor
+    /// </summary>
+    /// <param name="winner">Elo of the Winner</param>
+    /// <param name="looser">Elo of the Looser</param>
+    /// <param name="calculationTarget">Target</param>
+    /// <param name="lossProtection">Type of Protection</param>
+    /// <param name="lossProtectionThreashold">Optional Protection Threshold</param>
+    /// <returns></returns>
     public long CalculateElo(long winner, long looser, EloCalculationTarget calculationTarget, EloLossProtection lossProtection = EloLossProtection.None, long lossProtectionThreashold = 0)
     {
         try

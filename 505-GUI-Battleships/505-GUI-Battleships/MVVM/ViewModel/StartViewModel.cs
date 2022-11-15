@@ -6,7 +6,13 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal class StartViewModel : ObservableObject
 {
+    /// <summary>
+    ///     Command to Change the CurrentView to the PlayerSelection
+    /// </summary>
     public static ICommand StartGameCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection));
 
+    /// <summary>
+    ///     Command to Exit the Current Application
+    /// </summary>
     public static ICommand ExitCommand => new RelayCommand(_ => Application.Current.Shutdown());
 }

@@ -21,9 +21,6 @@
             <DataTemplate DataType="{x:Type viewModel:StartViewModel}">
                 <view:StartView />
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:DummyViewModel}">
-                <view:DummyView />
-            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:PlayerSelectionViewModel}">
                 <view:PlayerSelectionView />
             </DataTemplate>
