@@ -46,7 +46,8 @@
                 <TextBlock>Start Game</TextBlock>
             </Button>
 
-            <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}">
+            <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}"
+                    Command="{Binding StartShipSelectionCommand}">
                 <TextBlock>Leaderboard</TextBlock>
             </Button>
 

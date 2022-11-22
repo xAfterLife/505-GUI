@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using _505_GUI_Battleships.MVVM.View;
 using _505_GUI_Battleships.MVVM.ViewModel;
 
 namespace _505_GUI_Battleships.Core;
@@ -12,15 +13,19 @@ public sealed class ChangeViewModel
     /// </summary>
     public enum ViewType
     {
-        Dummy = 0,
-        Start = 1,
-        PlayerSelection = 2
+        Start = 0,
+        PlayerSelection = 1,
+        ShipSelection = 2,
     }
 
     /// <summary>
     ///     Collection of our Views as Enum + Type Couples
     /// </summary>
-    private static readonly Dictionary<ViewType, Type> Views = new() { { ViewType.Dummy, typeof(DummyViewModel) }, { ViewType.Start, typeof(StartViewModel) }, { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) } };
+    private static readonly Dictionary<ViewType, Type> Views = new() { 
+        { ViewType.Start, typeof(StartViewModel) }, 
+        { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) },
+        { ViewType.ShipSelection, typeof(ShipSelectionViewModel) }
+    };
 
     /// <summary>
     ///     Event for MainViewModel to ChangeView

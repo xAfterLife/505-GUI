@@ -15,6 +15,9 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="MVVM\View\ShipSelectionView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MVVM\View\PlayerSelectionView.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -1,10 +1,11 @@
-﻿<Application x:Class="_505_GUI_Battleships.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:view="clr-namespace:_505_GUI_Battleships.MVVM.View"
-             xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
-             xmlns:mainView="clr-namespace:_505_GUI_Battleships"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="_505_GUI_Battleships.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mainView="clr-namespace:_505_GUI_Battleships"
+    xmlns:view="clr-namespace:_505_GUI_Battleships.MVVM.View"
+    xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
+    StartupUri="MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -23,6 +24,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:PlayerSelectionViewModel}">
                 <view:PlayerSelectionView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:ShipSelectionViewModel}">
+                <view:ShipSelectionView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
