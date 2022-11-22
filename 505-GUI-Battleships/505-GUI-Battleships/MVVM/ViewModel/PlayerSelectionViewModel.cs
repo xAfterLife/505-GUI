@@ -17,7 +17,7 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     ///     Binding for the AddPlayerButton
     /// </summary>
     public Visibility AddPlayerButtonVisibility => Players.Count >= 4 ? Visibility.Hidden : Visibility.Visible;
-
+   
     /// <summary>
     ///     AddPlayer Command
     /// </summary>
@@ -30,16 +30,37 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     {
         Players = new ObservableCollection<PlayerModel> { new(), new() };
 
+        for (int i = 0; i < Players.Count; i++)
+        {
+            Players[i].DeleteButtonVisibility = Visibility.Hidden;
+        }
+
         //Subscribe to DeleteButtonPressed and Remove the Players from the List
         PlayerModel.DeleteButtonPressed += (sender, _) =>
         {
-            if ( sender is PlayerModel player )
-                Players.Remove(player);
+            if ( sender is PlayerModel player ) Players.Remove(player);
+            if (Players.Count <= 2)
+            {
+                for (int i = 0; i < Players.Count; i++)
+                {
+                    Players[i].DeleteButtonVisibility = Visibility.Hidden;
+                    Players[i].UpdateDeleteButton();
+                }
+            }
+            OnPropertyChanged(nameof(AddPlayerButtonVisibility));
         };
 
         AddPlayer = new RelayCommand(_ =>
         {
             Players.Add(new PlayerModel());
+            if (Players.Count > 2)
+            {
+                for (int i = 0; i < Players.Count; i++)
+                {
+                    Players[i].DeleteButtonVisibility = Visibility.Visible;
+                    Players[i].UpdateDeleteButton();
+                }
+            }
             OnPropertyChanged(nameof(AddPlayerButtonVisibility));
         });
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
 
@@ -14,6 +15,8 @@ public sealed class PlayerModel : ObservableObject
     ///     The Instance of PlayerModel used to pass as a Parameter to the static Command
     /// </summary>
     public PlayerModel Instance { get; }
+
+    public Visibility DeleteButtonVisibility { get; set; }
 
     /// <summary>
     ///     Command for removing the pressed PlayerSelectionCard
@@ -65,6 +68,10 @@ public sealed class PlayerModel : ObservableObject
         _playerName = playerName;
         _elo = elo;
         _playerId = Guid.NewGuid();
+    }
+
+    public void UpdateDeleteButton() { 
+        OnPropertyChanged(nameof(this.DeleteButtonVisibility));
     }
 
     /// <summary>
