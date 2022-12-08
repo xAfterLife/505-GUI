@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
@@ -22,6 +23,17 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     ///     AddPlayer Command
     /// </summary>
     public static ICommand? AddPlayer { get; set; }
+
+    /// <summary>
+    ///     SelectModeButton Command
+    /// </summary>
+    public static ICommand? SelectModeButton { get; set; }
+    
+    /// <summary>
+    ///     Backbutton Command
+    /// </summary>
+    public static ICommand? BackButton { get; set; }
+
 
     /// <summary>
     ///     ctor
@@ -63,5 +75,16 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
             }
             OnPropertyChanged(nameof(AddPlayerButtonVisibility));
         });
+
+        SelectModeButton = new RelayCommand(_ => 
+        {
+            foreach (PlayerModel player in Players)
+            {
+                Trace.WriteLine(player.PlayerName);
+                Trace.WriteLine(player.PlayerColor);
+            }
+        });
+
+        BackButton = new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start));
     }
 }

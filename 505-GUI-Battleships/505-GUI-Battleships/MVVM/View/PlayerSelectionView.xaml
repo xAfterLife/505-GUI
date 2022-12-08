@@ -101,14 +101,29 @@
                     </Button>
                 </Grid>
             </Viewbox>
-            
+
+            <!-- TODO: Proper Alignment for Start and Back Button -->
             <Button
-                Grid.Row="2"
+                Grid.Row="3"
+                Width="120"
+                Height="35"
+                HorizontalAlignment="Left"
+                VerticalAlignment="bottom"
+                Command="{Binding BackButton}"
+                Style="{StaticResource MenuButton}">
+                <TextBlock>⇦ Back</TextBlock>
+            </Button>
+            <Button
+                Grid.Row="3"
+                HorizontalAlignment="Right"
                 VerticalAlignment="bottom"
                 Width="120"
+                Height="35"
+                Command="{Binding SelectModeButton}"
                 Style="{StaticResource MenuButton}">
-                <TextBlock>Start Game</TextBlock>
+                <TextBlock>Select Mode ⇨</TextBlock>
             </Button>
+          
         </Grid>
     </Grid>
 </UserControl>

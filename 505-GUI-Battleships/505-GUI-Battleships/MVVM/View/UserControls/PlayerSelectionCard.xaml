@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
              d:DesignHeight="210" d:DesignWidth="150"
@@ -28,6 +29,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="2*" />
                     <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <Button
@@ -39,6 +41,7 @@
                     Style="{StaticResource PlayerDeleteButton}" Content="X"/>
 
                 <TextBox
+                    TextAlignment="Center"
                     Width="80"
                     Grid.Row="0"
                     Background="Transparent"
@@ -55,12 +58,24 @@
                     Source="../../../Resources/BG1.jpg"
                     Stretch="UniformToFill" />
 
-                <TextBlock
+                <!-- Color-Picker Extension -->
+                <xctk:ColorPicker
                     Grid.Row="2"
+                    Margin="8"
+                    UsingAlphaChannel="False"
+                    MaxDropDownWidth="300"
+                    ShowDropDownButton="False"
+                    SelectedColor="{Binding PlayerColor}"
+                    Name="ClrPcker_Background"
+                    Height="25"
+                    Width="25"/>
+
+                <TextBlock
+                    Grid.Row="3"
                     Text="{Binding PlayerId}"
                     HorizontalAlignment="Center"
                     Foreground="White"
-                    FontSize="15"
+                    FontSize="12"
                     Padding="5,5,5,5" />
             </Grid>
 

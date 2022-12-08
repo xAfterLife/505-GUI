@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
 
@@ -10,6 +12,7 @@ public sealed class PlayerModel : ObservableObject
     private uint _elo;
     private Guid _playerId;
     private string _playerName;
+    private Color _playerColor;
 
     /// <summary>
     ///     The Instance of PlayerModel used to pass as a Parameter to the static Command
@@ -59,6 +62,15 @@ public sealed class PlayerModel : ObservableObject
     }
 
     /// <summary>
+    ///     Color of the Player
+    /// </summary>
+    public Color PlayerColor
+    {
+        get => _playerColor;
+        set => Update(ref _playerColor, value);
+    }
+
+    /// <summary>
     /// </summary>
     /// <param name="playerName">Name of the Player</param>
     /// <param name="elo">Elo points of the Player</param>
@@ -68,6 +80,9 @@ public sealed class PlayerModel : ObservableObject
         _playerName = playerName;
         _elo = elo;
         _playerId = Guid.NewGuid();
+
+        Random rnd = new();
+        _playerColor = Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256));
     }
 
     public void UpdateDeleteButton() { 
@@ -78,4 +93,5 @@ public sealed class PlayerModel : ObservableObject
     ///     Event Handler for the DeleteButton
     /// </summary>
     public static event EventHandler? DeleteButtonPressed;
+
 }
