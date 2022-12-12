@@ -57,7 +57,7 @@
                 Text="Player Selection"
                 FontSize="30"
                 Foreground="White" />
-            
+
             <Viewbox
                 Stretch="Uniform"
                 Grid.Row="1">
@@ -123,7 +123,7 @@
                 Style="{StaticResource MenuButton}">
                 <TextBlock>Select Mode ⇨</TextBlock>
             </Button>
-          
+
         </Grid>
     </Grid>
 </UserControl>

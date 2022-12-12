@@ -38,7 +38,7 @@
                     CommandParameter="{Binding Instance}"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
-                    Style="{StaticResource PlayerDeleteButton}" Content="X"/>
+                    Style="{StaticResource PlayerDeleteButton}" Content="X" />
 
                 <TextBox
                     TextAlignment="Center"
@@ -68,7 +68,7 @@
                     SelectedColor="{Binding PlayerColor}"
                     Name="ClrPcker_Background"
                     Height="25"
-                    Width="25"/>
+                    Width="25" />
 
                 <TextBlock
                     Grid.Row="3"

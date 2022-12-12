@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Windows.Media;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using _505_GUI_Battleships.Core;
 
 namespace _505_GUI_Battleships.MVVM.Model;
@@ -10,9 +9,9 @@ namespace _505_GUI_Battleships.MVVM.Model;
 public sealed class PlayerModel : ObservableObject
 {
     private uint _elo;
+    private Color _playerColor;
     private Guid _playerId;
     private string _playerName;
-    private Color _playerColor;
 
     /// <summary>
     ///     The Instance of PlayerModel used to pass as a Parameter to the static Command
@@ -85,13 +84,13 @@ public sealed class PlayerModel : ObservableObject
         _playerColor = Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256));
     }
 
-    public void UpdateDeleteButton() { 
-        OnPropertyChanged(nameof(this.DeleteButtonVisibility));
+    public void UpdateDeleteButton()
+    {
+        OnPropertyChanged(nameof(DeleteButtonVisibility));
     }
 
     /// <summary>
     ///     Event Handler for the DeleteButton
     /// </summary>
     public static event EventHandler? DeleteButtonPressed;
-
 }
