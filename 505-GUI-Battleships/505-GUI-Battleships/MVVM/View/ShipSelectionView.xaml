@@ -41,51 +41,24 @@
             Grid.Row="1"
             Grid.Column="1"
             Stretch="Uniform">
-            <ContentPresenter Content="{Binding PlayerBoard}" Focusable="true" />
+            <ContentPresenter Content="{Binding CurrentPlayerBoard}" Focusable="true" />
         </Viewbox>
 
         <Viewbox Grid.Row="1" Grid.Column="2">
-            <ListBox DockPanel.Dock="Left" Name="lstLabels">
-                <ListBox.Resources>
-                    <Style TargetType="{x:Type ListBoxItem}" />
-                </ListBox.Resources>
-                <ListBoxItem>A</ListBoxItem>
-                <ListBoxItem>B</ListBoxItem>
-                <ListBoxItem>C</ListBoxItem>
-                <ListBoxItem>D</ListBoxItem>
-                <ListBoxItem>E</ListBoxItem>
-                <ListBoxItem>F</ListBoxItem>
-                <ListBoxItem>G</ListBoxItem>
-                <ListBoxItem>H</ListBoxItem>
-            </ListBox>
+            <ContentPresenter Content="{Binding CurrentShiplist}" Focusable="true" />
         </Viewbox>
-        <!-- <Viewbox Stretch="Uniform" Grid.Column="1" Grid.Row="1">
-            <Canvas x:Name="gameBoard"
-                    Height="10 "
-                    Width="10"
-                    ClipToBounds="True"
-                    AllowDrop="True">
-                <Canvas.LayoutTransform>
-                    <ScaleTransform ScaleY="-1" />
-                </Canvas.LayoutTransform>
-                <Canvas.Background>
-                    <DrawingBrush TileMode="Tile"
-                                  Viewport="0,0,1,1" ViewportUnits="Absolute"
-                                  Viewbox="0,0,1,1" ViewboxUnits="Absolute">
-                        <DrawingBrush.Drawing>
-                            <GeometryDrawing>
-                                <GeometryDrawing.Geometry>
-                                    <RectangleGeometry Rect="0,0,1,1"/>
-                                </GeometryDrawing.Geometry>
-                                <GeometryDrawing.Pen>
-                                    <Pen Brush="DarkGreen" Thickness="0.1"/>
-                                </GeometryDrawing.Pen>
-                            </GeometryDrawing>
-                        </DrawingBrush.Drawing>
-                    </DrawingBrush>
-                </Canvas.Background>
-            </Canvas>
-        </Viewbox>-->
+        <Button
 
+            Grid.Row="1"
+            Grid.Column="2"
+            Width="176"
+            Height="41"
+            Margin="0,283,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Command="{Binding NextPlayerCommand}"
+            Content="Button"
+            IsEnabled="{Binding NextPlayerButtonEnabled}"
+            Visibility="{Binding NextPlayerButtonVisible}" />
     </Grid>
 </UserControl>

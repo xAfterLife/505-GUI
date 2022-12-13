@@ -2,7 +2,7 @@
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
-internal class Ship
+internal class ShipModel
 {
     public int Length { get; }
     public bool Horizontal { get; set; }
@@ -12,7 +12,7 @@ internal class Ship
     public int XPositionOnBoard { get; set; }
     public int YPositionOnBoard { get; set; }
 
-    public Ship(int length, bool horizontal, int shipSelectionPosition, int amount, ImageSource path)
+    public ShipModel(int length, bool horizontal, int shipSelectionPosition, int amount, ImageSource path)
     {
         Length = length;
         Horizontal = horizontal;
