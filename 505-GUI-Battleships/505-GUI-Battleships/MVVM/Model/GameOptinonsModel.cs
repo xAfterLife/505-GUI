@@ -1,6 +1,6 @@
 ﻿namespace _505_GUI_Battleships.MVVM.Model;
 
-internal class Mode
+internal class GameOptinonsModel
 {
     public int[][] BoardDimensions;
     public int GameMode;
@@ -8,7 +8,7 @@ internal class Mode
     public int? Rounds;
     public int ShipSquareCount;
 
-    public Mode(int playerCount, int[][] boardDimensions, int? rounds, int shipSquareCount, int gameMode)
+    public GameOptinonsModel(int playerCount, int[][] boardDimensions, int? rounds, int shipSquareCount, int gameMode)
     {
         PlayerCount = playerCount;
         BoardDimensions = boardDimensions;

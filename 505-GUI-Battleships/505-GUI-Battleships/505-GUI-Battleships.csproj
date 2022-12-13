@@ -13,6 +13,7 @@
 		<None Remove="Resources\BG1.jpg" />
 		<None Remove="Resources\BG2.jpg" />
 		<None Remove="Resources\ShipRescue.png" />
+		<None Remove="Resources\ShipRescueHorizontal.png" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.mp3" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.wav" />
 		<None Remove="Resources\Sounds\Final_Treffer_2.mp3" />
@@ -41,6 +42,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Resource Include="Resources\ShipRescueHorizontal.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_1.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_2.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_3.wav" />

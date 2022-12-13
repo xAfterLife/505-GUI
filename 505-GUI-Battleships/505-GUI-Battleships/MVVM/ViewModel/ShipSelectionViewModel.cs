@@ -75,32 +75,26 @@ internal class ShipSelectionViewModel : ObservableObject
 
     private void InstantiateBoards(int currentPlayer)
     {
-        /** 
-         * Could Move Board Config in XAML 
-         * **/
-        PlayerBoards.Add(new Canvas());
-        PlayerBoards[currentPlayer].Height = _boardSize;
-        PlayerBoards[currentPlayer].Width = _boardSize;
-        PlayerBoards[currentPlayer].ClipToBounds = true;
-        PlayerBoards[currentPlayer].AllowDrop = true;
-        PlayerBoards[currentPlayer].DragOver += (sender, e) => DragBoardDrop(sender, e, PlayerBoards[currentPlayer], _boardSize);
-        PlayerBoards[currentPlayer].LayoutTransform = new ScaleTransform(1, -1);
-        DrawingBrush db = new()
+        PlayerBoards.Add(new Canvas
         {
-            // https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.tilebrush.viewbox?view=windowsdesktop-7.0
+            Width = _boardSize,
+            Height = _boardSize,
+            ClipToBounds = true,
+            AllowDrop = true,
+            LayoutTransform = new ScaleTransform(1, -1)
+        });
+
+        DrawingBrush brush = new()
+        {
             TileMode = TileMode.Tile,
             Viewbox = new Rect(0, 0, 1, 1),
             Viewport = new Rect(0, 0, 1, 1),
             ViewboxUnits = BrushMappingMode.Absolute,
-            ViewportUnits = BrushMappingMode.Absolute
+            ViewportUnits = BrushMappingMode.Absolute,
+            Drawing = new GeometryDrawing { Pen = new Pen { Thickness = 0.1, Brush = Brushes.DarkGreen }, Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1)) }
         };
-        GeometryDrawing gd = new();
-        RectangleGeometry rec = new(new Rect(0, 0, 1, 1));
-        Pen gdPen = new() { Thickness = 0.1, Brush = Brushes.DarkGreen };
-        db.Drawing = gd;
-        gd.Pen = gdPen;
-        gd.Geometry = rec;
-        PlayerBoards[currentPlayer].Background = db;
+
+        PlayerBoards[currentPlayer].Background = brush;
     }
 
     private void InstantiateShips(int currentPlayer)
