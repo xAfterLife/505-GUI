@@ -15,6 +15,7 @@ internal class ShipSelectionViewModel : ObservableObject
 {
     private readonly int _boardSize = 10;
     private readonly int _playerAmount = 4;
+    private readonly int _shipAmount = 5;
     private readonly int _totalShiplenght = 15;
     private int _currentPlayer;
 
@@ -30,19 +31,16 @@ internal class ShipSelectionViewModel : ObservableObject
     public ICommand NextPlayerCommand { get; }
 
     /* CONFIG DATA */
-    public int RequiredLengthValue { get; set; }
 
     public ShipSelectionViewModel()
     {
         NextPlayerCommand = new RelayCommand(_ => NextPlayerButtonClick());
         NextPlayerButtonEnabled = false;
         NextPlayerButtonVisible = Visibility.Hidden;
-        RequiredLengthValue = _totalShiplenght;
 
         /* LOAD AMOUNT OF PLAYERS*/
         for ( var i = _currentPlayer; i < _playerAmount; i++ )
         {
-            RequiredLengthValue = _totalShiplenght;
             InstantiateBoards(i);
             InstantiateShiplists(i);
             InstantiateShips(i);
@@ -56,7 +54,7 @@ internal class ShipSelectionViewModel : ObservableObject
     {
         Shiplists.Add(new Canvas());
         Shiplists[currentPlayer].AllowDrop = true;
-        Shiplists[currentPlayer].Height = 10;
+        Shiplists[currentPlayer].Height = _shipAmount*2;
         Shiplists[currentPlayer].Width = 6;
         //Shiplists[currentPlayer].DragLeave += (sender, e) => ListDragLeave(sender, e, PlayerBoards[currentPlayer], Shiplists[currentPlayer], currentPlayer);
         //Shiplists[i].DragOver += new DragEventHandler((sender, e) => Dragfrom)
@@ -100,26 +98,6 @@ internal class ShipSelectionViewModel : ObservableObject
         PlayerBoards[currentPlayer].DragEnter += new DragEventHandler((sender, e) => BoardEnter(sender, e, PlayerBoards[currentPlayer], Shiplists[currentPlayer], currentPlayer));
     }
 
-    private void BoardEnter(object sender, DragEventArgs e, Canvas playerBoard, Canvas shipList, int currentPlayer)
-    {
-        Trace.WriteLine("Hi");
-        var data = e.Data.GetData(DataFormats.Serializable);
-
-        /** Adds the selected ship to the board*/
-        if (data is not Image element || !shipList.Children.Contains(element))
-            return;
-
-        shipList.Children.Remove(element);
-        playerBoard.Children.Add(element);
-        Canvas.SetLeft(element, 0);
-        FixElementPositionIfCollision(playerBoard, element);
-        var currentShipLength = (int)element.Width + (int)element.Height - 1;
-        RequiredLengthValue -= currentShipLength;
-        OnPropertyChanged(nameof(RequiredLengthValue));
-        //Trace.WriteLine(requiredLengthValue);
-        //RefreshList(currentPlayer);
-    }
-
     private void InstantiateShips(int currentPlayer)
     {
         /**
@@ -139,8 +117,45 @@ internal class ShipSelectionViewModel : ObservableObject
         ShipData.Add(new ShipModel(3, true, 1, 1, logoHorizontal, logoVertical));
         ShipData.Add(new ShipModel(4, true, 1, 1, logoHorizontal, logoVertical));
         ShipData.Add(new ShipModel(5, true, 1, 1, logoHorizontal, logoVertical));
+            for (var j = 0; j < _shipAmount; j++)
 
-        RefreshList(currentPlayer);
+            {
+                //Ships.Add(CreateShip(ShipData[j], currentPlayer));
+                Shiplists[currentPlayer].Children.Add(CreateShip(ShipData[j], currentPlayer));
+                Canvas.SetTop(Shiplists[currentPlayer].Children[j], (_shipAmount*2 - 2) - j * 2);
+            }
+    }
+
+    private void BoardEnter(object sender, DragEventArgs e, Canvas playerBoard, Canvas shipList, int currentPlayer)
+    {
+        Trace.WriteLine("Hi");
+        var data = e.Data.GetData(DataFormats.Serializable);
+
+        /** Adds the selected ship to the board*/
+        if (data is not Image element || !shipList.Children.Contains(element))
+            return;
+
+        shipList.Children.Remove(element);
+        playerBoard.Children.Add(element);
+        Canvas.SetLeft(element, 0);
+        FixElementPositionIfCollision(playerBoard, element);
+        CheckIfAllShipsArePlaced();
+        /*var currentShipLength = (int)element.Width + (int)element.Height - 1;
+        RequiredLengthValue -= currentShipLength;
+        OnPropertyChanged(nameof(RequiredLengthValue));
+        Trace.WriteLine(requiredLengthValue);
+        RefreshList(currentPlayer);*/
+    }
+
+    private void CheckIfAllShipsArePlaced()
+    {
+        if (Shiplists[_currentPlayer].Children.Count == 0)
+        {
+            NextPlayerButtonEnabled = true;
+            NextPlayerButtonVisible = Visibility.Visible;
+            OnPropertyChanged(nameof(NextPlayerButtonEnabled));
+            OnPropertyChanged(nameof(NextPlayerButtonVisible));
+        }
     }
 
     public void NextPlayerButtonClick()
@@ -148,13 +163,11 @@ internal class ShipSelectionViewModel : ObservableObject
         if ( _currentPlayer <= _playerAmount - 1 )
         {
             BoatPositionTest();
-            RequiredLengthValue = _totalShiplenght;
             _currentPlayer++;
             CurrentPlayerBoard = PlayerBoards[_currentPlayer];
             CurrentShiplist = Shiplists[_currentPlayer];
             OnPropertyChanged(nameof(CurrentPlayerBoard));
             OnPropertyChanged(nameof(CurrentShiplist));
-            OnPropertyChanged(nameof(RequiredLengthValue));
 
             NextPlayerButtonEnabled = false;
             NextPlayerButtonVisible = Visibility.Hidden;
@@ -171,7 +184,7 @@ internal class ShipSelectionViewModel : ObservableObject
     {
         for ( var i = 0; i < _playerAmount; i++ )
         {
-            Trace.WriteLine("Board :");
+            Trace.WriteLine("Board : " + i);
 
             foreach ( Image ship in PlayerBoards[i].Children )
             {
@@ -181,7 +194,7 @@ internal class ShipSelectionViewModel : ObservableObject
         }
     }
 
-    private void RefreshList(int currentPlayer)
+    /*private void RefreshList(int currentPlayer)
     {
         Ships.Clear();
         var lenghtcap = 5;
@@ -203,7 +216,7 @@ internal class ShipSelectionViewModel : ObservableObject
             Shiplists[currentPlayer].Children.Add(Ships[j]);
             Canvas.SetTop(Shiplists[currentPlayer].Children[j], 8 - j * 2);
         }
-    }
+    }*/
 
     /** function that creates the UIElement of type Image that represents the ship*/
     private Image CreateShip(ShipModel shipModelData, int i)
@@ -301,7 +314,6 @@ internal class ShipSelectionViewModel : ObservableObject
         //Trace.WriteLine(dropPosition);
     }
 
-    //TODO: Implement logic to prevent shipstacking
     private void RightClickFlip(object sender, MouseButtonEventArgs e, Image ship, ShipModel shipModelData, Canvas playerBoard)
     {
         if ( e.RightButton != MouseButtonState.Pressed || !playerBoard.Children.Contains(ship) )
