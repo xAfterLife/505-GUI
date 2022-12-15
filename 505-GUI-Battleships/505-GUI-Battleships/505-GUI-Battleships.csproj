@@ -12,8 +12,17 @@
 		<None Remove="BG1.png" />
 		<None Remove="Resources\BG1.jpg" />
 		<None Remove="Resources\BG2.jpg" />
-		<None Remove="Resources\ShipRescueHorizontal.png" />
-		<None Remove="Resources\ShipRescueVertical.png" />
+		<None Remove="Resources\Ships\1ShipPatrolHorizontal.png" />
+		<None Remove="Resources\Ships\1ShipPatrolVertical.png" />
+		<None Remove="Resources\Ships\2ShipRescueHorizontal.png" />
+		<None Remove="Resources\Ships\2ShipRescueVertical.png" />
+		<None Remove="Resources\Ships\3ShipSubMarineHorizontal.png" />
+		<None Remove="Resources\Ships\3ShipSubMarineVertical.png" />
+		<None Remove="Resources\Ships\4ShipDestroyerHorizontal.png" />
+		<None Remove="Resources\Ships\4ShipDestroyerVertical.png" />
+		<None Remove="Resources\Ships\5ShipBattleshipHorizontal.png" />
+		<None Remove="Resources\Ships\5ShipBattleshipHVertical.png" />
+		<None Remove="Resources\Ships\5ShipBattleshipVertical.png" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.mp3" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.wav" />
 		<None Remove="Resources\Sounds\Final_Treffer_2.mp3" />
@@ -42,9 +51,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Resources\ShipRescueHorizontal.png">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Resource>
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_1.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_2.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_3.wav" />
@@ -68,7 +74,34 @@
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Resources\BG2.jpg" />
-		<Resource Include="Resources\ShipRescueVertical.png">
+		<Resource Include="Resources\Ships\1ShipPatrolHorizontal.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\1ShipPatrolVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\2ShipRescueHorizontal.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\2ShipRescueVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\3ShipSubMarineHorizontal.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\3ShipSubMarineVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\4ShipDestroyerHorizontal.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\4ShipDestroyerVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\5ShipBattleshipHorizontal.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\Ships\5ShipBattleshipVertical.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>

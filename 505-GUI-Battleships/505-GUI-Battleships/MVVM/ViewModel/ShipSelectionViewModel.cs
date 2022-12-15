@@ -103,20 +103,29 @@ internal class ShipSelectionViewModel : ObservableObject
         /**
          * Generierung der Schiffe mit Bild TODO: Config Datei verwenden (?)
          **/
-        BitmapImage logoHorizontal = new();
-        logoHorizontal.BeginInit();
-        logoHorizontal.UriSource = new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/ShipRescueHorizontal.png");
-        logoHorizontal.EndInit();
-        BitmapImage logoVertical = new();
-        logoVertical.BeginInit();
-        logoVertical.UriSource = new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/ShipRescueVertical.png");
-        logoVertical.EndInit();
+        Collection<Uri> urisources = new Collection<Uri>() {
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolHorizontal.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolVertical.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueHorizontal.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueVertical.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineHorizontal.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineVertical.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerHorizontal.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerVertical.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipHorizontal.png"),
+            new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipVertical.png")
+    };
+        Collection<BitmapImage> bitmapImages = new Collection<BitmapImage>();
+        foreach (Uri uri in urisources)
+        {
+            bitmapImages.Add(new BitmapImage(uri));
+        }
 
-        ShipData.Add(new ShipModel(1, true, 1, 1, logoHorizontal, logoVertical));
-        ShipData.Add(new ShipModel(2, true, 1, 1, logoHorizontal, logoVertical));
-        ShipData.Add(new ShipModel(3, true, 1, 1, logoHorizontal, logoVertical));
-        ShipData.Add(new ShipModel(4, true, 1, 1, logoHorizontal, logoVertical));
-        ShipData.Add(new ShipModel(5, true, 1, 1, logoHorizontal, logoVertical));
+        ShipData.Add(new ShipModel(1, true, 1, 1, bitmapImages[0], bitmapImages[1]));
+        ShipData.Add(new ShipModel(2, true, 1, 1, bitmapImages[2], bitmapImages[3]));
+        ShipData.Add(new ShipModel(3, true, 1, 1, bitmapImages[4], bitmapImages[5]));
+        ShipData.Add(new ShipModel(4, true, 1, 1, bitmapImages[6], bitmapImages[7]));
+        ShipData.Add(new ShipModel(5, true, 1, 1, bitmapImages[8], bitmapImages[9]));
             for (var j = 0; j < _shipAmount; j++)
 
             {
