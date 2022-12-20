@@ -121,7 +121,7 @@
                 Height="35"
                 Command="{Binding SelectModeButton}"
                 Style="{StaticResource MenuButton}">
-                <TextBlock>Select GameOptinonsModel ⇨</TextBlock>
+                <TextBlock>Select GameOptionsModel.cs ⇨</TextBlock>
             </Button>
 
         </Grid>
