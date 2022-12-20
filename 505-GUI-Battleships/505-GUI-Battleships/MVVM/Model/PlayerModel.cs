@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -12,6 +13,9 @@ public sealed class PlayerModel : ObservableObject
     private Color _playerColor;
     private Guid _playerId;
     private string _playerName;
+
+    public ObservableCollection<PlayerAttackModel> Attacks { get; set; } = new();
+    public ObservableCollection<ShipPlacementModel> Ships { get; set; } = new();
 
     /// <summary>
     ///     The Instance of PlayerModel used to pass as a Parameter to the static Command
