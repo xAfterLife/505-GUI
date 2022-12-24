@@ -1,12 +1,5 @@
-﻿using _505_GUI_Battleships.Core;
-using _505_GUI_Battleships.MVVM.Model;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using _505_GUI_Battleships.Core;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
