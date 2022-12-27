@@ -11,9 +11,9 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
            <!-- Command="{Binding ReduceShipSizeCommand}"-->
@@ -27,16 +27,13 @@
             Content="−"
             FontWeight="Bold"
             Foreground="White"
-            Grid.Column="0"
-            Command="{Binding ReduceShipSizeCommand}"
-            CommandParameter="{Binding Instance}"
-            Style="{StaticResource AddPlayerButton}">
+            FontSize="55"
+            Grid.Column="0">
         </Button>
 
-        <Image 
+        <Image
             Grid.Column="1"
-            Height="auto"
-            Source="{Binding ShipImagePath}"/>
+            Source="../../../Ressources/Ships/2ShipRescueHorizontal.png"/>
 
             <!--Command="{Binding EnlargeShipSizeCommand}"-->
         <Button
@@ -51,8 +48,8 @@
             Content="+"
             FontWeight="Bold"
             Foreground="White"
-            Grid.Column="2"
-            Style="{StaticResource AddPlayerButton}">
+            FontSize="55"
+            Grid.Column="2">
         </Button>
 
 
