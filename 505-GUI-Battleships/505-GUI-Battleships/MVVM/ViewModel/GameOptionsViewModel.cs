@@ -47,7 +47,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
     public int BoardWidth { get; set; }
     public int BoardHeight { get; set; }
 
-    public Visibility RoundCountVisibility => (bool)PlayWithRoundsCheck.IsChecked ? Visibility.Visible : Visibility.Hidden;
+    //public Visibility RoundCountVisibility => (bool)PlayWithRoundsCheck.IsChecked ? Visibility.Visible : Visibility.Hidden;
 
 
 
