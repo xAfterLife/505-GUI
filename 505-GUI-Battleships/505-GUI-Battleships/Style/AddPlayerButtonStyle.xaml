@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border CornerRadius="25" Background="#262536" BorderBrush="Black" BorderThickness="1" Padding="3">
+                    <Border CornerRadius="25" Background="#262536" BorderBrush="White" BorderThickness="1" Padding="3">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
                 </ControlTemplate>

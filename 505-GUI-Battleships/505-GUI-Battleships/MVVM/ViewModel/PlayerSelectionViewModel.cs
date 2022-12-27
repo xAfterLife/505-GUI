@@ -1,9 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
+using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
@@ -14,6 +16,10 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     /// </summary>
     public ObservableCollection<PlayerModel> Players { get; set; }
 
+    private GameDataService _gameService;
+
+
+
     /// <summary>
     ///     Binding for the AddPlayerButton
     /// </summary>
@@ -22,27 +28,32 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     /// <summary>
     ///     AddPlayer Command
     /// </summary>
-    public static ICommand? AddPlayer { get; set; }
+    public static ICommand? AddPlayerCommand { get; set; }
 
     /// <summary>
-    ///     SelectModeButton Command
+    ///     GoToGameOptionsCommand Command
     /// </summary>
-    public static ICommand? SelectModeButton { get; set; }
-
+    public static ICommand? GoToGameOptionsCommand { get; set; }
+    
     /// <summary>
     ///     Backbutton Command
     /// </summary>
-    public static ICommand? BackButton { get; set; }
+    public static ICommand? BackCommand { get; set; }
 
     /// <summary>
     ///     ctor
     /// </summary>
     public PlayerSelectionViewModel()
     {
-        Players = new ObservableCollection<PlayerModel> { new(), new() };
+        _gameService = GameDataService.GetInstance();
+        if (!_gameService.PlayerModels.Any()) Players = new ObservableCollection<PlayerModel> { new(), new() };
+        else Players = _gameService.PlayerModels;
 
-        foreach ( var playerModel in Players )
-            playerModel.DeleteButtonVisibility = Visibility.Hidden;
+        if (Players.Count <= 2)
+        {
+            foreach (var playerModel in Players)
+                playerModel.DeleteButtonVisibility = Visibility.Hidden;
+        }
 
         //Subscribe to DeleteButtonPressed and Remove the Players from the List
         PlayerModel.DeleteButtonPressed += (sender, _) =>
@@ -60,7 +71,7 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
             OnPropertyChanged(nameof(AddPlayerButtonVisibility));
         };
 
-        AddPlayer = new RelayCommand(_ =>
+        AddPlayerCommand = new RelayCommand(_ =>
         {
             Players.Add(new PlayerModel());
 
@@ -74,15 +85,25 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
             OnPropertyChanged(nameof(AddPlayerButtonVisibility));
         });
 
-        SelectModeButton = new RelayCommand(_ =>
+        GoToGameOptionsCommand = new RelayCommand(_ =>
+        {
+            _gameService.PlayerModels = Players;
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.GameOptions);
+        });
+
+        BackCommand = new RelayCommand(_ => 
+        {
+            _gameService.PlayerModels.Clear(); 
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
+        });
+
+        /*SelectModeButton = new RelayCommand(_ =>
         {
             foreach ( var player in Players )
             {
                 Trace.WriteLine(player.PlayerName);
                 Trace.WriteLine(player.PlayerColor);
             }
-        });
-
-        BackButton = new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start));
+        });*/
     }
 }

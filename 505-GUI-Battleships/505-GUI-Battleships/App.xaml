@@ -30,7 +30,7 @@
                 <view:ShipSelectionView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:GameOptionsViewModel}">
-                <view:ShipSelectionView />
+                <view:GameOptionsView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

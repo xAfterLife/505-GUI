@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
+             xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewModel:GameOptionsViewModel}"
+             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
+             xmlns:userControls="clr-namespace:_505_GUI_Battleships.MVVM.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -23,7 +25,6 @@
     <UserControl.DataContext>
         <viewModel:GameOptionsViewModel />
     </UserControl.DataContext>
-
 
     <Grid>
         <Grid.RowDefinitions>
@@ -89,22 +90,25 @@
                             <RowDefinition Height="auto" />
                             <RowDefinition Height="auto" />
                         </Grid.RowDefinitions>
+
                         <Border
-                        BorderBrush="#FFFFFF"
-                        BorderThickness="1">
+                            BorderBrush="#FFFFFF"
+                            BorderThickness="1">
                             <TextBlock
-                            Background="#1e1e26"
-                            TextAlignment="Center"
-                            Padding="5"
-                            Text="Game Mode"
-                            Foreground="White"/>
+                                Background="#1e1e26"
+                                TextAlignment="Center"
+                                Padding="5"
+                                Text="Game Mode"
+                                Foreground="White"/>
                         </Border>
 
+                        <!-- TODO: MAKE WHOLE ELEMENT STACKPANEL -->
+                        
                         <StackPanel
-                        Grid.Row="1">
+                            Grid.Row="1">
 
                             <Grid
-                            Margin="2,2,2,20">
+                                Margin="2,2,2,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
@@ -116,44 +120,47 @@
 
 
                                 <TextBlock
-                                Grid.Row="0"
-                                Text="Last Man Standing"
-                                VerticalAlignment="Center"
-                                Foreground="White"
-                                Padding="10,0"/>
+                                    Grid.Row="0"
+                                    Text="Last Man Standing"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Padding="10,0"/>
                                 <CheckBox
-                                x:Name="Checkbox1"
-                                HorizontalAlignment="Center"
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                IsChecked="True"/>
+                                    IsChecked="{Binding LastManStandingCheck, FallbackValue=True}"
+                                    x:Name="Checkbox1"
+                                    HorizontalAlignment="Center"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    />
 
                                 <TextBlock
-                                Grid.Row="1"
-                                Text="Play until first one is out"
-                                VerticalAlignment="Center"
-                                Foreground="White"
-                                Padding="10,0"/>
+                                    Grid.Row="1"
+                                    Text="Play until first one is out"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Padding="10,0"/>
                                 <CheckBox 
-                                x:Name="CheckBox2"
-                                HorizontalAlignment="Center"
-                                Grid.Row="1"
-                                Grid.Column="1"/>
+                                    IsChecked="{Binding FirstOneOutCheck}"
+                                    x:Name="CheckBox2"
+                                    HorizontalAlignment="Center"
+                                    Grid.Row="1"
+                                    Grid.Column="1"/>
                             </Grid>
 
                             <Border
-                            BorderBrush="#FFFFFF"
-                            BorderThickness="1">
+                                Margin="0,0,0,2"
+                                BorderBrush="#FFFFFF"
+                                BorderThickness="1">
                                 <TextBlock
-                                Background="#1e1e26"
-                                TextAlignment="Center"
-                                Padding="5"
-                                Text="Round Settings"
-                                Foreground="White" />
+                                    Background="#1e1e26"
+                                    TextAlignment="Center"
+                                    Padding="5"
+                                    Text="Round Settings"
+                                    Foreground="White" />
                             </Border>
 
                             <Grid
-                                Margin="2">
+                                Margin="2,4,2,10">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="*" />
@@ -166,36 +173,97 @@
                                 <TextBlock 
                                     Grid.Row="0"
                                     Text="Play with set game rounds"
-                                    VerticalAlignment="Center"
+                                    VerticalAlignment="Top"
                                     Foreground="White"
-                                    Margin="10,5,0,10"/>
+                                    Padding="10,0"/>
+                                
                                 <CheckBox 
+                                    IsChecked="{Binding PlayWithRoundsCheck}"
                                     x:Name="CheckBox3"
                                     HorizontalAlignment="Center"
                                     Grid.Row="0"
-                                    Grid.Column="1"
-                                    IsChecked="True"
-                                     Margin="0,5,0,10"/>
+                                    Grid.Column="2"
+                                    Margin="0,0,0,10"/>
+
+                                <Grid
+                                    Visibility="{Binding RoundCountVisibility}"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2">
+                                    <TextBlock 
+                                        Grid.Row="1"
+                                        Text="Round Count"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        Margin="10,0,0,0"/>
+
+                                    <TextBox 
+                                        HorizontalAlignment="Right"
+                                        Grid.Row="1"
+                                        Grid.Column="2"
+                                        Background="#d4d3d6"
+                                        Height="20"
+                                        Width="25"
+                                        HorizontalContentAlignment="Center"
+                                        Text="{Binding RoundCount, FallbackValue='10'}" 
+                                        Margin="16,0,21,0"/>
+                                </Grid>
+                            </Grid>
+
+                            <Border
+                                BorderBrush="#FFFFFF"
+                                BorderThickness="1">
+                                <TextBlock
+                                    Background="#1e1e26"
+                                    TextAlignment="Center"
+                                    Padding="5"
+                                    Text="Board Settings"
+                                    Foreground="White" />
+                            </Border>
+                            <Grid
+                                Margin="2,2,2,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
                                 <TextBlock 
                                     Grid.Row="1"
-                                    Text="Round Count"
+                                    Text="Board Dimensions"
                                     VerticalAlignment="Center"
                                     Foreground="White"
-                                    Margin="10,0"/>
-
-                                <TextBox 
+                                    Margin="10,4,0,0"/>
+                                <StackPanel
+                                    Margin="0,4,0,0"
+                                    Orientation="Horizontal"
                                     Grid.Row="1"
-                                    Grid.Column="1"
-                                    Background="#d4d3d6"
-                                    Height="20"
-                                    Width="35"
-                                    HorizontalContentAlignment="Center"
-                                    Text="10"/>
+                                    Grid.Column="1">
+                                    <TextBox
+                                        Background="#d4d3d6"
+                                        Height="20"
+                                        Width="20"
+                                        HorizontalContentAlignment="Center"
+                                        Text="10"/>
+
+                                    <TextBlock
+                                        Margin="8,0,8,0"
+                                        Text="x"
+                                        Foreground="White"/>
+                                    <TextBox
+                                        Background="#d4d3d6"
+                                        Height="20"
+                                        Width="20"
+                                        HorizontalContentAlignment="Center"
+                                        Text="10"/>
+
+                                </StackPanel>
+
                             </Grid>
 
-                            <UniformGrid>
-                            </UniformGrid>
+
                         </StackPanel>
 
                     </Grid>
@@ -211,13 +279,13 @@
                         Grid.Column="1">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Border
-                        Grid.Row="0"
-                        BorderBrush="#FFFFFF"
-                        BorderThickness="1">
+                            Grid.Row="0"
+                            BorderBrush="#FFFFFF"
+                            BorderThickness="1">
                             <TextBlock
                                 Background="#1e1e26"
                                 TextAlignment="Center"
@@ -226,25 +294,52 @@
                                 Foreground="White" />
                         </Border>
 
-                        <StackPanel
+                        <Viewbox
                             Grid.Row="1"
-                            Orientation="Vertical">
+                            VerticalAlignment="Top"
+                            Stretch="Uniform">
+                            <StackPanel
+                                Margin="0,10,0,10">
+                                <Button
+                                    Grid.Column="1"
+                                    Height="25"
+                                    Width="25"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding DeleteShipCommandVisibility}"
+                                    Command="{Binding DeleteShipCommand}"
+                                    Style="{StaticResource AddPlayerButton}">
+                                    <TextBlock TextWrapping="Wrap" Text="−" VerticalAlignment="Center" />
+                                </Button>
 
-                            <ItemsControl ItemsSource="{Binding Path=Players}" HorizontalAlignment="Stretch">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Rows="1" />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                               <!-- <ItemsControl.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type model:PlayerModel}">
-                                        <userControls:ShipSizeSelector />
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate> -->
-                            </ItemsControl>
+                                <ItemsControl 
+                                    ItemsSource="{Binding Path=Ships}" 
+                                    VerticalAlignment="Stretch">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Margin="0,5,0,5" Columns="1" />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type model:ShipSizeSelectorModel}">
+                                            <userControls:ShipSizeSelector />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                                <Button
+                                        Grid.Column="1"
+                                        Height="25"
+                                        Width="25"
+                                        VerticalAlignment="Center"
+                                        Visibility="{Binding AddShipCommandVisibility}"
+                                        Command="{Binding AddShipCommand}"
+                                        Style="{StaticResource AddPlayerButton}">
+                                    <TextBlock Text="+" VerticalAlignment="Center" />
+                                </Button>
 
 
-                        </StackPanel>
+                            </StackPanel>
+                        </Viewbox>
                     </Grid>
                 </Border>
             </Grid>
@@ -258,7 +353,7 @@
                     Height="35"
                     HorizontalAlignment="Left"
                     VerticalAlignment="bottom"
-                    Command="{Binding BackButton}"
+                    Command="{Binding BackCommand}"
                     Style="{StaticResource MenuButton}">
                     <TextBlock>⇦ Back</TextBlock>
                 </Button>
@@ -268,7 +363,7 @@
                     VerticalAlignment="bottom"
                     Width="120"
                     Height="35"
-                    Command="{Binding ShipPlacementButton}"
+                    Command="{Binding StartGameCommand}"
                     Style="{StaticResource MenuButton}">
                     <TextBlock>Place Ships ⇨</TextBlock>
                 </Button>

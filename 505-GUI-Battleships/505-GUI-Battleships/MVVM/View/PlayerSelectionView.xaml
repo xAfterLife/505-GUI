@@ -70,7 +70,9 @@
                     <StackPanel Grid.Column="0"
                                 Orientation="Horizontal">
 
-                        <ItemsControl ItemsSource="{Binding Path=Players}" HorizontalAlignment="Stretch">
+                        <ItemsControl
+                            ItemsSource="{Binding Path=Players}" 
+                            HorizontalAlignment="Stretch">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Rows="1" />
@@ -93,7 +95,7 @@
                         Width="50"
                         VerticalAlignment="Center"
                         Visibility="{Binding AddPlayerButtonVisibility}"
-                        Command="{Binding AddPlayer}"
+                        Command="{Binding AddPlayerCommand}"
                         Style="{StaticResource AddPlayerButton}">
                         <Border BorderBrush="{x:Null}" Height="auto">
                             <TextBlock TextWrapping="Wrap" Text="➕" VerticalAlignment="Center" />
@@ -109,7 +111,7 @@
                 Height="35"
                 HorizontalAlignment="Left"
                 VerticalAlignment="bottom"
-                Command="{Binding BackButton}"
+                Command="{Binding BackCommand}"
                 Style="{StaticResource MenuButton}">
                 <TextBlock>⇦ Back</TextBlock>
             </Button>
@@ -119,7 +121,7 @@
                 VerticalAlignment="bottom"
                 Width="120"
                 Height="35"
-                Command="{Binding SelectModeButton}"
+                Command="{Binding GoToGameOptionsCommand}"
                 Style="{StaticResource MenuButton}">
                 <TextBlock>Start ⇨</TextBlock>
             </Button>
