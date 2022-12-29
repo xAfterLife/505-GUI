@@ -4,16 +4,9 @@ using _505_GUI_Battleships.MVVM.Model;
 using _505_GUI_Battleships.Services;
 using System;
 using System.Diagnostics;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Controls;
+using System.Windows.Ink;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
@@ -21,8 +14,6 @@ internal sealed class GameOptionsViewModel : ObservableObject
 {
     public ObservableCollection<ShipSizeSelectorModel> Ships { get; set; }
 
-
-    // TEST
     private GameDataService _gameService;
 
     public static ICommand? BackCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection));
@@ -36,47 +27,80 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
 
     // TODO: Bind all the options
+    public static ICommand? LastManStandingCommand { get; set; }
+    public bool LastManStandingCheck { get; set; }
 
-    public CheckBox LastManStandingCheck { get; set; }
-    public CheckBox FirstOneOutCheck { get; set; }
-   
-    public CheckBox PlayWithRoundsCheck { get; set; }
-    
+    public static ICommand? FirstOneOutCommand { get; set; }
+    public bool FirstOneOutCheck { get; set; }
+
+    public bool PlayWithRoundsCheck { get; set; }
+    public static ICommand? PlayWithRoundsCommand { get; set; }
+
+    public Visibility RoundCountTextBlockVisibility { get; set; }
+    public Visibility RoundCountTextBoxVisibility { get; set; }
+
     public int? RoundCount { get; set; }
 
     public int BoardWidth { get; set; }
     public int BoardHeight { get; set; }
 
-    //public Visibility RoundCountVisibility => (bool)PlayWithRoundsCheck.IsChecked ? Visibility.Visible : Visibility.Hidden;
-
-
-
-
     public GameOptionsViewModel() 
     {
+        LastManStandingCheck = true;
+        FirstOneOutCheck = false;
+        PlayWithRoundsCheck = true;
 
-        // TODO: Make it so only one checkbox can be checked at a time
 
-        /*if (LastManStandingCheck.IsChecked.Value == true) 
-        { 
-            FirstOneOutCheck.IsChecked = false; 
-            OnPropertyChanged(nameof(FirstOneOutCheck));
+        LastManStandingCommand = new RelayCommand(_ =>
+        {
+            if(LastManStandingCheck == true) 
+            {
+                FirstOneOutCheck = false;
+            }
+            if(LastManStandingCheck == false)
+            {
+                FirstOneOutCheck = true;
+            }
             OnPropertyChanged(nameof(LastManStandingCheck));
-        }
-        if (FirstOneOutCheck.IsChecked.Value == true) 
-        { 
-            LastManStandingCheck.IsChecked = false;
+            OnPropertyChanged(nameof(FirstOneOutCheck));
+        });
+
+        FirstOneOutCommand = new RelayCommand(_ =>
+        {
+            if (FirstOneOutCheck == true)
+            {
+                LastManStandingCheck = false;
+            }
+            if (FirstOneOutCheck == false)
+            {
+                LastManStandingCheck = true;
+            }
             OnPropertyChanged(nameof(LastManStandingCheck));
             OnPropertyChanged(nameof(FirstOneOutCheck));
-        }*/
+        });
 
+        PlayWithRoundsCommand = new RelayCommand(_ => 
+        {
+            if(PlayWithRoundsCheck == true) 
+            {
+                RoundCountTextBlockVisibility = Visibility.Visible;
+                RoundCountTextBoxVisibility = Visibility.Visible;
+            }
+            if(PlayWithRoundsCheck == false) 
+            {
+                RoundCountTextBlockVisibility = Visibility.Hidden;
+                RoundCountTextBoxVisibility = Visibility.Hidden;
+            }
+            OnPropertyChanged(nameof(RoundCountTextBlockVisibility));
+            OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
+        });
 
 
         _gameService = GameDataService.GetInstance();
 
         ObservableCollection<PlayerModel> Players = _gameService.PlayerModels;
 
-        Ships = new ObservableCollection<ShipSizeSelectorModel> { new(), new() };
+        Ships = new ObservableCollection<ShipSizeSelectorModel> { new() };
 
         // TODO: Enlarge and Reduce increment/ decrement twice -> should only incr/decr once
 
@@ -122,6 +146,9 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
 
             // Placeholder logging to be later replaced by passing game options the gameservice
+            
+
+            //_gameService.
 
             Trace.WriteLine("LMS: ");
             Trace.WriteLine(LastManStandingCheck);

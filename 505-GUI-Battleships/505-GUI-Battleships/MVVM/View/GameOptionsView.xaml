@@ -126,7 +126,8 @@
                                     Foreground="White"
                                     Padding="10,0"/>
                                 <CheckBox
-                                    IsChecked="{Binding LastManStandingCheck, FallbackValue=True}"
+                                    Command="{Binding LastManStandingCommand}"
+                                    IsChecked="{Binding LastManStandingCheck, FallbackValue=true}"
                                     x:Name="Checkbox1"
                                     HorizontalAlignment="Center"
                                     Grid.Row="0"
@@ -140,6 +141,7 @@
                                     Foreground="White"
                                     Padding="10,0"/>
                                 <CheckBox 
+                                    Command="{Binding FirstOneOutCommand}"
                                     IsChecked="{Binding FirstOneOutCheck}"
                                     x:Name="CheckBox2"
                                     HorizontalAlignment="Center"
@@ -178,6 +180,7 @@
                                     Padding="10,0"/>
 
                                 <CheckBox 
+                                    Command="{Binding PlayWithRoundsCommand}"
                                     IsChecked="{Binding PlayWithRoundsCheck}"
                                     x:Name="CheckBox3"
                                     HorizontalAlignment="Center"
@@ -185,28 +188,25 @@
                                     Grid.Column="2"
                                     Margin="0,0,0,10"/>
 
-                                <Grid
-                                    Visibility="{Binding RoundCountVisibility}"
-                                    Grid.Row="1"
-                                    Grid.ColumnSpan="2">
-                                    <TextBlock 
-                                        Grid.Row="1"
-                                        Text="Round Count"
-                                        VerticalAlignment="Center"
-                                        Foreground="White"
-                                        Margin="10,0,0,0"/>
 
-                                    <TextBox 
-                                        HorizontalAlignment="Right"
-                                        Grid.Row="1"
-                                        Grid.Column="2"
-                                        Background="#d4d3d6"
-                                        Height="20"
-                                        Width="25"
-                                        HorizontalContentAlignment="Center"
-                                        Text="{Binding RoundCount, FallbackValue='10'}" 
-                                        Margin="16,0,21,0"/>
-                                </Grid>
+                                <TextBlock 
+                                    Visibility="{Binding RoundCountTextBlockVisibility, FallbackValue=hidden}"
+                                    Grid.Row="1"
+                                    Text="Round Count"
+                                    VerticalAlignment="Center"
+                                    Foreground="White"
+                                    Margin="10,0,0,0"/>
+
+                                <TextBox 
+                                    Visibility="{Binding RoundCountTextBoxVisibility, FallbackValue=hidden}"
+                                    HorizontalAlignment="Center"
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Background="#d4d3d6"
+                                    Height="20"
+                                    Width="25"
+                                    HorizontalContentAlignment="Center"
+                                    Text="{Binding RoundCount, FallbackValue=10}" />
                             </Grid>
 
                             <Border
@@ -236,18 +236,19 @@
                                     VerticalAlignment="Center"
                                     Foreground="White"
                                     Margin="10,4,0,0"/>
+
                                 <StackPanel
                                     Margin="0,4,0,0"
                                     Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
                                     Grid.Row="1"
                                     Grid.Column="1">
                                     <TextBox
                                         Background="#d4d3d6"
                                         Height="20"
-                                        Width="20"
+                                        Width="23"
                                         HorizontalContentAlignment="Center"
-                                        Text="10"/>
-
+                                        Text="{Binding BoardWidth, FallbackValue='10'}"/>
                                     <TextBlock
                                         Margin="8,0,8,0"
                                         Text="x"
@@ -255,15 +256,11 @@
                                     <TextBox
                                         Background="#d4d3d6"
                                         Height="20"
-                                        Width="20"
+                                        Width="23"
                                         HorizontalContentAlignment="Center"
-                                        Text="10"/>
-
+                                        Text="{Binding BoardHeight, FallbackValue='10'}"/>
                                 </StackPanel>
-
                             </Grid>
-
-
                         </StackPanel>
 
                     </Grid>

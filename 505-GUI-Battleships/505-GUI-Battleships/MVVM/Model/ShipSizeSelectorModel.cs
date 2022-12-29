@@ -1,13 +1,7 @@
 ﻿using _505_GUI_Battleships.Core;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
@@ -25,19 +19,19 @@ public sealed class ShipSizeSelectorModel : ObservableObject
         {
             if ( instance is not ShipSizeSelectorModel ShipSizeSelector )
                 return;
-            Trace.WriteLine(ShipSizeSelector._shipImageListIndex);
 
             EnlargeShipSizeCommandPressed?.Invoke(ShipSizeSelector, EventArgs.Empty);
+            Trace.WriteLine(ShipSizeSelector._shipImageListIndex);
         });
 
-    public static ICommand? ReduceShipSizeCommand =>
+    public static ICommand? ReduceShipSizeCommand => 
         new RelayCommand(instance =>
         {
             if (instance is not ShipSizeSelectorModel ShipSizeSelector)
                 return;
-            Trace.WriteLine(ShipSizeSelector._shipImageListIndex);
 
             ReduceShipSizeCommandPressed?.Invoke(ShipSizeSelector, EventArgs.Empty);
+            Trace.WriteLine(ShipSizeSelector._shipImageListIndex);
         });
 
     public static event EventHandler? EnlargeShipSizeCommandPressed;
@@ -58,11 +52,11 @@ public sealed class ShipSizeSelectorModel : ObservableObject
 
     public ShipSizeSelectorModel()
     {
-        _shipImagePathList = new string[5] { "../../../Ressources/Ships/1ShipRescueHorizontal.png",
+        _shipImagePathList = new string[5] { "../../../Ressources/Ships/1ShipPatrolHorizontal.png",
                                              "../../../Ressources/Ships/2ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/3ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/4ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/5ShipRescueHorizontal.png"};
+                                             "../../../Ressources/Ships/3ShipSupHorizontal.png",
+                                             "../../../Ressources/Ships/4ShipDestroyerHorizontal.png",
+                                             "../../../Ressources/Ships/5ShipBattleshipHorizontal.png"};
         Instance = this;
         _shipImageListIndex = 1;
         _shipImagePath = _shipImagePathList[_shipImageListIndex];
@@ -71,11 +65,15 @@ public sealed class ShipSizeSelectorModel : ObservableObject
     public void IncrementIndex()
     {
         _shipImageListIndex++;
+ /*       _shipImagePath = _shipImagePathList[_shipImageListIndex];
+        OnPropertyChanged(nameof(_shipImagePath));*/
     }
 
     public void DecrementIndex()
     {
         _shipImageListIndex--;
+/*        _shipImagePath = _shipImagePathList[_shipImageListIndex];
+        OnPropertyChanged(nameof(_shipImagePath));*/
     }
 
 
