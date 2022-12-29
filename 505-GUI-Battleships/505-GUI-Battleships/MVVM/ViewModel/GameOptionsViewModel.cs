@@ -1,20 +1,17 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
 using _505_GUI_Battleships.Services;
-using System;
-using System.Diagnostics;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Ink;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal sealed class GameOptionsViewModel : ObservableObject
 {
+    private readonly GameDataService _gameService;
     public ObservableCollection<ShipSizeSelectorModel> Ships { get; set; }
-
-    private GameDataService _gameService;
 
     public static ICommand? BackCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection));
 
@@ -24,7 +21,6 @@ internal sealed class GameOptionsViewModel : ObservableObject
     public static ICommand? DeleteShipCommand { get; set; }
     public Visibility AddShipCommandVisibility => Ships.Count >= 5 ? Visibility.Hidden : Visibility.Visible;
     public Visibility DeleteShipCommandVisibility => Ships.Count > 1 ? Visibility.Visible : Visibility.Hidden;
-
 
     // TODO: Bind all the options
     public static ICommand? LastManStandingCommand { get; set; }
@@ -44,79 +40,60 @@ internal sealed class GameOptionsViewModel : ObservableObject
     public int BoardWidth { get; set; }
     public int BoardHeight { get; set; }
 
-    public GameOptionsViewModel() 
+    public GameOptionsViewModel()
     {
         LastManStandingCheck = true;
         FirstOneOutCheck = false;
         PlayWithRoundsCheck = true;
 
-
         LastManStandingCommand = new RelayCommand(_ =>
         {
-            if(LastManStandingCheck == true) 
-            {
+            if ( LastManStandingCheck )
                 FirstOneOutCheck = false;
-            }
-            if(LastManStandingCheck == false)
-            {
+
+            if ( LastManStandingCheck == false )
                 FirstOneOutCheck = true;
-            }
             OnPropertyChanged(nameof(LastManStandingCheck));
             OnPropertyChanged(nameof(FirstOneOutCheck));
         });
 
         FirstOneOutCommand = new RelayCommand(_ =>
         {
-            if (FirstOneOutCheck == true)
+            LastManStandingCheck = FirstOneOutCheck switch
             {
-                LastManStandingCheck = false;
-            }
-            if (FirstOneOutCheck == false)
-            {
-                LastManStandingCheck = true;
-            }
+                true  => false,
+                false => true
+            };
+
             OnPropertyChanged(nameof(LastManStandingCheck));
             OnPropertyChanged(nameof(FirstOneOutCheck));
         });
 
-        PlayWithRoundsCommand = new RelayCommand(_ => 
+        PlayWithRoundsCommand = new RelayCommand(_ =>
         {
-            if(PlayWithRoundsCheck == true) 
+            switch ( PlayWithRoundsCheck )
             {
-                RoundCountTextBlockVisibility = Visibility.Visible;
-                RoundCountTextBoxVisibility = Visibility.Visible;
+                case true:
+                    RoundCountTextBlockVisibility = Visibility.Visible;
+                    RoundCountTextBoxVisibility = Visibility.Visible;
+                    break;
+                case false:
+                    RoundCountTextBlockVisibility = Visibility.Hidden;
+                    RoundCountTextBoxVisibility = Visibility.Hidden;
+                    break;
             }
-            if(PlayWithRoundsCheck == false) 
-            {
-                RoundCountTextBlockVisibility = Visibility.Hidden;
-                RoundCountTextBoxVisibility = Visibility.Hidden;
-            }
+
             OnPropertyChanged(nameof(RoundCountTextBlockVisibility));
             OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
         });
 
-
         _gameService = GameDataService.GetInstance();
 
-        ObservableCollection<PlayerModel> Players = _gameService.PlayerModels;
+        var players = _gameService.PlayerModels;
 
         Ships = new ObservableCollection<ShipSizeSelectorModel> { new() };
 
         // TODO: Enlarge and Reduce increment/ decrement twice -> should only incr/decr once
-
-        ShipSizeSelectorModel.EnlargeShipSizeCommandPressed += (sender, _) =>
-        {
-            if (sender is ShipSizeSelectorModel ShipSizeSelector)
-                ShipSizeSelector.IncrementIndex();
-        };
-        
-        ShipSizeSelectorModel.ReduceShipSizeCommandPressed += (sender, _) =>
-        {
-            if (sender is ShipSizeSelectorModel ShipSizeSelector)
-                ShipSizeSelector.DecrementIndex();
-        };
-
-
 
         AddShipCommand = new RelayCommand(_ =>
         {
@@ -126,7 +103,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
             OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
 
-        DeleteShipCommand = new RelayCommand(_ => 
+        DeleteShipCommand = new RelayCommand(_ =>
         {
             Ships.RemoveAt(Ships.Count - 1);
 
@@ -136,17 +113,14 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
         StartGameCommand = new RelayCommand(_ =>
         {
-
             // TEST
-            foreach ( var player in Players )
+            foreach ( var player in players )
             {
                 Trace.WriteLine(player.PlayerName);
                 Trace.WriteLine(player.PlayerColor);
             }
 
-
             // Placeholder logging to be later replaced by passing game options the gameservice
-            
 
             //_gameService.
 
@@ -166,9 +140,6 @@ internal sealed class GameOptionsViewModel : ObservableObject
             Trace.WriteLine(BoardWidth);
             Trace.WriteLine("x");
             Trace.WriteLine(BoardHeight);
-
         });
-
     }
-
 }

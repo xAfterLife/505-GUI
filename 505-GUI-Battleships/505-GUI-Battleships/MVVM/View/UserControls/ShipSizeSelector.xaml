@@ -1,19 +1,19 @@
 ﻿<UserControl x:Class="_505_GUI_Battleships.MVVM.View.UserControls.ShipSizeSelector"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
- 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              d:DataContext="{d:DesignInstance Type=model:ShipSizeSelectorModel}"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="80" d:DesignWidth="500">
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Button
@@ -25,17 +25,15 @@
             Background="Transparent"
             Content="−"
             FontWeight="Bold"
-            Foreground="White"
             Grid.Column="0"
             Command="{Binding ReduceShipSizeCommand}"
             CommandParameter="{Binding Instance}"
-            Style="{StaticResource AddPlayerButton}">
-        </Button>
+            Style="{StaticResource AddPlayerButton}" />
 
-        <Image 
+        <Image
             Grid.Column="1"
             Height="auto"
-            Source="{Binding ShipImagePath}"/>
+            Source="{Binding ShipImagePath}" />
 
         <Button
             Margin="10,0,10,0"
@@ -48,10 +46,8 @@
             CommandParameter="{Binding Instance}"
             Content="+"
             FontWeight="Bold"
-            Foreground="White"
             Grid.Column="2"
-            Style="{StaticResource AddPlayerButton}">
-        </Button>
+            Style="{StaticResource AddPlayerButton}" />
 
 
     </Grid>

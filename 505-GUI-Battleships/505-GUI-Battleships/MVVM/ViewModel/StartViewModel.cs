@@ -10,6 +10,7 @@ internal class StartViewModel : ObservableObject
     ///     Command to Change the CurrentView to the PlayerSelection
     /// </summary>
     public static ICommand StartGameCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection));
+
     public static ICommand StartShipSelectionCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.ShipSelection));
 
     /// <summary>
