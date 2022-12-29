@@ -76,7 +76,7 @@ internal class ShipSelectionViewModel : ObservableObject
             Height = _boardSize,
             ClipToBounds = true,
             AllowDrop = true,
-            LayoutTransform = new ScaleTransform(1, -1),  
+            LayoutTransform = new ScaleTransform(1, -1)
         });
 
         DrawingBrush brush = new()
