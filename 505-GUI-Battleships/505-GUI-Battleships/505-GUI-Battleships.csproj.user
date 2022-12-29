@@ -7,10 +7,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="MVVM\View\ModeSelectionView.xaml.cs">
+    <Compile Update="MVVM\View\GameOptionsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\StartView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserControls\ShipSizeSelector.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -18,7 +21,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MVVM\View\ModeSelectionView.xaml">
+    <Page Update="MVVM\View\GameOptionsView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\ShipSelectionView.xaml">
@@ -33,7 +36,13 @@
     <Page Update="MVVM\View\UserControls\PlayerSelectionCard.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="MVVM\View\UserControls\ShipSizeSelector.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Style\AddPlayerButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\GameOptionsCheckbox.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\PlayerDeleteButtonStyle.xaml">

@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="Style/PlayerDeleteButtonStyle.xaml" />
                 <ResourceDictionary Source="Style/MenuButtonStyle.xaml" />
                 <ResourceDictionary Source="Style/TaskButtonStyle.xaml" />
+                <ResourceDictionary Source="Style/GameOptionsCheckbox.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:MainViewModel}">
@@ -27,6 +28,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:ShipSelectionViewModel}">
                 <view:ShipSelectionView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:GameOptionsViewModel}">
+                <view:GameOptionsView />
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

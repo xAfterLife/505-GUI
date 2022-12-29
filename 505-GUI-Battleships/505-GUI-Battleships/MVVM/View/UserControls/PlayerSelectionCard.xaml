@@ -55,7 +55,7 @@
                     Grid.Row="1"
                     MaxHeight="70"
                     MaxWidth="80"
-                    Source="../../../Resources/BG1.jpg"
+                    Source="../../../Ressources/BG1.jpg"
                     Stretch="UniformToFill" />
 
                 <!-- Color-Picker Extension -->

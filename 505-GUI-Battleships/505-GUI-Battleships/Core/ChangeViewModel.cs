@@ -14,13 +14,17 @@ public sealed class ChangeViewModel
     {
         Start = 0,
         PlayerSelection = 1,
-        ShipSelection = 2
+        ShipSelection = 2,
+        GameOptions = 3
     }
 
     /// <summary>
     ///     Collection of our Views as Enum + Type Couples
     /// </summary>
-    private static readonly Dictionary<ViewType, Type> Views = new() { { ViewType.Start, typeof(StartViewModel) }, { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) }, { ViewType.ShipSelection, typeof(ShipSelectionViewModel) } };
+    private static readonly Dictionary<ViewType, Type> Views = new() { { ViewType.Start, typeof(StartViewModel) }, 
+                                                                       { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) }, 
+                                                                       { ViewType.ShipSelection, typeof(ShipSelectionViewModel) }, 
+                                                                       { ViewType.GameOptions, typeof(GameOptionsViewModel) } };
 
     /// <summary>
     ///     Event for MainViewModel to ChangeView

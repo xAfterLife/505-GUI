@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="_505_GUI_Battleships.MVVM.View.UserControls.ShipSizeSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+ 
+             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
+             d:DataContext="{d:DesignInstance Type=model:ShipSizeSelectorModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="500">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Command="{Binding ReduceShipSizeCommand}"-->
+        <Button
+            Margin="10,0,10,0"
+            Height="25"
+            Width="25"
+            FontSize="13"
+            BorderBrush="Transparent"
+            Background="Transparent"
+            Content="−"
+            FontWeight="Bold"
+            Foreground="White"
+            Grid.Column="0"
+            Command="{Binding ReduceShipSizeCommand}"
+            CommandParameter="{Binding Instance}"
+            Style="{StaticResource AddPlayerButton}">
+        </Button>
+
+        <Image 
+            Grid.Column="1"
+            Height="auto"
+            Source="{Binding ShipImagePath}"/>
+
+        <!--Command="{Binding EnlargeShipSizeCommand}"-->
+        <Button
+            Margin="10,0,10,0"
+            Height="25"
+            Width="25"
+            FontSize="13"
+            BorderBrush="Transparent"
+            Background="Transparent"
+            Command="{Binding EnlargeShipSizeCommand}"
+            CommandParameter="{Binding Instance}"
+            Content="+"
+            FontWeight="Bold"
+            Foreground="White"
+            Grid.Column="2"
+            Style="{StaticResource AddPlayerButton}">
+        </Button>
+
+
+    </Grid>
+</UserControl>

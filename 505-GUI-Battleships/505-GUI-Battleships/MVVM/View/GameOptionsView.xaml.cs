@@ -3,11 +3,11 @@
 namespace _505_GUI_Battleships.MVVM.View;
 
 /// <summary>
-///     Interaktionslogik für ModusSelectionView.xaml
+///     Interaktionslogik für GameOptionsView.xaml
 /// </summary>
-public partial class ModusSelectionView : UserControl
+public partial class GameOptionsView : UserControl
 {
-    public ModusSelectionView()
+    public GameOptionsView()
     {
         InitializeComponent();
     }
