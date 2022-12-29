@@ -13,7 +13,7 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal class ShipSelectionViewModel : ObservableObject
 {
-    private readonly int _boardSize = 5;
+    private readonly int _boardSize = 10;
     private readonly int _playerAmount = 4;
     private readonly int _shipAmount = 5;
     private int _currentPlayer;
@@ -26,7 +26,6 @@ internal class ShipSelectionViewModel : ObservableObject
     public Canvas CurrentShiplist { get; set; }
     public bool NextPlayerButtonEnabled { get; set; }
     public Visibility NextPlayerButtonVisible { get; set; }
-
     public ICommand NextPlayerCommand { get; }
 
     /* CONFIG DATA */
@@ -66,6 +65,7 @@ internal class ShipSelectionViewModel : ObservableObject
             ViewportUnits = BrushMappingMode.Absolute
         };
         Shiplists[currentPlayer].Background = db;
+
     }
 
     private void InstantiateBoards(int currentPlayer)
@@ -76,7 +76,7 @@ internal class ShipSelectionViewModel : ObservableObject
             Height = _boardSize,
             ClipToBounds = true,
             AllowDrop = true,
-            LayoutTransform = new ScaleTransform(1, -1)
+            LayoutTransform = new ScaleTransform(1, -1),  
         });
 
         DrawingBrush brush = new()
@@ -88,11 +88,21 @@ internal class ShipSelectionViewModel : ObservableObject
             ViewportUnits = BrushMappingMode.Absolute,
             Drawing = new GeometryDrawing { Pen = new Pen { Thickness = 0.1, Brush = Brushes.DarkGreen }, Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1)) }
         };
+        Collection<TextBlock> tb = new();
+        for (int i = 0; i < _boardSize; i++)
+        {
+            tb.Add(new TextBlock() { Text = (i + 1).ToString(), FontSize = 0.5, Foreground = new SolidColorBrush(Colors.White), LayoutTransform = new ScaleTransform(1, -1) });
 
+            PlayerBoards[currentPlayer].Children.Add(tb[i]);
+            Canvas.SetLeft(tb[i], 0.25);
+            Canvas.SetTop(tb[i], i);
+        }
         PlayerBoards[currentPlayer].Background = brush;
         PlayerBoards[currentPlayer].AllowDrop = true;
         PlayerBoards[currentPlayer].DragOver += new DragEventHandler((sender, e) => DragBoardDrop(sender, e, PlayerBoards[currentPlayer], _boardSize));
         PlayerBoards[currentPlayer].DragEnter += new DragEventHandler((sender, e) => BoardEnter(sender, e, PlayerBoards[currentPlayer], Shiplists[currentPlayer], currentPlayer));
+        PlayerBoards[currentPlayer].RenderTransformOrigin = new Point(-1, -1);
+        PlayerBoards[currentPlayer].RenderTransform = new TranslateTransform(1, 1);
     }
 
     private void InstantiateShips(int currentPlayer)
@@ -119,8 +129,8 @@ internal class ShipSelectionViewModel : ObservableObject
         }
 
         ShipData.Add(new ShipModel(1, true, 1, 1, bitmapImages[0], bitmapImages[1]));
-        ShipData.Add(new ShipModel(4, true, 1, 1, bitmapImages[2], bitmapImages[3]));
-        ShipData.Add(new ShipModel(4, true, 1, 1, bitmapImages[4], bitmapImages[5]));
+        ShipData.Add(new ShipModel(2, true, 1, 1, bitmapImages[2], bitmapImages[3]));
+        ShipData.Add(new ShipModel(3, true, 1, 1, bitmapImages[4], bitmapImages[5]));
         ShipData.Add(new ShipModel(4, true, 1, 1, bitmapImages[6], bitmapImages[7]));
         ShipData.Add(new ShipModel(5, true, 1, 1, bitmapImages[8], bitmapImages[9]));
             for (var j = 0; j < _shipAmount; j++)
@@ -175,7 +185,7 @@ internal class ShipSelectionViewModel : ObservableObject
 
     public void NextPlayerButtonClick()
     {
-        if ( _currentPlayer <= _playerAmount - 1 )
+        if ( _currentPlayer < _playerAmount - 1 )
         {
             BoatPositionTest();
             _currentPlayer++;
@@ -310,6 +320,7 @@ internal class ShipSelectionViewModel : ObservableObject
 
         Canvas.SetTop(element, dropPosition.Y);
         Canvas.SetLeft(element, dropPosition.X);
+        Trace.WriteLine(dropPosition);
     }
 
     private void FlipShip(MouseButtonEventArgs e, Image ship, ShipModel shipModelData, Canvas playerBoard)

@@ -40,7 +40,7 @@
         <Viewbox
             Grid.Row="1"
             Grid.Column="1"
-            Stretch="Uniform">
+            >
             <ContentPresenter Content="{Binding CurrentPlayerBoard}" Focusable="true" />
         </Viewbox>
 
