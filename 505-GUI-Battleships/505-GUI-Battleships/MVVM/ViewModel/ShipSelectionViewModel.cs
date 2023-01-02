@@ -143,7 +143,7 @@ internal class ShipSelectionViewModel : ObservableObject
 
     private double GetShipListsYPosition(double shipPosition)
     {
-        return _shipAmount * 2 - 2 - shipPosition * 2;
+        return (_shipAmount * 2) - 2 - (shipPosition * 2);
     }
 
     private void BoardEnter(DragEventArgs e, Canvas playerBoard, Panel shipList)
@@ -152,7 +152,7 @@ internal class ShipSelectionViewModel : ObservableObject
 
         if ( data is not Image element || !shipList.Children.Contains(element) )
             return;
-        var shipListsYPosition = -0.5 * Canvas.GetTop(element) - 1 + _shipAmount;
+        var shipListsYPosition = (-0.5 * Canvas.GetTop(element)) - 1 + _shipAmount;
         shipList.Children.Remove(element);
         playerBoard.Children.Add(element);
         Canvas.SetLeft(element, 0);
@@ -165,7 +165,6 @@ internal class ShipSelectionViewModel : ObservableObject
             Canvas.SetTop(element, GetShipListsYPosition(shipListsYPosition));
         }
 
-        ;
         CheckIfAllShipsArePlaced();
     }
 
