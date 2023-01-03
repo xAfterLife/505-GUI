@@ -42,7 +42,7 @@ internal class ShipSelectionViewModel : ObservableObject
         if (_gameService.GameBoard != null)
             _boardSize = _gameService.GameBoard.Height;
         else
-            _boardSize = 5;
+            _boardSize = 10;
 
         NextPlayerCommand = new RelayCommand(_ => NextPlayerButtonClick());
         NextPlayerButtonEnabled = false;
@@ -104,7 +104,6 @@ internal class ShipSelectionViewModel : ObservableObject
         for (int i = 0; i < _boardSize; i++)
         {
             tb.Add(new TextBlock() { Text = (i + 1).ToString(), FontSize = 0.5, Foreground = new SolidColorBrush(Colors.White), LayoutTransform = new ScaleTransform(1, -1) });
-
             PlayerBoards[currentPlayer].Children.Add(tb[i]);
             Canvas.SetLeft(tb[i], 0.25);
             Canvas.SetTop(tb[i], i);
@@ -113,10 +112,10 @@ internal class ShipSelectionViewModel : ObservableObject
         PlayerBoards[currentPlayer].AllowDrop = true;
         PlayerBoards[currentPlayer].DragOver += (sender, e) => DragBoardDrop(e, PlayerBoards[currentPlayer], _boardSize);
         PlayerBoards[currentPlayer].DragEnter += (sender, e) => BoardEnter(e, PlayerBoards[currentPlayer], Shiplists[currentPlayer]);
-        PlayerBoards[currentPlayer].DragOver += new DragEventHandler((sender, e) => DragBoardDrop(sender, e, PlayerBoards[currentPlayer], _boardSize));
-        PlayerBoards[currentPlayer].DragEnter += new DragEventHandler((sender, e) => BoardEnter(sender, e, PlayerBoards[currentPlayer], Shiplists[currentPlayer], currentPlayer));
-        PlayerBoards[currentPlayer].RenderTransformOrigin = new Point(-1, -1);
-        PlayerBoards[currentPlayer].RenderTransform = new TranslateTransform(1, 1);
+        PlayerBoards[currentPlayer].DragOver += new DragEventHandler((sender, e) => DragBoardDrop(e, PlayerBoards[currentPlayer], _boardSize));
+        PlayerBoards[currentPlayer].DragEnter += new DragEventHandler((sender, e) => BoardEnter(e, PlayerBoards[currentPlayer], Shiplists[currentPlayer]));
+        /*PlayerBoards[currentPlayer].RenderTransformOrigin = new Point(-1, -1);
+        PlayerBoards[currentPlayer].RenderTransform = new TranslateTransform(1, 1);*/
     }
 
     private void InstantiateShips(int currentPlayer)
@@ -139,19 +138,17 @@ internal class ShipSelectionViewModel : ObservableObject
         foreach (var uri in urisources)
             bitmapImages.Add(new BitmapImage(uri));
 
-        ShipData.Add(new ShipModel(1, true, 1, 1, bitmapImages[0], bitmapImages[1]));
-        ShipData.Add(new ShipModel(2, true, 1, 1, bitmapImages[2], bitmapImages[3]));
-        ShipData.Add(new ShipModel(3, true, 1, 1, bitmapImages[4], bitmapImages[5]));
-        ShipData.Add(new ShipModel(4, true, 1, 1, bitmapImages[6], bitmapImages[7]));
-        ShipData.Add(new ShipModel(5, true, 1, 1, bitmapImages[8], bitmapImages[9]));
+        ShipData.Add(new ShipModel(1, true, bitmapImages[0], bitmapImages[1]));
+        ShipData.Add(new ShipModel(2, true, bitmapImages[2], bitmapImages[3]));
+        ShipData.Add(new ShipModel(3, true, bitmapImages[4], bitmapImages[5]));
+        ShipData.Add(new ShipModel(4, true, bitmapImages[6], bitmapImages[7]));
+        ShipData.Add(new ShipModel(5, true, bitmapImages[8], bitmapImages[9]));
             for (var j = 0; j < _shipAmount; j++)
-
-        for (var j = 0; j < _shipAmount; j++)
-        {
-            //Ships.Add(CreateShip(ShipData[j], currentPlayer));
-            Shiplists[currentPlayer].Children.Add(CreateShip(ShipData[j], currentPlayer));
-            Canvas.SetTop(Shiplists[currentPlayer].Children[j], GetShipListsYPosition(j));
-        }
+            {
+                //Ships.Add(CreateShip(ShipData[j], currentPlayer));
+                Shiplists[currentPlayer].Children.Add(CreateShip(ShipData[j], currentPlayer));
+                Canvas.SetTop(Shiplists[currentPlayer].Children[j], GetShipListsYPosition(j));
+            }
     }
 
     private double GetShipListsYPosition(double shipPosition)
