@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace _505_GUI_Battleships.MVVM.View.UserControls
+namespace _505_GUI_Battleships.MVVM.View
 {
     /// <summary>
-    /// Interaktionslogik für PlayerSelectionCard.xaml
+    /// Interaktionslogik für SelectTargetPlayerView.xaml
     /// </summary>
-    public partial class PlayerSelectionCard : UserControl
+    public partial class SelectTargetPlayerView : UserControl
     {
-        public PlayerSelectionCard()
+        public SelectTargetPlayerView()
         {
             InitializeComponent();
         }
