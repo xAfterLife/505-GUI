@@ -10,7 +10,16 @@
     <Compile Update="MVVM\View\GameOptionsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\SelectTargetPlayerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\StartView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserControls\PlayerSelectionCard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\View\UserControls\PlayerSelectionCardHorizontal.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MVVM\View\UserControls\ShipSizeSelector.xaml.cs">
@@ -24,6 +33,9 @@
     <Page Update="MVVM\View\GameOptionsView.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="MVVM\View\SelectTargetPlayerView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MVVM\View\ShipSelectionView.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -34,6 +46,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserControls\PlayerSelectionCard.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserControls\PlayerSelectionCardHorizontal.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserControls\ShipSizeSelector.xaml">
