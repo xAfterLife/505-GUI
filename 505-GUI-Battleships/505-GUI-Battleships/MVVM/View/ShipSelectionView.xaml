@@ -40,11 +40,11 @@
         <Viewbox
             Grid.Row="1"
             Grid.Column="1">
-            <ContentPresenter Content="{Binding TestGrid}" Focusable="true" />
+            <ContentPresenter Content="{Binding BoardContainer}" Focusable="true" />
         </Viewbox>
 
         <Viewbox Grid.Row="1" Grid.Column="3">
-            <ContentPresenter Content="{Binding CurrentShiplist}" Focusable="true" />
+            <ContentPresenter Content="{Binding PlacementShips}" Focusable="true" />
         </Viewbox>
         <Button
 
@@ -57,7 +57,6 @@
             VerticalAlignment="Top"
             Command="{Binding NextPlayerCommand}"
             Content="Button"
-            IsEnabled="{Binding NextPlayerButtonEnabled}"
             Visibility="{Binding NextPlayerButtonVisible}" />
     </Grid>
 </UserControl>

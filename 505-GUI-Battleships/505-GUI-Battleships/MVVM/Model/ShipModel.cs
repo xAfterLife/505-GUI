@@ -5,25 +5,18 @@ namespace _505_GUI_Battleships.MVVM.Model;
 internal class ShipModel
 {
     public int Length { get; }
-    public bool Horizontal { get; set; }
     public ImageSource PathHorizontal { get; }
     public ImageSource PathVertival { get; }
 
-    public ShipModel(int length, bool horizontal, ImageSource pathHorizontal, ImageSource pathVertival)
+    public ShipModel(int length, ImageSource pathHorizontal, ImageSource pathVertival)
     {
         Length = length;
-        Horizontal = horizontal;
         PathHorizontal = pathHorizontal;
         PathVertival = pathVertival;
     }
 
-    public void Flip()
+    public ImageSource UpdateImageSource(bool horizontal)
     {
-        Horizontal = !Horizontal;
-    }
-
-    public ImageSource UpdateImageSource()
-    {
-        return Horizontal ? PathHorizontal : PathVertival;
+        return horizontal ? PathHorizontal : PathVertival;
     }
 }

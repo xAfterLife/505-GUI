@@ -4,12 +4,17 @@ public class ShipPlacementModel
 {
     public int PosX { get; set; }
     public int PosY { get; set; }
-    public bool Flipped { get; set; }
+    public bool Horizontal { get; set; }
 
-    public ShipPlacementModel(int posX, int posY, bool flipped)
+    public ShipPlacementModel(int posX, int posY, bool horizontal)
     {
         PosX = posX;
         PosY = posY;
-        Flipped = flipped;
+        Horizontal = horizontal;
+    }
+
+    public void Flip()
+    {
+        Horizontal = !Horizontal;
     }
 }

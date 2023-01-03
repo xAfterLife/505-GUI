@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
 using _505_GUI_Battleships.Services;
@@ -14,89 +13,97 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal class ShipSelectionViewModel : ObservableObject
 {
-    private readonly int _boardSize;
+    private readonly (int Width, int Height) _boardDimensions;
     private readonly GameDataService _gameService;
     private readonly int _shipAmount;
 
-    private int _currentPlayer;
+    private Grid _boardContainer;
+    private PlayerModel _currentPlayer;
+    private int _currentPlayerCounter;
 
-    public ObservableCollection<ShipModel> ShipData { get; set; } = new();
-    public ObservableCollection<Image> Ships { get; set; } = new();
-    public ObservableCollection<Canvas> PlayerBoards { get; set; } = new();
-    public ObservableCollection<Canvas> Shiplists { get; set; } = new();
-    public Grid TestGrid { get; set; }
-    public Canvas CurrentPlayerBoard { get; set; }
-    public Canvas CurrentShiplist { get; set; }
-    public bool NextPlayerButtonEnabled { get; set; }
-    public string ShipPlacementHeading { get; set; }
-    public Visibility NextPlayerButtonVisible { get; set; }
-    public ICommand NextPlayerCommand { get; }
+    private Visibility _nextPlayerBttonVisibility;
+    private string _shipPlacementHeading;
 
-    /* CONFIG DATA */
+    public Canvas PlacementShips { get; set; }
+
+    public Grid BoardContainer
+    {
+        get => _boardContainer;
+        set => Update(ref _boardContainer, value);
+    }
+
+    public Visibility NextPlayerButtonVisible
+    {
+        get => _nextPlayerBttonVisibility;
+        set => Update(ref _nextPlayerBttonVisibility, value);
+    }
+
+    public string ShipPlacementHeading
+    {
+        get => _shipPlacementHeading;
+        set => Update(ref _shipPlacementHeading, value);
+    }
+
+    public ICommand NextPlayerCommand => new RelayCommand(_ =>
+    {
+        if ( _currentPlayerCounter == _gameService.PlayerModels.Count - 1 )
+            //TODO Starte Spiel
+            return;
+
+        _currentPlayerCounter++;
+        _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
+        ShipPlacementHeading = $"Place your ships, {_currentPlayer.PlayerName}!";
+        NextPlayerButtonVisible = Visibility.Hidden;
+
+        InstantiateShips();
+        GetPlayerBoard().Children.Clear();
+    });
 
     public ShipSelectionViewModel()
     {
         _gameService = GameDataService.GetInstance();
+        _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
+        _shipAmount = _gameService.ShipModels.Count;
+        _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
 
-        _boardSize = _gameService.GameOptions!.BoardWidth;
-        _shipAmount = _gameService.GameOptions.ShipLengthList.Count;
-
-        //TODO: Use _gameService
-        if ( _gameService.GameBoard != null )
-            _boardSize = _gameService.GameBoard.Height;
-        else
-            //boardSize = 10;
-
-            NextPlayerCommand = new RelayCommand(_ => NextPlayerButtonClick());
-        NextPlayerButtonEnabled = false;
+        ShipPlacementHeading = $"Place your ships, {_currentPlayer.PlayerName}!";
         NextPlayerButtonVisible = Visibility.Hidden;
 
-        /* LOAD AMOUNT OF PLAYERS*/
-        for ( var i = _currentPlayer; i < _gameService.PlayerModels.Count; i++ )
+        SetupBoardContainer();
+
+        PlacementShips = new Canvas
         {
-            InstantiateBoards(i);
-            InstantiateShiplists(i);
-            InstantiateShips(i);
-        }
+            AllowDrop = true,
+            Height = _shipAmount * 2,
+            Width = 6,
+            LayoutTransform = new ScaleTransform(1, -1),
+            Background = new DrawingBrush
+            {
+                TileMode = TileMode.Tile,
+                Viewbox = new Rect(0, 0, 1, 1),
+                Viewport = new Rect(0, 0, 1, 1),
+                ViewboxUnits = BrushMappingMode.Absolute,
+                ViewportUnits = BrushMappingMode.Absolute
+            }
+        };
 
-        SetupBoardGrid();
-        CurrentPlayerBoard = PlayerBoards[0];
-        Grid.SetRow(CurrentPlayerBoard, 1);
-        Grid.SetColumn(CurrentPlayerBoard, 1);
-
-        CreateYAxis();
-        CreateXAxis();
-        TestGrid?.Children.Add(CurrentPlayerBoard);
-        CurrentShiplist = Shiplists[0];
-        ShipPlacementHeading = $"Place your ships, {_gameService.PlayerModels[_currentPlayer].PlayerName}!";
+        InstantiateShips();
     }
 
-    private void SetupBoardGrid()
+    private void SetupBoardContainer()
     {
-        TestGrid = new Grid();
-        var row1 = new RowDefinition();
-        var row2 = new RowDefinition();
-        row1.Height = new GridLength(1, GridUnitType.Star);
-        row2.Height = new GridLength(_boardSize, GridUnitType.Star);
-        var col1 = new ColumnDefinition();
-        var col2 = new ColumnDefinition();
-        col1.Width = new GridLength(1, GridUnitType.Star);
-        col2.Width = new GridLength(_boardSize, GridUnitType.Star);
+        BoardContainer = new Grid();
+        BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(_boardDimensions.Height, GridUnitType.Star) });
+        BoardContainer.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        BoardContainer.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(_boardDimensions.Width, GridUnitType.Star) });
 
-        TestGrid.RowDefinitions.Add(row1);
-        TestGrid.RowDefinitions.Add(row2);
-        TestGrid.ColumnDefinitions.Add(col1);
-        TestGrid.ColumnDefinitions.Add(col2);
-    }
+        Canvas xAxis = new() { Width = _boardDimensions.Width, Height = 1, LayoutTransform = new ScaleTransform(1, -1) };
+        Canvas yAxis = new() { Width = 1, Height = _boardDimensions.Height, LayoutTransform = new ScaleTransform(1, -1) };
 
-    private void CreateXAxis()
-    {
-        Canvas xAxis = new() { Width = _boardSize, Height = 1, LayoutTransform = new ScaleTransform(1, -1) };
-        Collection<TextBlock> tb = new();
-
-        for ( var i = 0; i < _boardSize; i++ )
+        for ( var i = 0; i < _boardDimensions.Width; i++ )
         {
-            tb.Add(new TextBlock
+            var textBlock = new TextBlock
             {
                 Text = ((char)('A' + i)).ToString(),
                 FontSize = 0.5,
@@ -106,25 +113,18 @@ internal class ShipSelectionViewModel : ObservableObject
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Width = 1,
                 Height = 1
-            });
-            xAxis.Children.Add(tb[i]);
-            //Canvas.SetLeft(tb[i], -0.25);
-            Canvas.SetLeft(tb[i], i);
+            };
+
+            xAxis.Children.Add(textBlock);
+            Canvas.SetLeft(xAxis.Children[i], i);
         }
 
         Grid.SetRow(xAxis, 0);
         Grid.SetColumn(xAxis, 1);
-        TestGrid.Children.Add(xAxis);
-    }
 
-    private void CreateYAxis()
-    {
-        Canvas yAxis = new() { Width = 1, Height = _boardSize, LayoutTransform = new ScaleTransform(1, -1) };
-        Collection<TextBlock> tb = new();
-
-        for ( var i = 0; i < _boardSize; i++ )
+        for ( var i = 0; i < _boardDimensions.Height; i++ )
         {
-            tb.Add(new TextBlock
+            var textBlock = new TextBlock
             {
                 Text = (i + 1).ToString(),
                 FontSize = 0.5,
@@ -134,128 +134,88 @@ internal class ShipSelectionViewModel : ObservableObject
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Width = 1,
                 Height = 1
-            });
-            yAxis.Children.Add(tb[i]);
-            //Canvas.SetLeft(tb[i], -0.25);
-            Canvas.SetTop(tb[i], i - 0.2);
+            };
+            yAxis.Children.Add(textBlock);
+            Canvas.SetTop(yAxis.Children[i], i - 0.2);
         }
 
         Grid.SetRow(yAxis, 1);
         Grid.SetColumn(yAxis, 0);
-        TestGrid.Children.Add(yAxis);
+
+        BoardContainer.Children.Add(xAxis);
+        BoardContainer.Children.Add(yAxis);
+
+        var playerBoard = _gameService.GameBoard!.Board;
+        Grid.SetRow(playerBoard, 1);
+        Grid.SetColumn(playerBoard, 1);
+
+        playerBoard.DragOver += (sender, e) => DragBoardDrop(e, playerBoard, _boardDimensions);
+        playerBoard.DragEnter += (sender, e) => BoardEnter(e, playerBoard);
+        playerBoard.DragOver += (sender, e) => DragBoardDrop(e, playerBoard, _boardDimensions);
+        playerBoard.DragEnter += (sender, e) => BoardEnter(e, playerBoard);
+
+        BoardContainer.Children.Add(playerBoard);
     }
 
-    public void InstantiateShiplists(int currentPlayer)
+    private Canvas GetPlayerBoard()
     {
-        Shiplists.Add(new Canvas());
-        Shiplists[currentPlayer].AllowDrop = true;
-        Shiplists[currentPlayer].Height = _shipAmount * 2;
-        Shiplists[currentPlayer].Width = 6;
-        Shiplists[currentPlayer].LayoutTransform = new ScaleTransform(1, -1);
-        DrawingBrush db = new()
-        {
-            // https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.tilebrush.viewbox?view=windowsdesktop-7.0
-            TileMode = TileMode.Tile,
-            Viewbox = new Rect(0, 0, 1, 1),
-            Viewport = new Rect(0, 0, 1, 1),
-            ViewboxUnits = BrushMappingMode.Absolute,
-            ViewportUnits = BrushMappingMode.Absolute
-        };
-        Shiplists[currentPlayer].Background = db;
+        return BoardContainer.Children.OfType<Canvas>().FirstOrDefault(x => x.Uid == "PlayerBoard")!;
     }
 
-    private void InstantiateBoards(int currentPlayer)
-    {
-        PlayerBoards.Add(new Canvas
-        {
-            Width = _boardSize,
-            Height = _boardSize,
-            ClipToBounds = true,
-            AllowDrop = true,
-            LayoutTransform = new ScaleTransform(1, -1)
-        });
-
-        DrawingBrush brush = new()
-        {
-            TileMode = TileMode.Tile,
-            Viewbox = new Rect(0, 0, 1, 1),
-            Viewport = new Rect(0, 0, 1, 1),
-            ViewboxUnits = BrushMappingMode.Absolute,
-            ViewportUnits = BrushMappingMode.Absolute,
-            Drawing = new GeometryDrawing { Pen = new Pen { Thickness = 0.1, Brush = Brushes.DarkGreen }, Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1)) }
-        };
-
-        PlayerBoards[currentPlayer].Background = brush;
-        PlayerBoards[currentPlayer].AllowDrop = true;
-        PlayerBoards[currentPlayer].DragOver += (sender, e) => DragBoardDrop(e, PlayerBoards[currentPlayer], _boardSize);
-        PlayerBoards[currentPlayer].DragEnter += (sender, e) => BoardEnter(e, PlayerBoards[currentPlayer], Shiplists[currentPlayer]);
-        PlayerBoards[currentPlayer].DragOver += (sender, e) => DragBoardDrop(e, PlayerBoards[currentPlayer], _boardSize);
-        PlayerBoards[currentPlayer].DragEnter += (sender, e) => BoardEnter(e, PlayerBoards[currentPlayer], Shiplists[currentPlayer]);
-    }
-
-    private void InstantiateShips(int currentPlayer)
-    {
-        //TODO: Config Datei verwenden (?)
-        var urisources = new Collection<Uri>
-        {
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/1ShipPatrolHorizontal.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/1ShipPatrolVertical.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/2ShipRescueHorizontal.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/2ShipRescueVertical.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/3ShipSubMarineHorizontal.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/3ShipSubMarineVertical.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/4ShipDestroyerHorizontal.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/4ShipDestroyerVertical.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/5ShipBattleshipHorizontal.png"),
-            new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/5ShipBattleshipVertical.png")
-        };
-        var bitmapImages = new Collection<BitmapImage>();
-        foreach ( var uri in urisources )
-            bitmapImages.Add(new BitmapImage(uri));
-
-        for ( var i = 0; i < _shipAmount; i++ )
-        {
-            switch ( _gameService.GameOptions!.ShipLengthList[i] )
-            {
-                case 1:
-                    ShipData.Add(new ShipModel(1, true, bitmapImages[0], bitmapImages[1]));
-                    break;
-
-                case 2:
-                    ShipData.Add(new ShipModel(2, true, bitmapImages[2], bitmapImages[3]));
-                    break;
-
-                case 3:
-                    ShipData.Add(new ShipModel(3, true, bitmapImages[4], bitmapImages[5]));
-                    break;
-
-                case 4:
-                    ShipData.Add(new ShipModel(4, true, bitmapImages[6], bitmapImages[7]));
-                    break;
-
-                case 5:
-                    ShipData.Add(new ShipModel(5, true, bitmapImages[8], bitmapImages[9]));
-                    break;
-            }
-
-            Shiplists[currentPlayer].Children.Add(CreateShip(ShipData[i], currentPlayer));
-            Canvas.SetTop(Shiplists[currentPlayer].Children[i], GetShipListsYPosition(i));
-        }
-    }
-
-    private double GetShipListsYPosition(double shipPosition)
-    {
-        return _shipAmount * 2 - 2 - shipPosition * 2;
-    }
-
-    private void BoardEnter(DragEventArgs e, Canvas playerBoard, Panel shipList)
+    public void DragBoardDrop(DragEventArgs e, Canvas playerBoard, (int Width, int Height) boardDimensions)
     {
         var data = e.Data.GetData(DataFormats.Serializable);
 
-        if ( data is not Image element || !shipList.Children.Contains(element) )
+        if ( data is not Image element || !playerBoard.Children.Contains(element) )
+            return;
+
+        var dropPosition = e.GetPosition(playerBoard);
+        dropPosition.X = Math.Round(dropPosition.X - 0.5);
+        dropPosition.Y = Math.Round(dropPosition.Y - 0.5);
+
+        if ( dropPosition.X + element.Width > boardDimensions.Width )
+            dropPosition.X = boardDimensions.Width - element.Width;
+
+        if ( dropPosition.Y + element.Height > boardDimensions.Height )
+            dropPosition.Y = boardDimensions.Height - element.Height;
+
+        var collision = DetectCollision(playerBoard, element, dropPosition);
+        if ( collision )
+            return;
+
+        Canvas.SetTop(element, dropPosition.Y);
+        Canvas.SetLeft(element, dropPosition.X);
+
+        _currentPlayer.Ships[playerBoard.Children.IndexOf(element)] = new ShipPlacementModel((int)dropPosition.X, (int)dropPosition.Y, true);
+
+        Trace.WriteLine(dropPosition);
+    }
+
+    private static bool DetectCollision(Panel playerBoard, FrameworkElement element, Point dropPosition)
+    {
+        var placementBounds = new Rect(dropPosition, new Size(element.Width - 1, element.Height - 1));
+
+        foreach ( var ship in playerBoard.Children.OfType<Image>() )
+        {
+            if ( element == ship )
+                continue;
+            var otherRect = new Rect(Canvas.GetLeft(ship), Canvas.GetTop(ship), ship.Width - 1, ship.Height - 1);
+
+            if ( placementBounds.IntersectsWith(otherRect) )
+                return true;
+        }
+
+        return false;
+    }
+
+    private void BoardEnter(DragEventArgs e, Panel playerBoard)
+    {
+        var data = e.Data.GetData(DataFormats.Serializable);
+
+        if ( data is not Image element || !PlacementShips.Children.Contains(element) )
             return;
         var shipListsYPosition = -0.5 * Canvas.GetTop(element) - 1 + _shipAmount;
-        shipList.Children.Remove(element);
+        PlacementShips.Children.Remove(element);
         playerBoard.Children.Add(element);
         Canvas.SetLeft(element, 0);
         Canvas.SetTop(element, 0);
@@ -263,82 +223,11 @@ internal class ShipSelectionViewModel : ObservableObject
         if ( !FixElementPositionIfCollision(playerBoard, element) )
         {
             playerBoard.Children.Remove(element);
-            shipList.Children.Add(element);
+            PlacementShips.Children.Add(element);
             Canvas.SetTop(element, GetShipListsYPosition(shipListsYPosition));
         }
 
         CheckIfAllShipsArePlaced();
-    }
-
-    private void CheckIfAllShipsArePlaced()
-    {
-        if ( Shiplists[_currentPlayer].Children.Count != 0 )
-            return;
-        NextPlayerButtonEnabled = true;
-        NextPlayerButtonVisible = Visibility.Visible;
-        OnPropertyChanged(nameof(NextPlayerButtonEnabled));
-        OnPropertyChanged(nameof(NextPlayerButtonVisible));
-    }
-
-    public void NextPlayerButtonClick()
-    {
-        if ( _currentPlayer < _gameService.PlayerModels.Count - 1 )
-        {
-            BoatPositionTest();
-            _currentPlayer++;
-            CurrentPlayerBoard = PlayerBoards[_currentPlayer];
-            TestGrid.Children.RemoveAt(2);
-            Grid.SetRow(CurrentPlayerBoard, 1);
-            Grid.SetColumn(CurrentPlayerBoard, 1);
-            TestGrid.Children.Add(CurrentPlayerBoard);
-            CurrentShiplist = Shiplists[_currentPlayer];
-            OnPropertyChanged(nameof(CurrentShiplist));
-            OnPropertyChanged(nameof(TestGrid));
-
-            ShipPlacementHeading = $"Place your ships, {_gameService.PlayerModels[_currentPlayer].PlayerName}!";
-            OnPropertyChanged(nameof(ShipPlacementHeading));
-
-            NextPlayerButtonEnabled = false;
-            NextPlayerButtonVisible = Visibility.Hidden;
-            OnPropertyChanged(nameof(NextPlayerButtonEnabled));
-            OnPropertyChanged(nameof(NextPlayerButtonVisible));
-        }
-        else
-        {
-            BoatPositionTest();
-        }
-    }
-
-    private void BoatPositionTest()
-    {
-        for ( var i = 0; i < _gameService.PlayerModels.Count; i++ )
-        {
-            Trace.WriteLine("Board : " + i);
-
-            foreach ( Image ship in PlayerBoards[i].Children )
-            {
-                var shipPosition = new Point(Canvas.GetLeft(ship), Canvas.GetTop(ship));
-                Trace.WriteLine(shipPosition);
-            }
-        }
-    }
-
-    /** function that creates the UIElement of type Image that represents the ship*/
-    private Image CreateShip(ShipModel shipModelData, int i)
-    {
-        var newShip = new Image { Source = shipModelData.PathHorizontal, Height = 1, Width = shipModelData.Length };
-        newShip.MouseMove += (o, e) => ShipMouseMove(e, newShip);
-        newShip.MouseRightButtonDown += (sender, e) => RightClickFlip(e, newShip, shipModelData, PlayerBoards[i]);
-        newShip.RenderTransformOrigin = new Point(0.5, 0.5);
-        newShip.Stretch = Stretch.Fill;
-        newShip.UseLayoutRounding = false;
-        return newShip;
-    }
-
-    public static void ShipMouseMove(MouseEventArgs e, Image ship)
-    {
-        if ( e.LeftButton == MouseButtonState.Pressed )
-            DragDrop.DoDragDrop(ship, new DataObject(DataFormats.Serializable, ship), DragDropEffects.Move);
     }
 
     private bool FixElementPositionIfCollision(Panel playerBoard, FrameworkElement element)
@@ -351,10 +240,10 @@ internal class ShipSelectionViewModel : ObservableObject
         {
             dropPosition.X += 1;
 
-            if ( dropPosition.X + element.Width - 1 >= _boardSize )
+            if ( dropPosition.X + element.Width - 1 >= _boardDimensions.Width )
             {
                 dropPosition.X = 0;
-                if ( dropPosition.Y + element.Height >= _boardSize )
+                if ( dropPosition.Y + element.Height >= _boardDimensions.Height )
                     dropPosition.Y = 0;
                 else
                     dropPosition.Y += 1;
@@ -371,87 +260,82 @@ internal class ShipSelectionViewModel : ObservableObject
         return true;
     }
 
-    private static bool DetectCollision(Panel playerBoard, FrameworkElement element, Point dropPosition)
+    private void CheckIfAllShipsArePlaced()
     {
-        foreach ( Image otherShip in playerBoard.Children )
-        {
-            if ( element == otherShip )
-                continue;
-
-            /** Prevents collision with other ships*/
-
-            var otherLeft = Canvas.GetLeft(otherShip);
-            var otherTop = Canvas.GetTop(otherShip);
-            if ( (dropPosition.X >= otherLeft - element.Width + 1) & (dropPosition.X <= otherLeft + otherShip.Width - 1) & (dropPosition.Y >= otherTop - element.Height + 1) & (dropPosition.Y <= otherTop + otherShip.Height - 1) )
-                return true;
-        }
-
-        return false;
+        if ( PlacementShips.Children.Count != 0 )
+            return;
+        NextPlayerButtonVisible = Visibility.Visible;
     }
 
-    public static void DragBoardDrop(DragEventArgs e, Canvas playerBoard, int boardSize)
+    private double GetShipListsYPosition(double shipPosition)
     {
-        var data = e.Data.GetData(DataFormats.Serializable);
+        return _shipAmount * 2 - 2 - shipPosition * 2;
+    }
 
-        if ( data is not Image element || !playerBoard.Children.Contains(element) )
-            return;
+    private void InstantiateShips()
+    {
+        for ( var i = 0; i < _gameService.ShipModels.Count; i++ )
+        {
+            var shipModelData = _gameService.ShipModels[i];
 
-        //** Snaps the ships on the generated grid*/
-        var dropPosition = e.GetPosition(playerBoard);
-        dropPosition.X = Math.Round(dropPosition.X - 0.5);
-        dropPosition.Y = Math.Round(dropPosition.Y - 0.5);
+            var ship = new Image
+            {
+                Source = shipModelData.PathHorizontal,
+                Height = 1,
+                Width = shipModelData.Length,
+                UseLayoutRounding = false,
+                Stretch = Stretch.Fill,
+                RenderTransformOrigin = new Point(0.5, 0.5)
+            };
 
-        //** Prevents ship from leaving the board*/
-        if ( dropPosition.X + element.Width > boardSize )
-            dropPosition.X = boardSize - element.Width;
+            ship.MouseMove += (_, e) =>
+            {
+                if ( e.LeftButton == MouseButtonState.Pressed )
+                    DragDrop.DoDragDrop(ship, new DataObject(DataFormats.Serializable, ship), DragDropEffects.Move);
+            };
 
-        if ( dropPosition.Y + element.Height > boardSize )
-            dropPosition.Y = boardSize - element.Height;
+            ship.MouseRightButtonDown += (sender, e) =>
+            {
+                var playerBoard = GetPlayerBoard();
+                if ( e.RightButton != MouseButtonState.Pressed || !playerBoard.Children.Contains(ship) )
+                    return;
+                var initialPosition = new Point(Canvas.GetLeft(ship), Canvas.GetTop(ship));
+                PerformFlip(e, ship, shipModelData, playerBoard);
 
-        var collision = DetectCollision(playerBoard, element, dropPosition);
-        if ( collision )
-            return;
+                if ( FixElementPositionIfCollision(playerBoard, ship) )
+                    return;
 
-        Canvas.SetTop(element, dropPosition.Y);
-        Canvas.SetLeft(element, dropPosition.X);
-        Trace.WriteLine(dropPosition);
+                Canvas.SetLeft(ship, initialPosition.X);
+                Canvas.SetTop(ship, initialPosition.Y);
+                PerformFlip(e, ship, shipModelData, playerBoard);
+            };
+
+            PlacementShips.Children.Add(ship);
+            Canvas.SetTop(PlacementShips.Children[i], GetShipListsYPosition(i));
+        }
     }
 
     private void PerformFlip(MouseEventArgs e, Image ship, ShipModel shipModelData, IInputElement playerBoard)
     {
+        var shipPlacementModel = _currentPlayer.Ships[_gameService.ShipModels.IndexOf(shipModelData)];
         var length = shipModelData.Length;
 
-        if ( !shipModelData.Horizontal )
+        if ( !shipPlacementModel.Horizontal )
         {
             ship.Width = length;
             ship.Height = 1;
-            if ( e.GetPosition(playerBoard).X + length > _boardSize )
-                Canvas.SetLeft(ship, _boardSize - length);
+            if ( e.GetPosition(playerBoard).X + length > _boardDimensions.Width )
+                Canvas.SetLeft(ship, _boardDimensions.Width - length);
         }
         else
         {
             ship.Width = 1;
             ship.Height = length;
-            if ( e.GetPosition(playerBoard).Y + length > _boardSize )
-                Canvas.SetTop(ship, _boardSize - length);
+            if ( e.GetPosition(playerBoard).Y + length > _boardDimensions.Height )
+                Canvas.SetTop(ship, _boardDimensions.Height - length);
         }
 
-        shipModelData.Flip();
-        ship.Source = shipModelData.UpdateImageSource();
-    }
-
-    private void RightClickFlip(MouseEventArgs e, Image ship, ShipModel shipModelData, Canvas playerBoard)
-    {
-        if ( e.RightButton != MouseButtonState.Pressed || !playerBoard.Children.Contains(ship) )
-            return;
-        var initialPosition = new Point(Canvas.GetLeft(ship), Canvas.GetTop(ship));
-        PerformFlip(e, ship, shipModelData, playerBoard);
-
-        if ( FixElementPositionIfCollision(playerBoard, ship) )
-            return;
-
-        Canvas.SetLeft(ship, initialPosition.X);
-        Canvas.SetTop(ship, initialPosition.Y);
-        PerformFlip(e, ship, shipModelData, playerBoard);
+        shipPlacementModel.Flip();
+        ship.Source = shipModelData.UpdateImageSource(shipPlacementModel.Horizontal);
     }
 }
