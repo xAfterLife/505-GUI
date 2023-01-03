@@ -1,5 +1,8 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
 using _505_GUI_Battleships.Core;
+using _505_GUI_Battleships.MVVM.View.UserControls;
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
@@ -8,9 +11,11 @@ public sealed class ShipSizeSelectorModel : ObservableObject
     private readonly string[] _shipImagePathList;
     private int _shipImageListIndex;
     private string _shipImagePath;
+
+    public Visibility EnlargeShipSizeVisibility { get; set; }
+    public Visibility ReduceShipSizeVisibility { get; set; }
     public ShipSizeSelectorModel Instance { get; }
 
-    //TODO: Fix this lol
     public static ICommand? EnlargeShipSizeCommand =>
         new RelayCommand(instance =>
         {
@@ -18,6 +23,7 @@ public sealed class ShipSizeSelectorModel : ObservableObject
                 return;
 
             shipSizeSelector._shipImageListIndex++;
+            shipSizeSelector.UpdateImagePath();
         });
 
     public static ICommand? ReduceShipSizeCommand =>
@@ -27,6 +33,7 @@ public sealed class ShipSizeSelectorModel : ObservableObject
                 return;
 
             shipSizeSelector._shipImageListIndex--;
+            shipSizeSelector.UpdateImagePath();
         });
 
     public string ShipImagePath
@@ -47,5 +54,20 @@ public sealed class ShipSizeSelectorModel : ObservableObject
         Instance = this;
         _shipImageListIndex = 1;
         _shipImagePath = _shipImagePathList[_shipImageListIndex];
+    }
+
+    void UpdateImagePath() 
+    {
+        _shipImagePath = _shipImagePathList[_shipImageListIndex];
+
+        if (_shipImageListIndex == 4) EnlargeShipSizeVisibility = Visibility.Hidden;
+        else EnlargeShipSizeVisibility = Visibility.Visible;
+
+        if (_shipImageListIndex == 0) ReduceShipSizeVisibility = Visibility.Hidden;
+        else ReduceShipSizeVisibility = Visibility.Visible;
+
+        OnPropertyChanged(nameof(ShipImagePath));
+        OnPropertyChanged(nameof(EnlargeShipSizeVisibility));
+        OnPropertyChanged(nameof(ReduceShipSizeVisibility));
     }
 }

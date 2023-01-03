@@ -26,6 +26,7 @@
             Content="−"
             FontWeight="Bold"
             Grid.Column="0"
+            Visibility="{Binding ReduceShipSizeVisibility}"
             Command="{Binding ReduceShipSizeCommand}"
             CommandParameter="{Binding Instance}"
             Style="{StaticResource AddPlayerButton}" />
@@ -42,6 +43,7 @@
             FontSize="13"
             BorderBrush="Transparent"
             Background="Transparent"
+            Visibility="{Binding EnlargeShipSizeVisibility}"
             Command="{Binding EnlargeShipSizeCommand}"
             CommandParameter="{Binding Instance}"
             Content="+"

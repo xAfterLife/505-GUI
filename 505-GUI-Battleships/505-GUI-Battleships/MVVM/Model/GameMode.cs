@@ -2,7 +2,6 @@
 
 public enum GameMode
 {
-    FirstToWin,
     LastManStanding,
-    RoundsLimited
+    FirstToWin
 }

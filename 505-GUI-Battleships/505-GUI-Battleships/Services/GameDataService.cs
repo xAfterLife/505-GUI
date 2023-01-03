@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Documents;
 using _505_GUI_Battleships.MVVM.Model;
 
 namespace _505_GUI_Battleships.Services;
@@ -23,9 +25,9 @@ internal class GameDataService : ServiceBase
         return _instance ??= new GameDataService();
     }
 
-    public void Initialize(int boardHeight, int boardWidth, GameMode gameMode, int? rounds)
+    public void Initialize(int boardHeight, int boardWidth, GameMode gameMode, int? rounds, List<int> shipLengthList)
     {
-        GameOptions = new GameOptionsModel(boardHeight, boardWidth, gameMode, rounds);
+        GameOptions = new GameOptionsModel(boardHeight, boardWidth, gameMode, rounds, shipLengthList);
         GameBoard = new GameBoardModel(GameOptions.BoardHeight, GameOptions.BoardWidth);
     }
 }
