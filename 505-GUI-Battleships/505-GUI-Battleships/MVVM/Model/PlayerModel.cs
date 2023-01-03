@@ -28,14 +28,13 @@ public sealed class PlayerModel : ObservableObject
     ///     Command for removing the pressed PlayerSelectionCard
     ///     -> Raises DeleteButtonPressed Event
     /// </summary>
-    public static ICommand DeleteButtonCommand =>
-        new RelayCommand(instance =>
-        {
-            if ( instance is not PlayerModel player )
-                return;
+    public static ICommand DeleteButtonCommand => new RelayCommand(instance =>
+    {
+        if ( instance is not PlayerModel player )
+            return;
 
-            DeleteButtonPressed?.Invoke(player, EventArgs.Empty);
-        });
+        DeleteButtonPressed?.Invoke(player, EventArgs.Empty);
+    });
 
     /// <summary>
     ///     Name of the Player

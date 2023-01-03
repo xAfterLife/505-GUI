@@ -35,14 +35,12 @@
             Grid.ColumnSpan="3"
             FontSize="48"
             Foreground="White"
-            TextAlignment="Center">
-        </TextBlock>
+            TextAlignment="Center" />
 
         <Viewbox
             Grid.Row="1"
-            Grid.Column="1"
-            >
-            <ContentPresenter Content="{Binding testGrid}" Focusable="true" />
+            Grid.Column="1">
+            <ContentPresenter Content="{Binding TestGrid}" Focusable="true" />
         </Viewbox>
 
         <Viewbox Grid.Row="1" Grid.Column="3">

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
@@ -13,8 +11,6 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 internal sealed class GameOptionsViewModel : ObservableObject
 {
     private readonly GameDataService _gameService;
-
-    public GameOptionsModel GameOptions;
 
     public ObservableCollection<ShipSizeSelectorModel> Ships { get; set; }
 
@@ -49,7 +45,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
         LastManStandingCheck = true;
         FirstOneOutCheck = false;
         PlayWithRoundsCheck = true;
-        
+
         // TODO: Set min/max width/height, rule for round count would be advisible
         BoardWidth = 10;
         BoardHeight = 10;
@@ -57,22 +53,15 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
         LastManStandingCommand = new RelayCommand(_ =>
         {
-            if ( LastManStandingCheck )
-                FirstOneOutCheck = false;
+            FirstOneOutCheck = !LastManStandingCheck;
 
-            if ( LastManStandingCheck == false )
-                FirstOneOutCheck = true;
             OnPropertyChanged(nameof(LastManStandingCheck));
             OnPropertyChanged(nameof(FirstOneOutCheck));
         });
 
         FirstOneOutCommand = new RelayCommand(_ =>
         {
-            LastManStandingCheck = FirstOneOutCheck switch
-            {
-                true  => false,
-                false => true
-            };
+            LastManStandingCheck = !FirstOneOutCheck;
 
             OnPropertyChanged(nameof(LastManStandingCheck));
             OnPropertyChanged(nameof(FirstOneOutCheck));
@@ -85,7 +74,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
                 case true:
                     RoundCountTextBlockVisibility = Visibility.Visible;
                     RoundCountTextBoxVisibility = Visibility.Visible;
-                    RoundCount = 10;                                        // Back to default
+                    RoundCount = 10; // Back to default
                     break;
                 case false:
                     RoundCountTextBlockVisibility = Visibility.Hidden;
@@ -100,7 +89,6 @@ internal sealed class GameOptionsViewModel : ObservableObject
         });
 
         _gameService = GameDataService.GetInstance();
-
         var players = _gameService.PlayerModels;
 
         Ships = new ObservableCollection<ShipSizeSelectorModel> { new() };
@@ -123,46 +111,21 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
         StartGameCommand = new RelayCommand(_ =>
         {
-            GameMode Mode = 0;
-            int? Rounds;
-            
+            GameMode mode = 0;
+            int? rounds;
+
             // if (LastManStandingCheck) Mode = (GameMode)0;
-            if (FirstOneOutCheck) Mode = (GameMode)1;
+            if ( FirstOneOutCheck )
+                mode = (GameMode)1;
 
-            if (PlayWithRoundsCheck) Rounds = RoundCount;
-            else Rounds = null;
-            
-            List<int> ShipList = new();
+            if ( PlayWithRoundsCheck )
+                rounds = RoundCount;
+            else
+                rounds = null;
 
-            foreach(var ship in Ships)
-            {
-                ShipList.Add(ship.ShipImageListIndex + 1);
-            }
-
-            ShipList.Sort();
-
-            GameOptions = new(BoardHeight, BoardWidth, Mode, Rounds, ShipList);
-            _gameService.GameOptions = GameOptions;
-
-/*          Trace.WriteLine("GameMode:");
-            Trace.WriteLine(_gameService.GameOptions.GameMode);
-
-            Trace.WriteLine("Game Rounds:");
-            Trace.WriteLine(_gameService.GameOptions.Rounds);
-
-            Trace.WriteLine("Board Dimensions:");
-            Trace.WriteLine(_gameService.GameOptions.BoardWidth);
-            Trace.WriteLine("x");
-            Trace.WriteLine(_gameService.GameOptions.BoardHeight);
-
-            Trace.WriteLine(_gameService.GameOptions.ShipLengthList);
-
-              foreach ( var player in players )
-            {
-                Trace.WriteLine(player.PlayerName);
-                Trace.WriteLine(player.PlayerColor);
-            }
-*/
+            var shipList = Ships.Select(ship => ship.ShipImageListIndex + 1).ToList();
+            _gameService.GameOptions = new GameOptionsModel(BoardHeight, BoardWidth, mode, rounds, shipList);
+            ;
 
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.ShipSelection);
         });

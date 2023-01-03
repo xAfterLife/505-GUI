@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using _505_GUI_Battleships.Core;
-using _505_GUI_Battleships.MVVM.View.UserControls;
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
@@ -16,25 +14,23 @@ public sealed class ShipSizeSelectorModel : ObservableObject
     public Visibility ReduceShipSizeVisibility { get; set; }
     public ShipSizeSelectorModel Instance { get; }
 
-    public static ICommand? EnlargeShipSizeCommand =>
-        new RelayCommand(instance =>
-        {
-            if ( instance is not ShipSizeSelectorModel shipSizeSelector )
-                return;
+    public static ICommand? EnlargeShipSizeCommand => new RelayCommand(instance =>
+    {
+        if ( instance is not ShipSizeSelectorModel shipSizeSelector )
+            return;
 
-            shipSizeSelector._shipImageListIndex++;
-            shipSizeSelector.UpdateImagePath();
-        });
+        shipSizeSelector._shipImageListIndex++;
+        shipSizeSelector.UpdateImagePath();
+    });
 
-    public static ICommand? ReduceShipSizeCommand =>
-        new RelayCommand(instance =>
-        {
-            if ( instance is not ShipSizeSelectorModel shipSizeSelector )
-                return;
+    public static ICommand? ReduceShipSizeCommand => new RelayCommand(instance =>
+    {
+        if ( instance is not ShipSizeSelectorModel shipSizeSelector )
+            return;
 
-            shipSizeSelector._shipImageListIndex--;
-            shipSizeSelector.UpdateImagePath();
-        });
+        shipSizeSelector._shipImageListIndex--;
+        shipSizeSelector.UpdateImagePath();
+    });
 
     public string ShipImagePath
     {
@@ -56,15 +52,19 @@ public sealed class ShipSizeSelectorModel : ObservableObject
         _shipImagePath = _shipImagePathList[_shipImageListIndex];
     }
 
-    void UpdateImagePath() 
+    private void UpdateImagePath()
     {
         _shipImagePath = _shipImagePathList[_shipImageListIndex];
 
-        if (_shipImageListIndex == 4) EnlargeShipSizeVisibility = Visibility.Hidden;
-        else EnlargeShipSizeVisibility = Visibility.Visible;
+        if ( _shipImageListIndex == 4 )
+            EnlargeShipSizeVisibility = Visibility.Hidden;
+        else
+            EnlargeShipSizeVisibility = Visibility.Visible;
 
-        if (_shipImageListIndex == 0) ReduceShipSizeVisibility = Visibility.Hidden;
-        else ReduceShipSizeVisibility = Visibility.Visible;
+        if ( _shipImageListIndex == 0 )
+            ReduceShipSizeVisibility = Visibility.Hidden;
+        else
+            ReduceShipSizeVisibility = Visibility.Visible;
 
         OnPropertyChanged(nameof(ShipImagePath));
         OnPropertyChanged(nameof(EnlargeShipSizeVisibility));

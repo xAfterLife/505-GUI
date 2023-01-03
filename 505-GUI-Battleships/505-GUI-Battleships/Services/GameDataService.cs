@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Documents;
 using _505_GUI_Battleships.MVVM.Model;
 
 namespace _505_GUI_Battleships.Services;
