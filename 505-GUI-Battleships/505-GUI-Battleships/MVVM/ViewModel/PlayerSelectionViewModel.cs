@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -11,14 +10,12 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal sealed class PlayerSelectionViewModel : ObservableObject
 {
+    private readonly GameDataService _gameService;
+
     /// <summary>
     ///     Collection of Players from which the PlayerSelectionCards are created
     /// </summary>
     public ObservableCollection<PlayerModel> Players { get; set; }
-
-    private GameDataService _gameService;
-
-
 
     /// <summary>
     ///     Binding for the AddPlayerButton
@@ -34,7 +31,7 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     ///     GoToGameOptionsCommand Command
     /// </summary>
     public static ICommand? GoToGameOptionsCommand { get; set; }
-    
+
     /// <summary>
     ///     Backbutton Command
     /// </summary>
@@ -46,14 +43,14 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     public PlayerSelectionViewModel()
     {
         _gameService = GameDataService.GetInstance();
-        if (!_gameService.PlayerModels.Any()) Players = new ObservableCollection<PlayerModel> { new(), new() };
-        else Players = _gameService.PlayerModels;
+        if ( !_gameService.PlayerModels.Any() )
+            Players = new ObservableCollection<PlayerModel> { new(), new() };
+        else
+            Players = _gameService.PlayerModels;
 
-        if (Players.Count <= 2)
-        {
-            foreach (var playerModel in Players)
+        if ( Players.Count <= 2 )
+            foreach ( var playerModel in Players )
                 playerModel.DeleteButtonVisibility = Visibility.Hidden;
-        }
 
         //Subscribe to DeleteButtonPressed and Remove the Players from the List
         PlayerModel.DeleteButtonPressed += (sender, _) =>
@@ -91,19 +88,10 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.GameOptions);
         });
 
-        BackCommand = new RelayCommand(_ => 
+        BackCommand = new RelayCommand(_ =>
         {
-            _gameService.PlayerModels.Clear(); 
+            _gameService.PlayerModels.Clear();
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
         });
-
-        /*SelectModeButton = new RelayCommand(_ =>
-        {
-            foreach ( var player in Players )
-            {
-                Trace.WriteLine(player.PlayerName);
-                Trace.WriteLine(player.PlayerColor);
-            }
-        });*/
     }
 }

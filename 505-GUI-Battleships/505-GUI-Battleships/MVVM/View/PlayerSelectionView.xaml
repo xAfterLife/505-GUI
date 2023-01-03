@@ -71,7 +71,7 @@
                                 Orientation="Horizontal">
 
                         <ItemsControl
-                            ItemsSource="{Binding Path=Players}" 
+                            ItemsSource="{Binding Path=Players}"
                             HorizontalAlignment="Stretch">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>

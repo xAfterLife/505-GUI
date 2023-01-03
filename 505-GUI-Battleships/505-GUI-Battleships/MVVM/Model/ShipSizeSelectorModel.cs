@@ -1,56 +1,41 @@
-﻿using _505_GUI_Battleships.Core;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows.Media;
+﻿using System.Windows.Input;
+using _505_GUI_Battleships.Core;
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
 public sealed class ShipSizeSelectorModel : ObservableObject
 {
-    private string _shipImagePath;
     private readonly string[] _shipImagePathList;
     private int _shipImageListIndex;
+    private string _shipImagePath;
     public ShipSizeSelectorModel Instance { get; }
 
-
     //TODO: Fix this lol
-   public static ICommand? EnlargeShipSizeCommand => 
+    public static ICommand? EnlargeShipSizeCommand =>
         new RelayCommand(instance =>
         {
-            if ( instance is not ShipSizeSelectorModel ShipSizeSelector )
+            if ( instance is not ShipSizeSelectorModel shipSizeSelector )
                 return;
-            Trace.WriteLine(ShipSizeSelector._shipImageListIndex);
 
-            EnlargeShipSizeCommandPressed?.Invoke(ShipSizeSelector, EventArgs.Empty);
+            shipSizeSelector._shipImageListIndex++;
         });
 
     public static ICommand? ReduceShipSizeCommand =>
         new RelayCommand(instance =>
         {
-            if (instance is not ShipSizeSelectorModel ShipSizeSelector)
+            if ( instance is not ShipSizeSelectorModel shipSizeSelector )
                 return;
-            Trace.WriteLine(ShipSizeSelector._shipImageListIndex);
 
-            ReduceShipSizeCommandPressed?.Invoke(ShipSizeSelector, EventArgs.Empty);
+            shipSizeSelector._shipImageListIndex--;
         });
 
-    public static event EventHandler? EnlargeShipSizeCommandPressed;
-    
-    public static event EventHandler? ReduceShipSizeCommandPressed;
-
-    public string ShipImagePath 
-    { 
+    public string ShipImagePath
+    {
         get => _shipImagePath;
         set => Update(ref _shipImagePath, value);
     }
 
-    public int ShipImageListIndex 
+    public int ShipImageListIndex
     {
         get => _shipImageListIndex;
         set => Update(ref _shipImageListIndex, value);
@@ -58,30 +43,9 @@ public sealed class ShipSizeSelectorModel : ObservableObject
 
     public ShipSizeSelectorModel()
     {
-        _shipImagePathList = new string[5] { "../../../Ressources/Ships/1ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/2ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/3ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/4ShipRescueHorizontal.png",
-                                             "../../../Ressources/Ships/5ShipRescueHorizontal.png"};
+        _shipImagePathList = new string[5] { "../../../Ressources/Ships/1ShipPatrolHorizontal.png", "../../../Ressources/Ships/2ShipRescueHorizontal.png", "../../../Ressources/Ships/3ShipSupHorizontal.png", "../../../Ressources/Ships/4ShipDestroyerHorizontal.png", "../../../Ressources/Ships/5ShipBattleshipHorizontal.png" };
         Instance = this;
         _shipImageListIndex = 1;
         _shipImagePath = _shipImagePathList[_shipImageListIndex];
     }
-
-    public void IncrementIndex()
-    {
-        _shipImageListIndex++;
-    }
-
-    public void DecrementIndex()
-    {
-        _shipImageListIndex--;
-    }
-
-
-    /*public void UpdateImage() 
-    {
-        OnPropertyChanged(nameof(ShipImagePath));
-    }*/
-
 }
