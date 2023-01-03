@@ -123,17 +123,10 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
         StartGameCommand = new RelayCommand(_ =>
         {
-            // TEST
-            foreach ( var player in players )
-            {
-                Trace.WriteLine(player.PlayerName);
-                Trace.WriteLine(player.PlayerColor);
-            }
-
             GameMode Mode = 0;
             int? Rounds;
             
-            if (LastManStandingCheck) Mode = (GameMode)0;
+            // if (LastManStandingCheck) Mode = (GameMode)0;
             if (FirstOneOutCheck) Mode = (GameMode)1;
 
             if (PlayWithRoundsCheck) Rounds = RoundCount;
@@ -151,7 +144,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
             GameOptions = new(BoardHeight, BoardWidth, Mode, Rounds, ShipList);
             _gameService.GameOptions = GameOptions;
 
-            Trace.WriteLine("GameMode:");
+/*          Trace.WriteLine("GameMode:");
             Trace.WriteLine(_gameService.GameOptions.GameMode);
 
             Trace.WriteLine("Game Rounds:");
@@ -164,6 +157,14 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
             Trace.WriteLine(_gameService.GameOptions.ShipLengthList);
 
+              foreach ( var player in players )
+            {
+                Trace.WriteLine(player.PlayerName);
+                Trace.WriteLine(player.PlayerColor);
+            }
+*/
+
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.ShipSelection);
         });
     }
 }

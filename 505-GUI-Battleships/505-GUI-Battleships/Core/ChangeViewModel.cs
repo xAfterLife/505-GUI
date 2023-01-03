@@ -14,8 +14,8 @@ public sealed class ChangeViewModel
     {
         Start = 0,
         PlayerSelection = 1,
-        ShipSelection = 2,
-        GameOptions = 3
+        GameOptions = 2,
+        ShipSelection = 3
     }
 
     /// <summary>
