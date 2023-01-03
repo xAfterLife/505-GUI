@@ -27,6 +27,7 @@ internal class ShipSelectionViewModel : ObservableObject
     public ObservableCollection<Image> Ships { get; set; } = new();
     public ObservableCollection<Canvas> PlayerBoards { get; set; } = new();
     public ObservableCollection<Canvas> Shiplists { get; set; } = new();
+    public Grid testGrid { get; set; }
     public Canvas CurrentPlayerBoard { get; set; }
     public Canvas CurrentShiplist { get; set; }
     public bool NextPlayerButtonEnabled { get; set; }
@@ -55,9 +56,95 @@ internal class ShipSelectionViewModel : ObservableObject
             InstantiateShiplists(i);
             InstantiateShips(i);
         }
-
+        SetupBoardGrid();
         CurrentPlayerBoard = PlayerBoards[0];
+        Grid.SetRow(CurrentPlayerBoard, 1);
+        Grid.SetColumn(CurrentPlayerBoard, 1);
+
+        CreateYAxis();
+        CreateXAxis();
+        testGrid.Children.Add(CurrentPlayerBoard);
         CurrentShiplist = Shiplists[0];
+    }
+
+    private void SetupBoardGrid()
+    {
+        testGrid = new Grid();
+        RowDefinition row1 = new RowDefinition(), row2 = new RowDefinition();
+        row1.Height = new GridLength(1, GridUnitType.Star);
+        row2.Height = new GridLength(_boardSize, GridUnitType.Star);
+        ColumnDefinition col1 = new ColumnDefinition(), col2 = new ColumnDefinition();
+        col1.Width = new GridLength(1, GridUnitType.Star);
+        col2.Width = new GridLength(_boardSize, GridUnitType.Star);
+
+        testGrid.RowDefinitions.Add(row1);
+        testGrid.RowDefinitions.Add(row2);
+        testGrid.ColumnDefinitions.Add(col1);
+        testGrid.ColumnDefinitions.Add(col2);
+    }
+
+    private void CreateXAxis()
+    {
+        Canvas xAxis = new()
+        {
+            Width = _boardSize,
+            Height = 1,
+            LayoutTransform = new ScaleTransform(1, -1)
+        };
+        Collection<TextBlock> tb = new();
+        for (int i = 0; i < _boardSize; i++)
+        {
+            tb.Add(new TextBlock()
+            {
+                Text = ((char)('A' + i)).ToString(),
+                FontSize = 0.5,
+                Foreground = new SolidColorBrush(Colors.LightGreen),
+                LayoutTransform = new ScaleTransform(1, -1),
+                TextAlignment = TextAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Width = 1,
+                Height = 1,
+                
+            });
+            xAxis.Children.Add(tb[i]);
+            //Canvas.SetLeft(tb[i], -0.25);
+            Canvas.SetLeft(tb[i], i);
+        }
+        Grid.SetRow(xAxis, 0);
+        Grid.SetColumn(xAxis, 1);
+        testGrid.Children.Add(xAxis);
+    }
+
+    private void CreateYAxis()
+    {
+        Canvas yAxis = new()
+        {
+            Width = 1,
+            Height = _boardSize,
+            LayoutTransform = new ScaleTransform(1, -1)
+        };
+        Collection<TextBlock> tb = new();
+        for (int i = 0; i < _boardSize; i++)
+        {
+            tb.Add(new TextBlock()
+            {
+                Text = ((i + 1)).ToString(),
+                FontSize = 0.5,
+                Foreground = new SolidColorBrush(Colors.White),
+                LayoutTransform = new ScaleTransform(1, -1),
+                TextAlignment = TextAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Stretch,
+
+                Width = 1,
+                Height = 1
+            });
+            yAxis.Children.Add(tb[i]);
+            //Canvas.SetLeft(tb[i], -0.25);
+            Canvas.SetTop(tb[i], i - 0.2);
+        }
+        Grid.SetRow(yAxis, 1);
+        Grid.SetColumn(yAxis, 0);
+        testGrid.Children.Add(yAxis);
     }
 
     public void InstantiateShiplists(int currentPlayer)
@@ -100,14 +187,14 @@ internal class ShipSelectionViewModel : ObservableObject
             ViewportUnits = BrushMappingMode.Absolute,
             Drawing = new GeometryDrawing { Pen = new Pen { Thickness = 0.1, Brush = Brushes.DarkGreen }, Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1)) }
         };
-        Collection<TextBlock> tb = new();
+        /*Collection<TextBlock> tb = new();
         for (int i = 0; i < _boardSize; i++)
         {
             tb.Add(new TextBlock() { Text = (i + 1).ToString(), FontSize = 0.5, Foreground = new SolidColorBrush(Colors.White), LayoutTransform = new ScaleTransform(1, -1) });
             PlayerBoards[currentPlayer].Children.Add(tb[i]);
             Canvas.SetLeft(tb[i], 0.25);
             Canvas.SetTop(tb[i], i);
-        }
+        }*/
         PlayerBoards[currentPlayer].Background = brush;
         PlayerBoards[currentPlayer].AllowDrop = true;
         PlayerBoards[currentPlayer].DragOver += (sender, e) => DragBoardDrop(e, PlayerBoards[currentPlayer], _boardSize);
@@ -195,9 +282,13 @@ internal class ShipSelectionViewModel : ObservableObject
             BoatPositionTest();
             _currentPlayer++;
             CurrentPlayerBoard = PlayerBoards[_currentPlayer];
+            testGrid.Children.RemoveAt(2);
+            Grid.SetRow(CurrentPlayerBoard, 1);
+            Grid.SetColumn(CurrentPlayerBoard, 1);
+            testGrid.Children.Add(CurrentPlayerBoard);
             CurrentShiplist = Shiplists[_currentPlayer];
-            OnPropertyChanged(nameof(CurrentPlayerBoard));
             OnPropertyChanged(nameof(CurrentShiplist));
+            OnPropertyChanged(nameof(testGrid));
 
             NextPlayerButtonEnabled = false;
             NextPlayerButtonVisible = Visibility.Hidden;
@@ -238,7 +329,6 @@ internal class ShipSelectionViewModel : ObservableObject
 
     public static void ShipMouseMove(MouseEventArgs e, Image ship)
     {
-        //object data = e.Data
 
         if ( e.LeftButton == MouseButtonState.Pressed )
             DragDrop.DoDragDrop(ship, new DataObject(DataFormats.Serializable, ship), DragDropEffects.Move);
@@ -323,7 +413,7 @@ internal class ShipSelectionViewModel : ObservableObject
         Trace.WriteLine(dropPosition);
     }
 
-    private void FlipShip(MouseEventArgs e, Image ship, ShipModel shipModelData, IInputElement playerBoard)
+    private void PerformFlip(MouseEventArgs e, Image ship, ShipModel shipModelData, IInputElement playerBoard)
     {
         var length = shipModelData.Length;
 
@@ -351,13 +441,13 @@ internal class ShipSelectionViewModel : ObservableObject
         if ( e.RightButton != MouseButtonState.Pressed || !playerBoard.Children.Contains(ship) )
             return;
         var initialPosition = new Point(Canvas.GetLeft(ship), Canvas.GetTop(ship));
-        FlipShip(e, ship, shipModelData, playerBoard);
+        PerformFlip(e, ship, shipModelData, playerBoard);
 
         if ( FixElementPositionIfCollision(playerBoard, ship) )
             return;
 
         Canvas.SetLeft(ship, initialPosition.X);
         Canvas.SetTop(ship, initialPosition.Y);
-        FlipShip(e, ship, shipModelData, playerBoard);
+        PerformFlip(e, ship, shipModelData, playerBoard);
     }
 }

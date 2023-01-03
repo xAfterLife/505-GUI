@@ -24,13 +24,14 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="7.5*" />
+            <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="3.5*" />
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
         <TextBlock
             Grid.Column="1"
-            Grid.ColumnSpan="2"
+            Grid.ColumnSpan="3"
             FontSize="48"
             Foreground="White"
             TextAlignment="Center">
@@ -41,16 +42,16 @@
             Grid.Row="1"
             Grid.Column="1"
             >
-            <ContentPresenter Content="{Binding CurrentPlayerBoard}" Focusable="true" />
+            <ContentPresenter Content="{Binding testGrid}" Focusable="true" />
         </Viewbox>
 
-        <Viewbox Grid.Row="1" Grid.Column="2">
+        <Viewbox Grid.Row="1" Grid.Column="3">
             <ContentPresenter Content="{Binding CurrentShiplist}" Focusable="true" />
         </Viewbox>
         <Button
 
             Grid.Row="1"
-            Grid.Column="2"
+            Grid.Column="3"
             Width="176"
             Height="41"
             Margin="0,283,0,0"
