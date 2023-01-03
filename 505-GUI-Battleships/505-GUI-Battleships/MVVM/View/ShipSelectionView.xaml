@@ -30,12 +30,12 @@
         </Grid.ColumnDefinitions>
 
         <TextBlock
+            Text="{Binding ShipPlacementHeading}"
             Grid.Column="1"
             Grid.ColumnSpan="3"
             FontSize="48"
             Foreground="White"
             TextAlignment="Center">
-            Place Ships
         </TextBlock>
 
         <Viewbox
