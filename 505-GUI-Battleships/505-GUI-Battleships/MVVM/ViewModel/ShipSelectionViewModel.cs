@@ -18,9 +18,8 @@ internal class ShipSelectionViewModel : ObservableObject
 
     private readonly GameDataService _gameService;
 
-    //TODO: Use _gameService
-    //private readonly int _playerAmount = 4;
-    private int shipAmount = 5;
+    private int shipAmount;
+
     private int _currentPlayer;
 
     public ObservableCollection<ShipModel> ShipData { get; set; } = new();
@@ -229,11 +228,6 @@ internal class ShipSelectionViewModel : ObservableObject
         foreach ( var uri in urisources )
             bitmapImages.Add(new BitmapImage(uri));
 
-        /*ShipData.Add(new ShipModel(1, true, bitmapImages[0], bitmapImages[1]));
-        ShipData.Add(new ShipModel(2, true, bitmapImages[2], bitmapImages[3]));
-        ShipData.Add(new ShipModel(3, true, bitmapImages[4], bitmapImages[5]));
-        ShipData.Add(new ShipModel(4, true, bitmapImages[6], bitmapImages[7]));
-        ShipData.Add(new ShipModel(5, true, bitmapImages[8], bitmapImages[9]));*/
             for (var i = 0; i < shipAmount; i++)
             {
             switch(_gameService.GameOptions.ShipLengthList[i])
@@ -259,8 +253,6 @@ internal class ShipSelectionViewModel : ObservableObject
                     break;
 
             }
-
-                //Ships.Add(CreateShip(ShipData[j], currentPlayer));
                 Shiplists[currentPlayer].Children.Add(CreateShip(ShipData[i], currentPlayer));
                 Canvas.SetTop(Shiplists[currentPlayer].Children[i], GetShipListsYPosition(i));
             }
