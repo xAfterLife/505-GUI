@@ -6,11 +6,12 @@
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
-             d:DesignHeight="80" d:DesignWidth="180"
+             d:DesignHeight="300" d:DesignWidth="180"
              Margin="0"
              Padding="0">
 
-    <Border
+    <StackPanel>
+        <Border
         Width="180"
         Height="80"
         Background="#262536"
@@ -51,4 +52,8 @@
         </DockPanel>
 
     </Border>
+        <ContentPresenter 
+            Margin="0,10"
+            Content="{Binding}"/>
+    </StackPanel>
 </UserControl>

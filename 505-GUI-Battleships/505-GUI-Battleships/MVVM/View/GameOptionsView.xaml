@@ -10,6 +10,7 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
+    
     <UserControl.Resources>
         <Style TargetType="CheckBox">
             <Setter Property="Foreground"
