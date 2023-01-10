@@ -187,11 +187,17 @@ internal sealed class GameOptionsViewModel : ObservableObject
         AddShipCommand = new RelayCommand(_ =>
         {
             Ships.Add(new ShipSizeSelectorModel());
+
+            OnPropertyChanged(nameof(AddShipCommandVisibility));
+            OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
 
         DeleteShipCommand = new RelayCommand(_ =>
         {
             Ships.RemoveAt(Ships.Count - 1);
+
+            OnPropertyChanged(nameof(AddShipCommandVisibility));
+            OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
 
         StartGameCommand = new RelayCommand(_ =>

@@ -8,7 +8,7 @@
         Background="#1e1e1e"
         WindowStyle="None"
         FontFamily="Segoe UI"
-        Title="MainWindow" Height="700" Width="900">
+        Title="MainWindow" Height="600" Width="1000">
 
     <Window.DataContext>
         <viewModel:MainViewModel />
@@ -26,7 +26,7 @@
 
 
         <DockPanel Margin="2">
-            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="Resources/BG1.jpg" />
+            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="/Ressources/BG1.jpg" />
             <TextBlock DockPanel.Dock="Left" Foreground="White">Das ist ein Text</TextBlock>
             <Button Style="{StaticResource TaskButton}" Command="{Binding ExitCommand}" Width="20" Height="20"
                     DockPanel.Dock="Right" Content="X" />
