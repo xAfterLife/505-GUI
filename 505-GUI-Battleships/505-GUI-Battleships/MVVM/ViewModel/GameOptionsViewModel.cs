@@ -14,6 +14,22 @@ internal sealed class GameOptionsViewModel : ObservableObject
 {
     private readonly GameDataService _gameService;
 
+    private int _boardHeight;
+
+    private int _boardWith;
+
+    private bool _firstOneOutCheck;
+
+    private bool _lastManStandingCheck;
+
+    private bool _playWithRoundsCheck;
+
+    private int _roundCount;
+
+    private Visibility _roundCountTextBlockVisibility;
+
+    private Visibility _roundCountTextVisibility;
+
     public ObservableCollection<ShipSizeSelectorModel> Ships { get; set; }
 
     public static ICommand BackCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection));
@@ -24,19 +40,106 @@ internal sealed class GameOptionsViewModel : ObservableObject
     public Visibility DeleteShipCommandVisibility => Ships.Count > 1 ? Visibility.Visible : Visibility.Hidden;
 
     public static ICommand? LastManStandingCommand { get; set; }
-    public bool LastManStandingCheck { get; set; }
+
+    public bool LastManStandingCheck
+    {
+        get => _lastManStandingCheck;
+        set => Update(ref _lastManStandingCheck, value);
+    }
 
     public static ICommand? FirstOneOutCommand { get; set; }
-    public bool FirstOneOutCheck { get; set; }
 
-    public bool PlayWithRoundsCheck { get; set; }
+    public bool FirstOneOutCheck
+    {
+        get => _firstOneOutCheck;
+        set => Update(ref _firstOneOutCheck, value);
+    }
+
+    public bool PlayWithRoundsCheck
+    {
+        get => _playWithRoundsCheck;
+        set => Update(ref _playWithRoundsCheck, value);
+    }
+
     public static ICommand? PlayWithRoundsCommand { get; set; }
-    public Visibility RoundCountTextBlockVisibility { get; set; }
-    public Visibility RoundCountTextBoxVisibility { get; set; }
 
-    public int? RoundCount { get; set; }
-    public int BoardWidth { get; set; }
-    public int BoardHeight { get; set; }
+    public Visibility RoundCountTextBlockVisibility
+    {
+        get => _roundCountTextVisibility;
+        set => Update(ref _roundCountTextBlockVisibility, value);
+    }
+
+    public Visibility RoundCountTextBoxVisibility
+    {
+        get => _roundCountTextVisibility;
+        set => Update(ref _roundCountTextVisibility, value);
+    }
+
+    public int? RoundCount
+    {
+        get => _roundCount;
+        set
+        {
+            if ( !value.HasValue )
+                return;
+
+            switch ( value )
+            {
+                case > 50:
+                    value = 50;
+                    MessageBox.Show("Round Count needs to be between 15 and 50", "Information", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    break;
+                case < 15:
+                    value = 15;
+                    MessageBox.Show("Round Count needs to be between 15 and 50", "Information", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                    break;
+            }
+
+            Update(ref _roundCount, value.Value);
+        }
+    }
+
+    public int BoardWidth
+    {
+        get => _boardWith;
+        set
+        {
+            switch ( value )
+            {
+                case > 15:
+                    value = 15;
+                    MessageBox.Show("BoardWidth and Height need to be between 7 and 15", "Information", MessageBoxButton.OK);
+                    break;
+                case < 7:
+                    value = 7;
+                    MessageBox.Show("BoardWidth and Height need to be between 7 and 15", "Information", MessageBoxButton.OK);
+                    break;
+            }
+
+            Update(ref _boardWith, value);
+        }
+    }
+
+    public int BoardHeight
+    {
+        get => _boardHeight;
+        set
+        {
+            switch ( value )
+            {
+                case > 15:
+                    value = 15;
+                    MessageBox.Show("BoardWidth and Height need to be between 7 and 15", "Information", MessageBoxButton.OK);
+                    break;
+                case < 7:
+                    value = 7;
+                    MessageBox.Show("BoardWidth and Height need to be between 7 and 15", "Information", MessageBoxButton.OK);
+                    break;
+            }
+
+            Update(ref _boardHeight, value);
+        }
+    }
 
     public GameOptionsViewModel()
     {
@@ -47,22 +150,16 @@ internal sealed class GameOptionsViewModel : ObservableObject
         // TODO: Set min/max width/height, rule for round count would be advisible
         BoardWidth = 10;
         BoardHeight = 10;
-        RoundCount = 10;
+        RoundCount = 15;
 
         LastManStandingCommand = new RelayCommand(_ =>
         {
             FirstOneOutCheck = !LastManStandingCheck;
-
-            OnPropertyChanged(nameof(LastManStandingCheck));
-            OnPropertyChanged(nameof(FirstOneOutCheck));
         });
 
         FirstOneOutCommand = new RelayCommand(_ =>
         {
             LastManStandingCheck = !FirstOneOutCheck;
-
-            OnPropertyChanged(nameof(LastManStandingCheck));
-            OnPropertyChanged(nameof(FirstOneOutCheck));
         });
 
         PlayWithRoundsCommand = new RelayCommand(_ =>
@@ -80,10 +177,6 @@ internal sealed class GameOptionsViewModel : ObservableObject
                     RoundCount = null;
                     break;
             }
-
-            OnPropertyChanged(nameof(RoundCountTextBlockVisibility));
-            OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
-            OnPropertyChanged(nameof(RoundCount));
         });
 
         _gameService = GameDataService.GetInstance();
@@ -94,17 +187,11 @@ internal sealed class GameOptionsViewModel : ObservableObject
         AddShipCommand = new RelayCommand(_ =>
         {
             Ships.Add(new ShipSizeSelectorModel());
-
-            OnPropertyChanged(nameof(AddShipCommandVisibility));
-            OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
 
         DeleteShipCommand = new RelayCommand(_ =>
         {
             Ships.RemoveAt(Ships.Count - 1);
-
-            OnPropertyChanged(nameof(AddShipCommandVisibility));
-            OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
 
         StartGameCommand = new RelayCommand(_ =>

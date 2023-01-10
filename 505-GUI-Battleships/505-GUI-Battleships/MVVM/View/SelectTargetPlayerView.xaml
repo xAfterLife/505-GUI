@@ -60,12 +60,12 @@
                 Stretch="Uniform"
                 Grid.Row="1">
                 <ItemsControl
-                            ItemsSource="{Binding Path=TargetablePlayers}"
-                            HorizontalAlignment="Stretch">
+                    ItemsSource="{Binding Path=TargetablePlayers}"
+                    HorizontalAlignment="Stretch">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid
-                                Rows="1"/>
+                                Rows="1" />
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>

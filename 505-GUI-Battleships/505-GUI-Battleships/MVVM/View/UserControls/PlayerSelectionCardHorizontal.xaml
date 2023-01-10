@@ -22,32 +22,29 @@
             HorizontalAlignment="Stretch">
 
             <Image
-                    Margin="3"
-                    Grid.Row="0"
-                    Height="80"
-                    Width="80"
-                    Source="../../../Ressources/BG1.jpg"
-                    Stretch="Fill"/>
+                Margin="3"
+                Height="80"
+                Width="80"
+                Source="../../../Ressources/BG1.jpg"
+                Stretch="Fill" />
 
             <DockPanel>
                 <TextBox
                     DockPanel.Dock="Top"
                     TextAlignment="Center"
-                    Grid.Row="0"
-                    Grid.Column="1"
                     Background="Transparent"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Text="{Binding PlayerName, FallbackValue=ENTER NAME}"
                     Foreground="White"
-                    BorderThickness="0"/>
+                    BorderThickness="0" />
 
                 <Label
                     BorderThickness="1"
                     BorderBrush="White"
                     Height="30"
                     Width="30"
-                    Background="{Binding PlayerColor, FallbackValue=Red}"/>
+                    Background="{Binding PlayerColor, FallbackValue=Red}" />
             </DockPanel>
         </DockPanel>
 
