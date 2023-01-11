@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:userControls="clr-namespace:_505_GUI_Battleships.MVVM.View.UserControls"
     xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
+    xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
     d:DataContext="{d:DesignInstance Type=viewModel:BoardAttackViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -38,9 +40,10 @@
 
 
 
-        <Viewbox Grid.Row="1" 
-                 Grid.Column="2" 
-                 Grid.RowSpan="4">
+        <Viewbox
+            Grid.Row="1"
+            Grid.RowSpan="4"
+            Grid.Column="2">
             <ContentPresenter Content="{Binding BoardContainer}" Focusable="true" />
         </Viewbox>
         <Button
@@ -51,18 +54,28 @@
             VerticalAlignment="Center"
             Content="⇦ Change Target"
             Style="{StaticResource MenuButton}" />
-        <Viewbox Grid.Row="2" 
-                 Grid.Column="1">
-            <ContentPresenter Content="{Binding TargetedPlayerCard}" Focusable="true" />
+        <Viewbox Grid.Row="2" Grid.Column="1">
+            <ContentControl Content="{Binding TargetedPlayerCard}">
+                <ContentControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type model:PlayerModel}">
+                        <userControls:PlayerSelectionCardHorizontal />
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
         </Viewbox>
 
         <Image
-            
             Grid.Row="3"
             Grid.Column="1"
             Source="../../Ressources/AttackSymbole.png" />
         <Viewbox Grid.Row="4" Grid.Column="1">
-            <ContentPresenter Content="{Binding AttackerPlayerCard}" Focusable="true" />
+            <ContentControl Content="{Binding AttackerPlayerCard}">
+                <ContentControl.ContentTemplate>
+                    <DataTemplate DataType="{x:Type model:PlayerModel}">
+                        <userControls:PlayerSelectionCardHorizontal />
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
         </Viewbox>
         <Image
             Grid.Row="3"

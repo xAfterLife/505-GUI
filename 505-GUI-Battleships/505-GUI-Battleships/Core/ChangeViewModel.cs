@@ -16,7 +16,8 @@ public sealed class ChangeViewModel
         PlayerSelection = 1,
         GameOptions = 2,
         ShipSelection = 3,
-        SelectTargetPlayer = 4
+        SelectTargetPlayer = 4,
+        BoardAttack = 5
     }
 
     /// <summary>
@@ -28,7 +29,8 @@ public sealed class ChangeViewModel
         { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) },
         { ViewType.ShipSelection, typeof(ShipSelectionViewModel) },
         { ViewType.GameOptions, typeof(GameOptionsViewModel) },
-        { ViewType.SelectTargetPlayer, typeof(SelectTargetPlayerViewModel) }
+        { ViewType.SelectTargetPlayer, typeof(SelectTargetPlayerViewModel) },
+        { ViewType.BoardAttack, typeof(BoardAttackViewModel) }
     };
 
     /// <summary>

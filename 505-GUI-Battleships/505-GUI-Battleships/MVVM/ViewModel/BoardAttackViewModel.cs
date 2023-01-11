@@ -3,11 +3,14 @@ using _505_GUI_Battleships.MVVM.Model;
 using _505_GUI_Battleships.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
@@ -15,7 +18,7 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 internal sealed class BoardAttackViewModel: ObservableObject
 {
     private PlayerModel _targetedPlayerCard;
-    private PlayerModel _attackerPlayerCard;
+    public ObservableObject AttackerPlayerCard { get; set; } = new();
     private Canvas _playerBoard;
     private Grid _boardContainer;
     private readonly (int Width, int Height) _boardDimensions;
@@ -38,23 +41,30 @@ internal sealed class BoardAttackViewModel: ObservableObject
         set => Update(ref _targetedPlayerCard, value);
     }
 
-    public PlayerModel AttackerPlayerCard
+    /*public PlayerModel AttackerPlayerCard
     {
         get => _attackerPlayerCard;
         set => Update(ref _attackerPlayerCard, value);
-    }
+    }*/
 
-    public void SetupBoardAttack (PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard, Canvas playerBoard)
+    public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard/*, Canvas playerBoard*/)
     {
         TargetedPlayerCard = targetedPlayerCard;
         AttackerPlayerCard = attackerPlayerCard;
-        PlayerBoard = playerBoard;
+        OnPropertyChanged(nameof(AttackerPlayerCard));
+        /*PlayerBoard = playerBoard;*/
     }
     public BoardAttackViewModel()
     {
         _gameService = GameDataService.GetInstance();
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
         SetupBoardContainer();
+        TestAufrufe();
+    }
+
+    private void TestAufrufe()
+    {
+        SetupBoardAttack(_gameService.PlayerModels[1], _gameService.PlayerModels[0]);
     }
 
     private void SetupBoardContainer()
@@ -113,9 +123,18 @@ internal sealed class BoardAttackViewModel: ObservableObject
         BoardContainer.Children.Add(yAxis);
 
         var playerBoard = _gameService.GameBoard!.Board;
+        playerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
         Grid.SetRow(playerBoard, 1);
         Grid.SetColumn(playerBoard, 1);
 
         BoardContainer.Children.Add(playerBoard);
+    }
+
+    private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
+    {
+        var clickPosition = e.GetPosition((IInputElement)sender);
+        clickPosition.X = Math.Round(clickPosition.X - 0.5);
+        clickPosition.Y = Math.Round(clickPosition.Y - 0.5);
+        Trace.WriteLine(clickPosition.ToString());
     }
 }

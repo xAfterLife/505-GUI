@@ -47,7 +47,7 @@ internal class ShipSelectionViewModel : ObservableObject
     {
         if (_currentPlayerCounter == _gameService.PlayerModels.Count - 1) 
         {
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack);
             return;
         }
 

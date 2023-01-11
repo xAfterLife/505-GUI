@@ -10,6 +10,7 @@
 
 	<ItemGroup>
 		<None Remove="BG1.png" />
+		<None Remove="Ressources\AttackSymbole.png" />
 		<None Remove="Ressources\BG1.jpg" />
 		<None Remove="Ressources\BG2.jpg" />
 		<None Remove="Ressources\ProfilePictures\profilePic1.png" />
@@ -79,6 +80,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Resource Include="Ressources\AttackSymbole.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Ressources\BG1.jpg">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
