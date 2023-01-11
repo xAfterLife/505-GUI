@@ -12,13 +12,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal sealed class BoardAttackViewModel: ObservableObject
 {
     private PlayerModel _targetedPlayerCard;
-    public ObservableObject AttackerPlayerCard { get; set; } = new();
+    private PlayerModel _attackerPlayerCard;
     private Canvas _playerBoard;
     private Grid _boardContainer;
     private readonly (int Width, int Height) _boardDimensions;
@@ -41,11 +43,11 @@ internal sealed class BoardAttackViewModel: ObservableObject
         set => Update(ref _targetedPlayerCard, value);
     }
 
-    /*public PlayerModel AttackerPlayerCard
+    public PlayerModel AttackerPlayerCard
     {
         get => _attackerPlayerCard;
         set => Update(ref _attackerPlayerCard, value);
-    }*/
+    }
 
     public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard/*, Canvas playerBoard*/)
     {
@@ -122,12 +124,12 @@ internal sealed class BoardAttackViewModel: ObservableObject
         BoardContainer.Children.Add(xAxis);
         BoardContainer.Children.Add(yAxis);
 
-        var playerBoard = _gameService.GameBoard!.Board;
-        playerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
-        Grid.SetRow(playerBoard, 1);
-        Grid.SetColumn(playerBoard, 1);
+        _playerBoard = _gameService.GameBoard!.Board;
+        _playerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
+        Grid.SetRow(_playerBoard, 1);
+        Grid.SetColumn(_playerBoard, 1);
 
-        BoardContainer.Children.Add(playerBoard);
+        BoardContainer.Children.Add(_playerBoard);
     }
 
     private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
@@ -136,5 +138,47 @@ internal sealed class BoardAttackViewModel: ObservableObject
         clickPosition.X = Math.Round(clickPosition.X - 0.5);
         clickPosition.Y = Math.Round(clickPosition.Y - 0.5);
         Trace.WriteLine(clickPosition.ToString());
+        TestAnimation();
+    }
+
+    private void TestAnimation()
+    {
+        Rectangle rect = new Rectangle()
+        {
+            Width = 1,
+            Height = 1,
+            Fill = Brushes.Red,
+        };
+
+        TranslateTransform tt = new TranslateTransform(5, 5);
+        rect.RenderTransform = tt;
+        _playerBoard.Children.Add(rect);
+
+        DoubleAnimation animationX = new DoubleAnimation()
+        {
+            From = 0,
+            To = 10,
+            Duration = TimeSpan.FromSeconds(10),
+        };
+
+        DoubleAnimation animationY = new DoubleAnimation()
+        {
+            From = 0,
+            To = 10,
+            Duration = TimeSpan.FromSeconds(10),
+        };
+
+        Storyboard.SetTarget(animationX, tt);
+        Storyboard.SetTargetProperty(animationX, new PropertyPath("X"));
+        Storyboard.SetTarget(animationY, tt);
+        Storyboard.SetTargetProperty(animationY, new PropertyPath("Y"));
+
+        // Create a storyboard to contain the animation
+        Storyboard storyboard = new Storyboard();
+        storyboard.Children.Add(animationX);
+        storyboard.Children.Add(animationY);
+
+        // Start the animation
+        storyboard.Begin();
     }
 }
