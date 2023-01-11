@@ -207,7 +207,7 @@
                                     Height="20"
                                     Width="25"
                                     HorizontalContentAlignment="Center"
-                                    Text="{Binding RoundCount, FallbackValue=10}" />
+                                    Text="{Binding RoundCount}" />
                                 </Grid>
 
                                 <Border

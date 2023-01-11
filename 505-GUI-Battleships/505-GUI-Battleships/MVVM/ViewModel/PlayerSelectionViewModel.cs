@@ -20,7 +20,7 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     /// <summary>
     ///     Binding for the AddPlayerButton
     /// </summary>
-    public Visibility AddPlayerButtonVisibility => Players.Count >= 4 ? Visibility.Hidden : Visibility.Visible;
+    public Visibility AddPlayerButtonVisibility => Players.Count >= 4 ? Visibility.Collapsed : Visibility.Visible;
 
     /// <summary>
     ///     AddPlayer Command

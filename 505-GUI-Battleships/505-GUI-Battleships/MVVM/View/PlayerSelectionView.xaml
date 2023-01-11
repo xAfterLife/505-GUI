@@ -13,7 +13,9 @@
         <viewModel:PlayerSelectionViewModel />
     </UserControl.DataContext>
 
-    <Grid>
+    <Viewbox
+        Stretch="Fill">
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="8*" />
@@ -59,7 +61,6 @@
                 Foreground="White" />
 
             <Viewbox
-                Stretch="Uniform"
                 Grid.Row="1">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -128,4 +129,5 @@
 
         </Grid>
     </Grid>
+    </Viewbox>
 </UserControl>

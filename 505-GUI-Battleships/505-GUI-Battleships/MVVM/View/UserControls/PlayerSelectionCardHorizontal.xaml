@@ -25,7 +25,7 @@
                 Margin="3"
                 Height="80"
                 Width="80"
-                Source="../../../Ressources/BG1.jpg"
+                Source="{Binding PlayerImage}"
                 Stretch="Fill" />
 
             <DockPanel>
@@ -35,7 +35,7 @@
                     Background="Transparent"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="{Binding PlayerName, FallbackValue=ENTER NAME}"
+                    Text="{Binding PlayerName, FallbackValue=NAME}"
                     Foreground="White"
                     BorderThickness="0" />
 
@@ -50,7 +50,7 @@
 
     </Border>
         <ContentPresenter 
-            Margin="0,10"
-            Content="{Binding}"/>
+            Margin="0,20"
+            Content="{Binding PlayerBoardPreview}"/>
     </StackPanel>
 </UserControl>

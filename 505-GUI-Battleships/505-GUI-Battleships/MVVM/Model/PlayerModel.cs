@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -13,6 +14,14 @@ public sealed class PlayerModel : ObservableObject
     private Color _playerColor;
     private Guid _playerId;
     private string _playerName;
+    private string _playerImage;
+    private string[] _playerImageList { get; set; }
+    public string PlayerImage
+    {
+        get => _playerImage;
+        set => Update(ref _playerImage, value);
+    }
+
 
     public ObservableCollection<PlayerAttackModel> Attacks { get; set; } = new();
     public ObservableCollection<ShipPlacementModel> Ships { get; set; } = new();
@@ -78,13 +87,24 @@ public sealed class PlayerModel : ObservableObject
     /// <param name="elo">Elo points of the Player</param>
     public PlayerModel(string playerName = "Enter name", uint elo = 1000)
     {
+        _playerImageList = new string[9] { "../../../Ressources/ProfilePictures/profilePic1.png",
+            "../../../Ressources/ProfilePictures/profilePic2.png",
+            "../../../Ressources/ProfilePictures/profilePic3.png",
+            "../../../Ressources/ProfilePictures/profilePic4.png",
+            "../../../Ressources/ProfilePictures/profilePic5.png",
+            "../../../Ressources/ProfilePictures/profilePic6.png",
+            "../../../Ressources/ProfilePictures/profilePic7.png",
+            "../../../Ressources/ProfilePictures/profilePic8.png",
+            "../../../Ressources/ProfilePictures/profilePic9.png"};
         Instance = this;
         _playerName = playerName;
         _elo = elo;
         _playerId = Guid.NewGuid();
 
-        Random rnd = new();
-        _playerColor = Color.FromRgb((byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256));
+        Random rInt = new();
+        _playerImage = _playerImageList[rInt.Next(9)];
+        Trace.WriteLine(rInt.Next(9));
+        _playerColor = Color.FromRgb((byte)rInt.Next(256), (byte)rInt.Next(256), (byte)rInt.Next(256));
     }
 
     public void UpdateDeleteButton()

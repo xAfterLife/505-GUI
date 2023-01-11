@@ -17,7 +17,7 @@
         Width="120"
         Height="180"
         Background="#262536"
-        BorderBrush="Black"
+        BorderBrush="White"
         BorderThickness="1">
 
         <StackPanel>
@@ -51,12 +51,17 @@
                     BorderThickness="0"
                     Padding="0,10,0,10" />
 
-                <Image
+                <Border 
+                    BorderBrush="White"
+                    BorderThickness="1"
+                    Height="70"
+                    Width="80"
+                    Grid.Row="1">
+                    <Image
                     Grid.Row="1"
-                    MaxHeight="70"
-                    MaxWidth="80"
-                    Source="../../../Ressources/BG1.jpg"
+                    Source="{Binding PlayerImage}"
                     Stretch="UniformToFill" />
+                </Border>
 
                 <!-- Color-Picker Extension -->
                 <xctk:ColorPicker
@@ -70,13 +75,13 @@
                     Height="25"
                     Width="25" />
 
-                <TextBlock
+                <!--<TextBlock
                     Grid.Row="3"
                     Text="{Binding PlayerId}"
                     HorizontalAlignment="Center"
                     Foreground="White"
                     FontSize="12"
-                    Padding="5,5,5,5" />
+                    Padding="5,5,5,5" />-->
             </Grid>
 
         </StackPanel>

@@ -8,11 +8,8 @@
         Background="#1e1e1e"
         WindowStyle="None"
         FontFamily="Segoe UI"
-<<<<<<< HEAD
-        Title="MainWindow" Height="500" Width="850">
-=======
         Title="MainWindow" Height="600" Width="1000">
->>>>>>> 33a73b53de9f300447960673106ccdfe7d735fd0
+
 
     <Window.DataContext>
         <viewModel:MainViewModel />

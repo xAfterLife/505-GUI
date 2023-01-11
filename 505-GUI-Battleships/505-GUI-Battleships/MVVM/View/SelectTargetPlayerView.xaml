@@ -9,9 +9,9 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewModel:SelectTargetPlayerViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
 
     <Grid>
         <Grid.RowDefinitions>
@@ -39,6 +39,20 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="3">
+            <TextBlock
+                HorizontalAlignment="Center"
+                Text="Round"
+                FontSize="20"
+                Foreground="White"/>
+            <TextBlock
+                HorizontalAlignment="Center"
+                Text="{Binding RoundCountText, FallbackValue=0}"
+                FontSize="20"
+                Foreground="White"/>
+        </StackPanel>
         <Grid
             Grid.Column="1"
             Grid.Row="1">
@@ -53,7 +67,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Text="{Binding SelectTargetPlayerHeading, FallbackValue=Its your turn to attack Player}"
-                FontSize="40"
+                FontSize="35"
                 Foreground="White" />
 
             <Viewbox

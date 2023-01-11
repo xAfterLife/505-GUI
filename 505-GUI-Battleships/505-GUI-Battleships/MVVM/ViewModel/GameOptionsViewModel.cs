@@ -36,7 +36,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
     public static ICommand? StartGameCommand { get; set; }
     public static ICommand? AddShipCommand { get; set; }
     public static ICommand? DeleteShipCommand { get; set; }
-    public Visibility AddShipCommandVisibility => Ships.Count >= 5 ? Visibility.Hidden : Visibility.Visible;
+    public Visibility AddShipCommandVisibility => Ships.Count >= 5 ? Visibility.Collapsed : Visibility.Visible;
     public Visibility DeleteShipCommandVisibility => Ships.Count > 1 ? Visibility.Visible : Visibility.Hidden;
 
     public static ICommand? LastManStandingCommand { get; set; }
@@ -169,7 +169,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
                 case true:
                     RoundCountTextBlockVisibility = Visibility.Visible;
                     RoundCountTextBoxVisibility = Visibility.Visible;
-                    RoundCount = 10; // Back to default
+                    RoundCount = 15; // Back to default
                     break;
                 case false:
                     RoundCountTextBlockVisibility = Visibility.Hidden;
@@ -177,6 +177,8 @@ internal sealed class GameOptionsViewModel : ObservableObject
                     RoundCount = null;
                     break;
             }
+            OnPropertyChanged(nameof(RoundCountTextBlockVisibility));
+            OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
         });
 
         _gameService = GameDataService.GetInstance();
