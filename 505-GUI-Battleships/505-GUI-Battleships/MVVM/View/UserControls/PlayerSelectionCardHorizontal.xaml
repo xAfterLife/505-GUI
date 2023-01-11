@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
-             d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
+             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model" xmlns:viewmodel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
+             d:DataContext="{d:DesignInstance Type=viewmodel:SelectTargetPlayerViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="180"
              Margin="0"
@@ -51,6 +51,6 @@
     </Border>
         <ContentPresenter 
             Margin="0,20"
-            Content="{Binding PlayerBoardPreview}"/>
+            Content="{Binding PlayerBoard}"/>
     </StackPanel>
 </UserControl>

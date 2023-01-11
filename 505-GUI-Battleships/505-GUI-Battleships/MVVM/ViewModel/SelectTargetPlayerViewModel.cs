@@ -15,6 +15,14 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
     public ObservableCollection<PlayerModel> TargetablePlayers;
 
     private Grid _playerBoardPreview;
+    private Canvas _playerBoard { get; set; }
+    public Canvas PlayerBoard
+    {
+        get; set;
+    }
+
+    private PlayerModel _currentPlayer;
+    private int _currentPlayerCounter;
 
     public Grid PlayerBoardPreview
     {
@@ -34,10 +42,11 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
     public SelectTargetPlayerViewModel()
     {
         _gameService = GameDataService.GetInstance();
-        
+        // _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
+        _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
         TargetablePlayers = _gameService.PlayerModels;
-        //SelectTargetPlayerHeading = $"It's your turn to attack, {_gameService.PlayerModels[0].PlayerName}";
+        SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}";
         RoundCountText = "1";
-        SelectTargetPlayerHeading = "It's your turn to attack, Player";
+        _playerBoard = _gameService.GameBoard.Board;
     }
 }
