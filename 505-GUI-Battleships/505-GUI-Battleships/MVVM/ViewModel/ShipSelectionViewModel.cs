@@ -25,7 +25,6 @@ internal class ShipSelectionViewModel : ObservableObject
     private string _shipPlacementHeading;
 
     public Canvas PlacementShips { get; set; }
-
     public Grid BoardContainer
     {
         get => _boardContainer;
@@ -46,9 +45,11 @@ internal class ShipSelectionViewModel : ObservableObject
 
     public ICommand NextPlayerCommand => new RelayCommand(_ =>
     {
-        if ( _currentPlayerCounter == _gameService.PlayerModels.Count - 1 )
-            //TODO Starte Spiel
+        if (_currentPlayerCounter == _gameService.PlayerModels.Count - 1) 
+        {
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
             return;
+        }
 
         _currentPlayerCounter++;
         _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];

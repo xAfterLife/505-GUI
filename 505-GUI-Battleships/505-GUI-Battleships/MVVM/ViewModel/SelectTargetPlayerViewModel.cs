@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Controls;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
@@ -12,23 +13,19 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
 
     public string SelectTargetPlayerHeading;
 
-    public ObservableCollection<PlayerModel> TargetablePlayers;
+    public ObservableCollection<PlayerModel> TargetablePlayers {get; set; }
 
-    private Grid _playerBoardPreview;
-    private Canvas _playerBoard { get; set; }
+    public ObservableCollection<SelectTargetPlayerCardModel> TargetElements { get; set; }
+
+    private Canvas _playerBoard;
     public Canvas PlayerBoard
     {
-        get; set;
+        get => _playerBoard;
+        set => Update(ref _playerBoard, value);
     }
 
-    private PlayerModel _currentPlayer;
-    private int _currentPlayerCounter;
-
-    public Grid PlayerBoardPreview
-    {
-        get => _playerBoardPreview;
-        set => Update(ref _playerBoardPreview, value);
-    }
+    //private int _currentPlayer { get; set; }
+    //private int _currentPlayerCounter;
 
     private string _roundCountText;
 
@@ -42,10 +39,11 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
     public SelectTargetPlayerViewModel()
     {
         _gameService = GameDataService.GetInstance();
-        // _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
-        _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
         TargetablePlayers = _gameService.PlayerModels;
-        SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}";
+
+        TargetElements = new ObservableCollection<SelectTargetPlayerCardModel>();
+        //_currentPlayer = _gameService.PlayerModels.Count;
+        SelectTargetPlayerHeading = $"It's your turn to attack, X";
         RoundCountText = "1";
         _playerBoard = _gameService.GameBoard.Board;
     }

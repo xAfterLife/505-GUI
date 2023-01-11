@@ -28,7 +28,7 @@ public sealed class ChangeViewModel
         { ViewType.PlayerSelection, typeof(PlayerSelectionViewModel) },
         { ViewType.ShipSelection, typeof(ShipSelectionViewModel) },
         { ViewType.GameOptions, typeof(GameOptionsViewModel) },
-        { ViewType.SelectTargetPlayer, typeof(GameOptionsViewModel) }
+        { ViewType.SelectTargetPlayer, typeof(SelectTargetPlayerViewModel) }
     };
 
     /// <summary>
