@@ -43,7 +43,7 @@
             <ContentPresenter Content="{Binding PlacementShips}" Focusable="true" />
         </Viewbox>
         <Button
-
+            Style="{StaticResource MenuButton}"
             Grid.Row="1"
             Grid.Column="3"
             Width="176"
@@ -52,7 +52,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
             Command="{Binding NextPlayerCommand}"
-            Content="Button"
+            Content="Next Player"
             Visibility="{Binding NextPlayerButtonVisible}" />
+        
     </Grid>
 </UserControl>
