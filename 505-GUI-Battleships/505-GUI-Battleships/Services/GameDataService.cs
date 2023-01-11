@@ -32,7 +32,7 @@ internal class GameDataService : ServiceBase
     public void SetupPlayerShipModels()
     {
         foreach ( var player in PlayerModels )
-            for ( var i = 0; i < ShipModels.Count; i++ )
-                player.Ships.Add(new ShipPlacementModel(-1, -1, true));
+            foreach (ShipModel shipModel in ShipModels)
+                player.Ships.Add(new ShipPlacementModel(-1, -1, true, shipModel.Id));
     }
 }

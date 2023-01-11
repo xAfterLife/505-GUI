@@ -35,6 +35,9 @@
             <DataTemplate DataType="{x:Type viewModel:SelectTargetPlayerViewModel}">
                 <view:GameOptionsView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:BoardAttackViewModel}">
+                <view:BoardAttackView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

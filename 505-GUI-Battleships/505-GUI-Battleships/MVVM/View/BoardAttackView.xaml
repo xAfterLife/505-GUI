@@ -1,15 +1,13 @@
-﻿<UserControl
-    x:Class="_505_GUI_Battleships.MVVM.View.ShipSelectionView"
+﻿<UserControl x:Class="_505_GUI_Battleships.MVVM.View.BoardAttackView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
-    d:DataContext="{d:DesignInstance Type=viewModel:ShipSelectionViewModel}"
+    d:DataContext="{d:DesignInstance Type=viewModel:BoardAttackViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*" />
@@ -20,8 +18,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.5*" />
             <ColumnDefinition Width="7.5*" />
-            <ColumnDefinition Width="0.5*" />
-            <ColumnDefinition Width="3.5*" />
+
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
@@ -33,26 +30,12 @@
             Foreground="White"
             TextAlignment="Center" />
 
-        <Viewbox
+    <Viewbox
             Grid.Row="1"
             Grid.Column="1">
-            <ContentPresenter Content="{Binding BoardContainer}" Focusable="true" />
-        </Viewbox>
+        <ContentPresenter Content="{Binding BoardContainer}" Focusable="true" />
+    </Viewbox>
 
-        <Viewbox Grid.Row="1" Grid.Column="3">
-            <ContentPresenter Content="{Binding PlacementShips}" Focusable="true" />
-        </Viewbox>
-        <Button
 
-            Grid.Row="1"
-            Grid.Column="3"
-            Width="176"
-            Height="41"
-            Margin="0,283,0,0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Command="{Binding NextPlayerCommand}"
-            Content="Button"
-            Visibility="{Binding NextPlayerButtonVisible}" />
     </Grid>
 </UserControl>

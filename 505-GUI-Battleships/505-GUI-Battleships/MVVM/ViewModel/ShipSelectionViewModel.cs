@@ -151,8 +151,6 @@ internal class ShipSelectionViewModel : ObservableObject
 
         playerBoard.DragOver += (sender, e) => DragBoardDrop(e, playerBoard, _boardDimensions);
         playerBoard.DragEnter += (sender, e) => BoardEnter(e, playerBoard);
-        playerBoard.DragOver += (sender, e) => DragBoardDrop(e, playerBoard, _boardDimensions);
-        playerBoard.DragEnter += (sender, e) => BoardEnter(e, playerBoard);
 
         BoardContainer.Children.Add(playerBoard);
     }
@@ -186,7 +184,7 @@ internal class ShipSelectionViewModel : ObservableObject
         Canvas.SetTop(element, dropPosition.Y);
         Canvas.SetLeft(element, dropPosition.X);
 
-        _currentPlayer.Ships[playerBoard.Children.IndexOf(element)] = new ShipPlacementModel((int)dropPosition.X, (int)dropPosition.Y, true);
+        _currentPlayer.Ships[playerBoard.Children.IndexOf(element)] = new ShipPlacementModel((int)dropPosition.X, (int)dropPosition.Y, true, _gameService.ShipModels[playerBoard.Children.IndexOf(element)].Id);
 
         Trace.WriteLine(dropPosition);
     }
