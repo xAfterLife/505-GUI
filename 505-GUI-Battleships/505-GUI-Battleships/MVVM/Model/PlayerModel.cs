@@ -11,7 +11,7 @@ namespace _505_GUI_Battleships.MVVM.Model;
 public sealed class PlayerModel : ObservableObject
 {
     private uint _elo;
-    private Color _playerColor;
+    private string _playerColor;
     private Guid _playerId;
     private string _playerName;
     private string _playerImage;
@@ -75,7 +75,7 @@ public sealed class PlayerModel : ObservableObject
     /// <summary>
     ///     Color of the Player
     /// </summary>
-    public Color PlayerColor
+    public string PlayerColor
     {
         get => _playerColor;
         set => Update(ref _playerColor, value);
@@ -104,7 +104,7 @@ public sealed class PlayerModel : ObservableObject
         Random rInt = new();
         _playerImage = _playerImageList[rInt.Next(9)];
         Trace.WriteLine(rInt.Next(9));
-        _playerColor = Color.FromRgb((byte)rInt.Next(256), (byte)rInt.Next(256), (byte)rInt.Next(256));
+        _playerColor = Color.FromRgb((byte)rInt.Next(256), (byte)rInt.Next(256), (byte)rInt.Next(256)).ToString();
     }
 
     public void UpdateDeleteButton()

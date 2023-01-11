@@ -33,7 +33,7 @@
                 <view:GameOptionsView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:SelectTargetPlayerViewModel}">
-                <view:GameOptionsView />
+                <view:SelectTargetPlayerView />
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModel:BoardAttackViewModel}">
                 <view:BoardAttackView />

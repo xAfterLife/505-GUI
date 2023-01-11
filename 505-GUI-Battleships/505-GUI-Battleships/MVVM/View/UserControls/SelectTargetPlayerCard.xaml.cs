@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace _505_GUI_Battleships.MVVM.View.UserControls
 {
     /// <summary>
-    /// Interaktionslogik für PlayerSelectionCardHorizontal.xaml
+    /// Interaktionslogik für SelectTargetPlayerCard.xaml
     /// </summary>
-    public partial class PlayerSelectionCardHorizontal : UserControl
+    public partial class SelectTargetPlayerCard : UserControl
     {
-        public PlayerSelectionCardHorizontal()
+        public SelectTargetPlayerCard()
         {
             InitializeComponent();
         }

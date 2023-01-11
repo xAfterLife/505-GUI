@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
-             d:DataContext="{d:DesignInstance Type=viewModel:GameOptionsViewModel}"
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              xmlns:userControls="clr-namespace:_505_GUI_Battleships.MVVM.View.UserControls"
              mc:Ignorable="d"
