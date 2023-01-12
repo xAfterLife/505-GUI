@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using _505_GUI_Battleships.Core;
@@ -15,11 +16,18 @@ public sealed class PlayerModel : ObservableObject
     private Guid _playerId;
     private string _playerName;
     private string _playerImage;
+    private Canvas _visualPlayerBoard;
     private string[] _playerImageList { get; set; }
     public string PlayerImage
     {
         get => _playerImage;
         set => Update(ref _playerImage, value);
+    }
+
+    public Canvas VisualPlayerBoard
+    {
+        get => _visualPlayerBoard;
+        set => Update(ref _visualPlayerBoard, value);
     }
 
 

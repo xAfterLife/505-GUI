@@ -65,6 +65,7 @@ internal class ShipSelectionViewModel : ObservableObject
         _gameService = GameDataService.GetInstance();
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
         _shipAmount = _gameService.ShipModels.Count;
+        _currentPlayerCounter = 0;
         _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
 
         ShipPlacementHeading = $"Place your ships, {_currentPlayer.PlayerName}!";

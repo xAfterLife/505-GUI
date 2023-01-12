@@ -25,9 +25,6 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     public static ICommand BackToSelectPlayerTargetView => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer));
 
-    // TODO: needs to be implemented in _gameService
-    public int CurrentPlayerIndex = 0;
-
     public bool IsInputEnabled
     {
         get => _isInputEnabled;
@@ -60,24 +57,26 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     
 
-    public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard /*Canvas playerBoard*/)
+    /*public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard)
     {
         TargetedPlayerCard = targetedPlayerCard;
         AttackerPlayerCard = attackerPlayerCard;
-        /*PlayerBoard = playerBoard;*/
-    }
+        PlayerBoard = playerBoard;
+    }*/
     public BoardAttackViewModel()
     {
         _gameService = GameDataService.GetInstance();
+        _targetedPlayerCard = _gameService.CurrentTarget;
+        _attackerPlayerCard = _gameService.CurrentPlayer;
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
         SetupBoardContainer();
-        TestAufrufe();
+        //TestAufrufe();
     }
 
-    private void TestAufrufe()
+    /*private void TestAufrufe()
     {
         SetupBoardAttack(_gameService.CurrentTarget, _gameService.CurrentPlayer);
-    }
+    }*/
 
     private void SetupBoardContainer()
     {
@@ -134,7 +133,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
         BoardContainer.Children.Add(xAxis);
         BoardContainer.Children.Add(yAxis);
 
-        _playerBoard = _gameService.GameBoard!.Board;
+        _playerBoard = _targetedPlayerCard.VisualPlayerBoard;
         _playerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
         _playerBoard.ClipToBounds = false;
         Grid.SetRow(_playerBoard, 1);
@@ -159,7 +158,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
             if (clickPosition.X == Canvas.GetLeft(hit) & clickPosition.Y == Canvas.GetTop(hit))
                 return;
         }
-        foreach (var x in _gameService.PlayerModels[CurrentPlayerIndex].Ships)
+        foreach (var x in _gameService.PlayerModels[_gameService.CurrentPlayerIndex].Ships)
         {
             if (x.IsShipHit(clickPosition))
             {

@@ -20,13 +20,10 @@ internal class GameDataService : ServiceBase
     public PlayerModel? CurrentTarget { get; set; }
     public int CurrentRound { get; set; }
 
-    public ObservableCollection<Canvas> VisualPlayerBoard { get; set; }
-
     private GameDataService()
     {
         PlayerModels = new ObservableCollection<PlayerModel>();
         ShipModels = new ObservableCollection<ShipModel>();
-        VisualPlayerBoard = new ObservableCollection<Canvas>();
     }
 
     public static GameDataService GetInstance()
@@ -46,7 +43,7 @@ internal class GameDataService : ServiceBase
         CurrentRound = 1;
         foreach (var player in PlayerModels)
         {
-            VisualPlayerBoard.Add(GameBoard.Board);
+            player.VisualPlayerBoard = GameBoard.Board;
         }
     }
 
