@@ -38,12 +38,12 @@ internal class GameDataService : ServiceBase
 
 
         Random rInt = new();
-        CurrentPlayerIndex = rInt.Next(0, PlayerModels.Count - 1);
+        CurrentPlayerIndex = rInt.Next(PlayerModels.Count - 1);
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
         CurrentRound = 1;
         foreach (var player in PlayerModels)
         {
-            player.VisualPlayerBoard = GameBoard.Board;
+            player.VisualPlayerBoard = new GameBoardModel(boardHeight, boardWidth).Board;
         }
     }
 

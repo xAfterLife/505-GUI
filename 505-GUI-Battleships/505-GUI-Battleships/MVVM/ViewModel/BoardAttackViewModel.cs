@@ -23,8 +23,6 @@ internal sealed class BoardAttackViewModel: ObservableObject
     private readonly GameDataService _gameService;
     private bool _isInputEnabled = true;
 
-    public static ICommand BackToSelectPlayerTargetView => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer));
-
     public bool IsInputEnabled
     {
         get => _isInputEnabled;
@@ -55,7 +53,9 @@ internal sealed class BoardAttackViewModel: ObservableObject
         set => Update(ref _attackerPlayerCard, value);
     }
 
-    
+    public static ICommand? BackToSelectPlayerTargetView { get; set; }
+
+
 
     /*public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard)
     {
@@ -63,6 +63,8 @@ internal sealed class BoardAttackViewModel: ObservableObject
         AttackerPlayerCard = attackerPlayerCard;
         PlayerBoard = playerBoard;
     }*/
+
+
     public BoardAttackViewModel()
     {
         _gameService = GameDataService.GetInstance();
@@ -70,6 +72,10 @@ internal sealed class BoardAttackViewModel: ObservableObject
         _attackerPlayerCard = _gameService.CurrentPlayer;
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
         SetupBoardContainer();
+        BackToSelectPlayerTargetView = new RelayCommand(_ => {
+            BoardContainer.Children.Remove(_playerBoard);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
+        });
         //TestAufrufe();
     }
 
@@ -80,6 +86,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     private void SetupBoardContainer()
     {
+
         BoardContainer = new Grid();
         BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
         BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(_boardDimensions.Height, GridUnitType.Star) });
@@ -133,13 +140,19 @@ internal sealed class BoardAttackViewModel: ObservableObject
         BoardContainer.Children.Add(xAxis);
         BoardContainer.Children.Add(yAxis);
 
-        _playerBoard = _targetedPlayerCard.VisualPlayerBoard;
-        _playerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
-        _playerBoard.ClipToBounds = false;
+        PlayerBoard = _gameService.CurrentTarget.VisualPlayerBoard;
+        PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
+        PlayerBoard.ClipToBounds = false;
         Grid.SetRow(_playerBoard, 1);
         Grid.SetColumn(_playerBoard, 1);
 
-        BoardContainer.Children.Add(_playerBoard);
+        if (PlayerBoard.Parent != null)
+        {
+            ((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
+            //PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
+        }
+
+        BoardContainer.Children.Add(PlayerBoard);
     }
 
     private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
@@ -158,7 +171,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
             if (clickPosition.X == Canvas.GetLeft(hit) & clickPosition.Y == Canvas.GetTop(hit))
                 return;
         }
-        foreach (var x in _gameService.PlayerModels[_gameService.CurrentPlayerIndex].Ships)
+        foreach (var x in _gameService.CurrentTarget.Ships)
         {
             if (x.IsShipHit(clickPosition))
             {

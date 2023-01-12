@@ -47,6 +47,10 @@ internal class ShipSelectionViewModel : ObservableObject
     {
         if (_currentPlayerCounter == _gameService.PlayerModels.Count - 1) 
         {
+            /*foreach(var player in _gameService.PlayerModels)
+            {
+                Trace.WriteLine(player.Ships[0].Position);
+            }*/
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
             return;
         }
