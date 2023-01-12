@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Controls;
+using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
 
 namespace _505_GUI_Battleships.Services;
@@ -38,7 +39,7 @@ internal class GameDataService : ServiceBase
 
 
         Random rInt = new();
-        CurrentPlayerIndex = rInt.Next(0, PlayerModels.Count - 1);
+        CurrentPlayerIndex = rInt.Next(PlayerModels.Count - 1);
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
         CurrentRound = 1;
         foreach (var player in PlayerModels)
@@ -59,27 +60,38 @@ internal class GameDataService : ServiceBase
         CurrentTarget = currentTarget;
     }
 
-/*    public void SetNextPlayer() 
+    public void SetNextPlayer() 
     {
         if( CurrentPlayerIndex == PlayerModels.Count - 1)
         {
             CurrentPlayerIndex = 0;
         } else CurrentPlayerIndex++;
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
-    }*/
+    }
 
-/*    public void PlayerKnockOut()
+    public void PlayerKnockOut()
     {
+        if(GameOptions.GameMode == GameMode.FirstOneOut) ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
+        
         PlayerModels.Remove(CurrentTarget);
-    }*/
 
-/*    public bool CheckGameOver()
+        int i;
+
+        for(i = 0; i < PlayerModels.Count; i++) {
+            if (PlayerModels[i] == CurrentTarget) break;
+        }
+        
+        if( CurrentPlayerIndex > i ) CurrentPlayerIndex--;
+
+    }
+
+    public bool CheckGameOver()
     {
         if(PlayerModels.Count < 2)
         {
             return true;
         }
         return false;
-    }*/
+    }
 
 }
