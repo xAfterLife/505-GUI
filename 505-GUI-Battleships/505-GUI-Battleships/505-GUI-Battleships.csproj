@@ -22,6 +22,7 @@
 		<None Remove="Ressources\ProfilePictures\profilePic7.png" />
 		<None Remove="Ressources\ProfilePictures\profilePic8.png" />
 		<None Remove="Ressources\ProfilePictures\profilePic9.png" />
+		<None Remove="Ressources\Rocket.png" />
 		<None Remove="Ressources\Ships\1ShipPatrolHorizontal.png" />
 		<None Remove="Ressources\Ships\1ShipPatrolVertical.png" />
 		<None Remove="Ressources\Ships\2ShipRescueHorizontal.png" />
@@ -112,6 +113,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Ressources\ProfilePictures\profilePic9.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Ressources\Rocket.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Ressources\Ships\1ShipPatrolHorizontal.png">
