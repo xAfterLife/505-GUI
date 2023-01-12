@@ -149,7 +149,6 @@ internal sealed class BoardAttackViewModel: ObservableObject
         if (PlayerBoard.Parent != null)
         {
             ((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
-            //PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
         }
 
         BoardContainer.Children.Add(PlayerBoard);
@@ -261,6 +260,19 @@ internal sealed class BoardAttackViewModel: ObservableObject
             rocket.RenderTransform = new TranslateTransform();
             Canvas.SetLeft(rocket, clickPosition.X);
             Canvas.SetTop(rocket, clickPosition.Y);
+            // TODO Animation Explosion + kurz wirken lassen
+            if (!isShipHit)
+            {
+                //TODO: SET NEXT PLAYER
+                //((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
+                ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
+            } else
+            {
+                //TODO: ADD Player
+                //TODO: Check if ship is Destroyed
+                //TODO: Check if all Ships are Destroyed
+                IsInputEnabled = true;
+            }
             IsInputEnabled = true;
 
             
