@@ -31,6 +31,9 @@
     <Compile Update="MVVM\View\UserControls\ShipSizeSelector.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\UserControls\UnclickablePlayerSelectionCardHorizontal.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="MainWindow.xaml">
@@ -64,6 +67,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\UserControls\ShipSizeSelector.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\UserControls\UnclickablePlayerSelectionCardHorizontal.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\AddPlayerButtonStyle.xaml">
