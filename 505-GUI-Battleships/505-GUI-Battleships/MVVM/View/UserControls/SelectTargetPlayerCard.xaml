@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model" 
-             xmlns:local="clr-namespace:_505_GUI_Battleships.MVVM.View.UserControls" xmlns:viewmodel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:SelectTargetPlayerViewModel}"
+             xmlns:local="clr-namespace:_505_GUI_Battleships.MVVM.View.UserControls" 
+             xmlns:viewmodel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:SelectTargetPlayerViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="250" d:DesignWidth="180">
-    
+
     <StackPanel>
         <ItemsControl
             ItemsSource="{Binding Path=TargetablePlayers}"

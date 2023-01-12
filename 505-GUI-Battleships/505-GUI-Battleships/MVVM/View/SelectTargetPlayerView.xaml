@@ -1,4 +1,5 @@
 ﻿<UserControl x:Class="_505_GUI_Battleships.MVVM.View.SelectTargetPlayerView"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -67,31 +68,25 @@
                 FontSize="35"
                 Foreground="White" />
 
+            
+            <!-- TODO: Resize Elements -->
             <Viewbox
                 Grid.Row="1">
-
-                <StackPanel>
-                    <ItemsControl
-                        ItemsSource="{Binding Path=TargetablePlayers}"
-                        HorizontalAlignment="Stretch">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <UniformGrid
+                <ItemsControl
+                        ItemsSource="{Binding Path=TargetablePlayers}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid
                                     Rows="1" />
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="{x:Type model:PlayerModel}">
-                                <userControls:PlayerSelectionCardHorizontal />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <ContentControl Content="{Binding PlayerBoard}" Focusable="True"/>
-                </StackPanel>
-                    
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type model:PlayerModel}">
+                            <userControls:PlayerSelectionCardHorizontal />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </Viewbox>
-
         </Grid>
 
 

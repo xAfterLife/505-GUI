@@ -11,10 +11,24 @@ namespace _505_GUI_Battleships.MVVM.Model;
 public sealed class SelectTargetPlayerCardModel : ObservableObject
 {
     private PlayerModel _player;
+
     public PlayerModel Player
     {
         get; set;
     }
+   
+    private string _playerColor;
+    public string PlayerColor
+    {
+        get; set;
+    }
+
+    private string _playerName;
+    public string PlayerName
+    {
+        get; set;
+    }
+
 
     private Canvas _playerBoard;
     public Canvas PlayerBoard
