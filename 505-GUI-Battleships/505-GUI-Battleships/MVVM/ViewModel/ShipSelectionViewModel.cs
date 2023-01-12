@@ -185,7 +185,7 @@ internal class ShipSelectionViewModel : ObservableObject
         Canvas.SetTop(element, dropPosition.Y);
         Canvas.SetLeft(element, dropPosition.X);
 
-        _currentPlayer.Ships[playerBoard.Children.IndexOf(element)] = new ShipPlacementModel((int)dropPosition.X, (int)dropPosition.Y, true, _gameService.ShipModels[playerBoard.Children.IndexOf(element)].Id);
+        _currentPlayer.Ships[playerBoard.Children.IndexOf(element)] = new ShipPlacementModel((int)dropPosition.X, (int)dropPosition.Y, true, _gameService.ShipModels[playerBoard.Children.IndexOf(element)].Id, _gameService.ShipModels[playerBoard.Children.IndexOf(element)].Length);
 
         Trace.WriteLine(dropPosition);
     }
