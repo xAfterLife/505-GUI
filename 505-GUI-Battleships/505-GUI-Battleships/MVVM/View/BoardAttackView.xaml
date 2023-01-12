@@ -10,7 +10,8 @@
     d:DataContext="{d:DesignInstance Type=viewModel:BoardAttackViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    IsEnabled="{Binding IsInputEnabled}">
 
     <Grid>
         <Grid.RowDefinitions>

@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -26,12 +27,20 @@ internal sealed class BoardAttackViewModel: ObservableObject
     private Grid _boardContainer;
     private readonly (int Width, int Height) _boardDimensions;
     private readonly GameDataService _gameService;
+    private bool _isInputEnabled = true;
+
+    public bool IsInputEnabled
+    {
+        get => _isInputEnabled;
+        set => Update(ref _isInputEnabled, value);
+    }
 
     public Grid BoardContainer
     {
         get => _boardContainer;
         set => Update(ref _boardContainer, value);
     }
+
     public Canvas PlayerBoard
     {
         get => _playerBoard;
@@ -50,11 +59,12 @@ internal sealed class BoardAttackViewModel: ObservableObject
         set => Update(ref _attackerPlayerCard, value);
     }
 
+    
+
     public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard/*, Canvas playerBoard*/)
     {
         TargetedPlayerCard = targetedPlayerCard;
         AttackerPlayerCard = attackerPlayerCard;
-        OnPropertyChanged(nameof(AttackerPlayerCard));
         /*PlayerBoard = playerBoard;*/
     }
     public BoardAttackViewModel()
@@ -220,6 +230,9 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
         // Start the storyboard
         storyboard.Begin();
+        IsInputEnabled = false;
+        //AdornerLayer aLayer = AdornerLayer.GetAdornerLayer(this);
+        //aLayer.Add(new BlockInputAdorner(this));
 
     }
 }
