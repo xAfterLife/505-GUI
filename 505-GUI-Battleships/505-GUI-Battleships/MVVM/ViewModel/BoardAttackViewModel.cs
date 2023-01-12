@@ -2,20 +2,14 @@
 using _505_GUI_Battleships.MVVM.Model;
 using _505_GUI_Battleships.Services;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
@@ -30,6 +24,9 @@ internal sealed class BoardAttackViewModel: ObservableObject
     private bool _isInputEnabled = true;
 
     public static ICommand BackToSelectPlayerTargetView => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer));
+
+    // TODO: needs to be implemented in _gameService
+    public int CurrentPlayerIndex = 0;
 
     public bool IsInputEnabled
     {
@@ -63,7 +60,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     
 
-    public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard/*, Canvas playerBoard*/)
+    public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard /*Canvas playerBoard*/)
     {
         TargetedPlayerCard = targetedPlayerCard;
         AttackerPlayerCard = attackerPlayerCard;
@@ -156,15 +153,29 @@ internal sealed class BoardAttackViewModel: ObservableObject
         if (clickPosition.Y > _boardDimensions.Height - 1)
             clickPosition.Y = _boardDimensions.Height - 1;
         Trace.WriteLine(clickPosition.ToString());
-        TestAnimation(clickPosition);
+        bool isShipHit = false;
+        foreach (Image hit in _playerBoard.Children.OfType<Image>())
+        {
+            if (clickPosition.X == Canvas.GetLeft(hit) & clickPosition.Y == Canvas.GetTop(hit))
+                return;
+        }
+        foreach (var x in _gameService.PlayerModels[CurrentPlayerIndex].Ships)
+        {
+            if (x.IsShipHit(clickPosition))
+            {
+                isShipHit = true;
+                break;
+            }
+        }
+        TestAnimation(clickPosition, isShipHit);
     }
 
-    private void TestAnimation(Point clickPosition)
+    private void TestAnimation(Point clickPosition, bool isShipHit)
     {
 
         BitmapImage imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/Rocket.png", UriKind.RelativeOrAbsolute));
 
-        Image rect1 = new Image()
+        Image rocket = new Image()
         {
             Width = 1,
             Height = 1, 
@@ -172,22 +183,13 @@ internal sealed class BoardAttackViewModel: ObservableObject
         };
 
         TranslateTransform tt = new TranslateTransform();
-        rect1.RenderTransform = tt;
+        rocket.RenderTransform = tt;
         //RotateTransform rotateTransform = new RotateTransform();
         //rect1.RenderTransform = rotateTransform;
         //rotateTransform.Angle = 180;
-        int index = _playerBoard.Children.Add(rect1);
-        Image rect = (Image)_playerBoard.Children[index];
+        int index = _playerBoard.Children.Add(rocket);
+        //Image rect = (Image)_playerBoard.Children[index];
         Storyboard storyboard = new Storyboard();
-
-        double g = 90.8;
-        double h = 0;
-        double k = _boardDimensions.Height/2 - rect.Height;
-        double v = 50;
-        double angle = 45;
-        double rad = angle * Math.PI / 180;
-        double t = (2 * v * Math.Sin(rad)) / g;
-        double x = (v * Math.Cos(rad)) * t;
 
         // Create a DoubleAnimation to animate the rectangle's Left property
         var doubleAnimationX1 = new DoubleAnimation();
@@ -214,14 +216,14 @@ internal sealed class BoardAttackViewModel: ObservableObject
         doubleAnimationY2.Duration = new Duration(TimeSpan.FromSeconds(1));
 
         // Create a Storyboard.TargetName and Storyboard.TargetProperty
-        Storyboard.SetTarget(doubleAnimationX1, rect1);
+        Storyboard.SetTarget(doubleAnimationX1, rocket);
         Storyboard.SetTargetProperty(doubleAnimationX1, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
-        Storyboard.SetTarget(doubleAnimationY1, rect1);
+        Storyboard.SetTarget(doubleAnimationY1, rocket);
         Storyboard.SetTargetProperty(doubleAnimationY1, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
 
-        Storyboard.SetTarget(doubleAnimationX2, rect1);
+        Storyboard.SetTarget(doubleAnimationX2, rocket);
         Storyboard.SetTargetProperty(doubleAnimationX2, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
-        Storyboard.SetTarget(doubleAnimationY2, rect1);
+        Storyboard.SetTarget(doubleAnimationY2, rocket);
         Storyboard.SetTargetProperty(doubleAnimationY2, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
 
         // Add the animation to the storyboard
@@ -233,13 +235,57 @@ internal sealed class BoardAttackViewModel: ObservableObject
         // Start the storyboard
         storyboard.Completed += (s, e) =>
         {
+            /** 
+             RenderTransform needs a reset because the position is not changing the position so it gets a "fake" position 
+            and then we need to set the position relative to the canvas
+            */
+            if (isShipHit) {
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingRed.png", UriKind.RelativeOrAbsolute));
+            } 
+            else
+            {
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingBlue.png", UriKind.RelativeOrAbsolute));
+            }
+            rocket.RenderTransform = new TranslateTransform();
+            Canvas.SetLeft(rocket, clickPosition.X);
+            Canvas.SetTop(rocket, clickPosition.Y);
             IsInputEnabled = true;
+
             
         };
         IsInputEnabled = false;
         storyboard.Begin();
-        //AdornerLayer aLayer = AdornerLayer.GetAdornerLayer(this);
-        //aLayer.Add(new BlockInputAdorner(this));
-
     }
+
+    /*  TODO:
+     * private void AnimateElement(ref Storyboard storyboard, UIElement target, double fromX, double toX, double fromY, double toY, TimeSpan duration)
+    {
+
+        // Create a DoubleAnimation for the X property
+        var doubleAnimationX = new DoubleAnimation();
+        doubleAnimationX.From = fromX;
+        doubleAnimationX.To = toX;
+        doubleAnimationX.BeginTime = new TimeSpan(beginTime)
+        doubleAnimationX.Duration = new Duration(duration);
+
+        // Create a DoubleAnimation for the Y property
+        var doubleAnimationY = new DoubleAnimation();
+        doubleAnimationY.From = fromY;
+        doubleAnimationY.To = toY;
+        doubleAnimationY.BeginTime = new TimeSpan(beginTime)
+        doubleAnimationY.Duration = new Duration(duration);
+
+        // Set the target and target properties for the animations
+        Storyboard.SetTarget(doubleAnimationX, target);
+        Storyboard.SetTargetProperty(doubleAnimationX, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+        Storyboard.SetTarget(doubleAnimationY, target);
+        Storyboard.SetTargetProperty(doubleAnimationY, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+        // Add the animations to the storyboard
+        storyboard.Children.Add(doubleAnimationX);
+        storyboard.Children.Add(doubleAnimationY);
+
+        // Start the storyboard
+    }*/
+
 }
