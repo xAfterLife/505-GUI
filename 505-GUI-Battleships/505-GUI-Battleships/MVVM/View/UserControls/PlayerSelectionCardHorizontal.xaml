@@ -6,45 +6,50 @@
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model" 
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
-             d:DesignHeight="80" d:DesignWidth="180"
+             d:DesignHeight="120" d:DesignWidth="220"
              Margin="0"
              Padding="0">
 
 
+    <!-- TODO: Create Duplicate without button -->
     <Border
+        Margin="20"
         Width="180"
         Height="80"
         Background="#262536"
         BorderBrush="White"
         BorderThickness="1">
-
-        <DockPanel
-            HorizontalAlignment="Stretch">
-
-            <Image
-                Margin="3"
-                Height="80"
-                Width="80"
-                Source="{Binding PlayerImage}"
-                Stretch="Fill" />
-
-            <DockPanel>
-                <TextBlock
-                    DockPanel.Dock="Top"
-                    TextAlignment="Center"
-                    Background="Transparent"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{Binding PlayerName, FallbackValue=NAME}"
-                    Foreground="White"/>
-
-                <Label
-                    BorderThickness="1"
-                    BorderBrush="White"
-                    Height="30"
-                    Width="30"
-                    Background="{Binding PlayerColor}" />
+        <Button 
+            Style="{DynamicResource PlayerSelectionCardHorizontalButton}"
+            Command="{Binding SelectTargetPlayerCommand}"
+            CommandParameter="{Binding Instance}"
+            
+            Background="Transparent">
+            <DockPanel
+                HorizontalAlignment="Stretch">
+                <Image
+                    Margin="3"
+                    Height="80"
+                    Width="80"
+                    Source="{Binding PlayerImage}"
+                    Stretch="Fill" />
+                <DockPanel>
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        TextAlignment="Center"
+                        Background="Transparent"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding PlayerName, FallbackValue=NAME}"
+                        Foreground="White"/>
+                    <Label
+                        BorderThickness="1"
+                        BorderBrush="White"
+                        Height="30"
+                        Width="30"
+                        Background="{Binding PlayerColor}" />
+                </DockPanel>
             </DockPanel>
-        </DockPanel>
+        </Button>
     </Border>
 </UserControl>

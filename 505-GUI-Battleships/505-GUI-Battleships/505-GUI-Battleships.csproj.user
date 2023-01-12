@@ -69,13 +69,16 @@
     <Page Update="Style\AddPlayerButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Style\GameOptionsCheckbox.xaml">
+    <Page Update="Style\GameOptionsCheckboxStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\PlayerDeleteButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\MenuButtonStyle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Style\PlayerSelectionCardHorizontalButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Style\TaskButtonStyle.xaml">

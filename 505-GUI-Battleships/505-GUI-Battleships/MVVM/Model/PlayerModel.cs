@@ -45,6 +45,15 @@ public sealed class PlayerModel : ObservableObject
         DeleteButtonPressed?.Invoke(player, EventArgs.Empty);
     });
 
+    public static ICommand SelectTargetPlayerCommand => new RelayCommand(instance =>
+    {
+        if (instance is not PlayerModel player)
+            return;
+
+        SelectTargetPlayerCommandPressed?.Invoke(player, EventArgs.Empty);
+    });
+
+
     /// <summary>
     ///     Name of the Player
     /// </summary>
@@ -116,4 +125,9 @@ public sealed class PlayerModel : ObservableObject
     ///     Event Handler for the DeleteButton
     /// </summary>
     public static event EventHandler? DeleteButtonPressed;
+
+    /// <summary>
+    ///     Event Handler for the SelectTargetPlayerCommand
+    /// </summary>
+    public static event EventHandler? SelectTargetPlayerCommandPressed;
 }
