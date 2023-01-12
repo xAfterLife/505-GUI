@@ -229,8 +229,13 @@ internal sealed class BoardAttackViewModel: ObservableObject
         storyboard.Children.Add(doubleAnimationY2);
 
         // Start the storyboard
-        storyboard.Begin();
+        storyboard.Completed += (s, e) =>
+        {
+            IsInputEnabled = true;
+            
+        };
         IsInputEnabled = false;
+        storyboard.Begin();
         //AdornerLayer aLayer = AdornerLayer.GetAdornerLayer(this);
         //aLayer.Add(new BlockInputAdorner(this));
 
