@@ -87,8 +87,5 @@
     <Page Update="Style\PlayerSelectionCardHorizontalButtonStyle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Style\TaskButtonStyle.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 </Project>

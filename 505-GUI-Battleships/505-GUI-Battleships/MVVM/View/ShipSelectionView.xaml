@@ -25,6 +25,20 @@
             <ColumnDefinition Width="0.5*" />
         </Grid.ColumnDefinitions>
 
+        <Image Grid.ColumnSpan="5"
+               Grid.RowSpan="3"
+               Stretch="Fill"
+               Source="../../Ressources/BG2.jpg"
+               RenderOptions.BitmapScalingMode="HighQuality">
+            <Image.OpacityMask>
+                <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,0">
+                    <LinearGradientBrush.GradientStops>
+                        <GradientStop Offset="0.75" Color="#55000000" />
+                    </LinearGradientBrush.GradientStops>
+                </LinearGradientBrush>
+            </Image.OpacityMask>
+        </Image>
+        
         <TextBlock
             Text="{Binding ShipPlacementHeading}"
             Grid.Column="1"
@@ -48,9 +62,8 @@
             Grid.Column="3"
             Width="176"
             Height="41"
-            Margin="0,283,0,0"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top"
+            VerticalAlignment="Bottom"
             Command="{Binding NextPlayerCommand}"
             Content="Next Player"
             Visibility="{Binding NextPlayerButtonVisible}" />

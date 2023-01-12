@@ -19,9 +19,9 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1.5*" />
             <ColumnDefinition Width="6*" />
-            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1.5*" />
         </Grid.ColumnDefinitions>
 
         <Image Grid.ColumnSpan="3"
@@ -37,7 +37,26 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>
+
         <StackPanel
+            VerticalAlignment="Top"
+            Grid.Row="1" Grid.Column="0">
+            <TextBlock
+                HorizontalAlignment="Center"
+                Text="You"
+                FontSize="20"
+                Foreground="White"/>
+            <Viewbox>
+                <ContentControl Content="{Binding CurrentPlayer}">
+                    <ContentControl.ContentTemplate>
+                        <DataTemplate DataType="{x:Type model:PlayerModel}">
+                            <userControls:UnclickablePlayerSelectionCardHorizontal />
+                        </DataTemplate>
+                    </ContentControl.ContentTemplate>
+                </ContentControl>
+            </Viewbox>
+        </StackPanel>
+            <StackPanel
             Grid.Row="1"
             Grid.Column="3">
             <TextBlock

@@ -6,14 +6,12 @@
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model" 
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
-             d:DesignHeight="120" d:DesignWidth="220"
+             d:DesignHeight="110" d:DesignWidth="210"
              Margin="0"
              Padding="0">
 
-
-    <!-- TODO: Create Duplicate without button -->
     <Border
-        Margin="20"
+        Margin="10"
         Width="180"
         Height="80"
         Background="#262536"
@@ -23,10 +21,9 @@
             Style="{DynamicResource PlayerSelectionCardHorizontalButton}"
             Command="{Binding SelectTargetPlayerCommand}"
             CommandParameter="{Binding Instance}"
-            
             Background="Transparent">
-            <DockPanel
-                HorizontalAlignment="Stretch">
+            <UniformGrid
+                Rows="1">
                 <Image
                     Margin="3"
                     Height="80"
@@ -49,7 +46,7 @@
                         Width="30"
                         Background="{Binding PlayerColor}" />
                 </DockPanel>
-            </DockPanel>
+            </UniformGrid>
         </Button>
     </Border>
 </UserControl>

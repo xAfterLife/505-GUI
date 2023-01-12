@@ -29,6 +29,8 @@ internal sealed class BoardAttackViewModel: ObservableObject
     private readonly GameDataService _gameService;
     private bool _isInputEnabled = true;
 
+    public static ICommand BackToSelectPlayerTargetView => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer));
+
     public bool IsInputEnabled
     {
         get => _isInputEnabled;
@@ -77,7 +79,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     private void TestAufrufe()
     {
-        SetupBoardAttack(_gameService.PlayerModels[1], _gameService.PlayerModels[0]);
+        SetupBoardAttack(_gameService.CurrentTarget, _gameService.CurrentPlayer);
     }
 
     private void SetupBoardContainer()

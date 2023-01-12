@@ -12,7 +12,12 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
 {
     private readonly GameDataService _gameService;
 
-    public string SelectTargetPlayerHeading;
+    private string _selectTargetPlayerHeading;
+    public string SelectTargetPlayerHeading
+    {
+        get => _selectTargetPlayerHeading;
+        set => Update(ref _selectTargetPlayerHeading, value);
+    }
 
     public ObservableCollection<PlayerModel> TargetablePlayers {get; set; }
 
@@ -23,8 +28,14 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
         set => Update(ref _playerBoard, value);
     }
 
-    //private int _currentPlayer { get; set; }
-    //private int _currentPlayerCounter;
+    private PlayerModel _currentPlayer;
+    public PlayerModel CurrentPlayer 
+    { 
+        get => _currentPlayer;
+        set => Update(ref _currentPlayer, value);
+    }
+
+    private int _currentPlayerCounter { get; set; }
 
     private string _roundCountText;
 
@@ -40,10 +51,14 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
     public SelectTargetPlayerViewModel()
     {
         _gameService = GameDataService.GetInstance();
+        _currentPlayer = _gameService.CurrentPlayer;
         TargetablePlayers = _gameService.PlayerModels;
-        
-        SelectTargetPlayerHeading = $"It's your turn to attack, X";
-        RoundCountText = "1";
+        TargetablePlayers.Remove(_currentPlayer);
+        OnPropertyChanged(nameof(TargetablePlayers));
+
+        SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}!";
+        // OnPropertyChanged(nameof(SelectTargetPlayerHeading));
+        RoundCountText = _gameService.CurrentRound.ToString();
         _playerBoard = _gameService.GameBoard.Board;
 
 
@@ -51,6 +66,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
         {
             //TODO: Load in actual Target
             if (sender is PlayerModel player)
+                _gameService.CurrentTarget = player;
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack);
         };
     }
