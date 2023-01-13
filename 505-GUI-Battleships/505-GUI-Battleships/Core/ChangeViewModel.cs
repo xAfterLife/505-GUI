@@ -21,8 +21,6 @@ public sealed class ChangeViewModel
         EndOfGame = 6,
     }
 
-    private static ViewType? _lastViewType;
-
     /// <summary>
     ///     Collection of our Views as Enum + Type Couples
     /// </summary>
@@ -50,10 +48,7 @@ public sealed class ChangeViewModel
     public static void ChangeView(ViewType viewType, IDisposable? viewModel)
     {
         viewModel?.Dispose();
-        if ( viewType == _lastViewType )
-            return;
 
-        _lastViewType = viewType;
         var view = Activator.CreateInstance(Views[viewType]);
         if ( view == null )
             return;

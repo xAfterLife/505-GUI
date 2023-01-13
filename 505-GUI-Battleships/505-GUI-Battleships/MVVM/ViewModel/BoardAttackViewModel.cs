@@ -145,8 +145,6 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
     private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
     {
-        PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
-
         var clickPosition = e.GetPosition((IInputElement)sender);
         clickPosition.X = Math.Round(clickPosition.X - 0.5);
         if ( clickPosition.X < 0 )
@@ -169,10 +167,10 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             struckShip = ship;
         }
 
-        TestAnimation(clickPosition, isShipHit, struckShip!);
+        StartAnimation(clickPosition, isShipHit, struckShip!);
     }
 
-    private void TestAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
+    private void StartAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
     {
         var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RocketStraight.png", UriKind.RelativeOrAbsolute));
 
@@ -201,6 +199,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             rocket.RenderTransform = new TranslateTransform();
             Canvas.SetLeft(rocket, clickPosition.X);
             Canvas.SetTop(rocket, clickPosition.Y);
+
             if ( !isShipHit )
             {
                 SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
@@ -218,13 +217,22 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 }
 
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
-                ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
+
+                if ( _gameService.PlayerModels.Count == 2 )
+                {
+                    _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _gameService.CurrentTarget);
+                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack, this);
+                }
+                else
+                {
+                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
+                }
             }
             else
             {
                 //TODO: ADD PlayerScore
                 _gameService.CurrentPlayer!.Points += 6 - struckShip.Length;
-                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingRed.png", UriKind.RelativeOrAbsolute));
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/XRed.png", UriKind.RelativeOrAbsolute));
                 rocket.Height = 1;
 
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));
@@ -241,8 +249,29 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                 //TODO: Check if all Ships are Destroyed
                 var allShipsDestroyed = _gameService.CurrentTarget!.Ships.Select(x => x.GetPoisitionList()).All(ships => ships.All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))));
+
                 if ( allShipsDestroyed )
+                {
                     _gameService.PlayerKnockOut(this);
+
+                    if ( _gameService.CheckGameOver() )
+                    {
+                        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
+                        _gameService.ResetInstance();
+                    }
+                    else
+                    {
+                        if ( _gameService.PlayerModels.Count == 2 )
+                        {
+                            _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _gameService.CurrentTarget);
+                            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack, this);
+                        }
+                        else
+                        {
+                            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
+                        }
+                    }
+                }
             }
 
             IsInputEnabled = true;
