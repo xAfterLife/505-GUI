@@ -36,9 +36,10 @@ internal class GameDataService : ServiceBase
         GameOptions = new GameOptionsModel(gameMode, rounds);
         GameBoard = new GameBoardModel(boardHeight, boardWidth);
 
-        _firstPlayerIndex = Random.Shared.Next(PlayerModels.Count - 1);
+        CurrentPlayerIndex = _firstPlayerIndex = Random.Shared.Next(PlayerModels.Count - 1);
         CurrentPlayer = PlayerModels[_firstPlayerIndex];
         CurrentRound = 1;
+
         foreach ( var player in PlayerModels )
             player.VisualPlayerBoard = new GameBoardModel(boardHeight, boardWidth).Board;
     }
@@ -76,6 +77,9 @@ internal class GameDataService : ServiceBase
 
         EliminatedPlayers.Add(CurrentTarget);
         PlayerModels.Remove(CurrentTarget);
+
+        if ( _firstPlayerIndex >= PlayerModels.Count )
+            _firstPlayerIndex = 0;
 
         int i;
         for ( i = 0; i < PlayerModels.Count; i++ )
