@@ -32,7 +32,6 @@ public sealed class PlayerModel : ObservableObject
         set => Update(ref _visualPlayerBoard, value);
     }
 
-    public ObservableCollection<PlayerAttackModel> Attacks { get; set; } = new();
     public ObservableCollection<ShipPlacementModel> Ships { get; set; } = new();
 
     /// <summary>

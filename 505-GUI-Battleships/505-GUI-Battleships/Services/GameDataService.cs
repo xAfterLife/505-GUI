@@ -65,6 +65,8 @@ internal class GameDataService : ServiceBase
 
     public void PlayerKnockOut(IDisposable sender)
     {
+        if ( GameOptions == null || CurrentTarget == null )
+            throw new Exception("Service is not Initialized");
         if ( GameOptions.GameMode == GameMode.FirstOneOut )
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
 

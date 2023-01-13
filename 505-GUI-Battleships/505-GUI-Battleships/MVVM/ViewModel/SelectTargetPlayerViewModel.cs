@@ -15,9 +15,9 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
 
     private Canvas _playerBoard;
 
-    private string _roundCountText;
+    private string _roundCountText = string.Empty;
 
-    private string _selectTargetPlayerHeading;
+    private string _selectTargetPlayerHeading = string.Empty;
 
     public string SelectTargetPlayerHeading
     {
@@ -54,10 +54,8 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
         _currentPlayer = _gameService.CurrentPlayer!;
         TargetablePlayers = _gameService.PlayerModels;
         TargetablePlayers.Remove(_currentPlayer);
-        OnPropertyChanged(nameof(TargetablePlayers));
 
         SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}!";
-        // OnPropertyChanged(nameof(SelectTargetPlayerHeading));
         RoundCountText = _gameService.CurrentRound.ToString();
         _playerBoard = _gameService.GameBoard!.Board;
 

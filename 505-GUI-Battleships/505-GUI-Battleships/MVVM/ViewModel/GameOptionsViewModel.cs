@@ -175,9 +175,6 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
                     RoundCount = null;
                     break;
             }
-
-            OnPropertyChanged(nameof(RoundCountTextBlockVisibility));
-            OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
         });
 
         var gameService = GameDataService.GetInstance();

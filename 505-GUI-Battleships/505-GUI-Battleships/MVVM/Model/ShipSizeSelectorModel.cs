@@ -6,15 +6,41 @@ namespace _505_GUI_Battleships.MVVM.Model;
 
 public sealed class ShipSizeSelectorModel : ObservableObject
 {
-    private readonly string[] _shipImagePathList;
+    private readonly string[] _shipImagePathList = { "../../../Ressources/Ships/1ShipPatrolHorizontal.png", "../../../Ressources/Ships/2ShipRescueHorizontal.png", "../../../Ressources/Ships/3ShipSubMarineHorizontal.png", "../../../Ressources/Ships/4ShipDestroyerHorizontal.png", "../../../Ressources/Ships/5ShipBattleshipHorizontal.png" };
+    private Visibility _enlargeShipSizeVisibility;
+    private Visibility _reduceShipSizeVisibility;
+    private int _shipBoardSpaceSize;
     private int _shipImageListIndex;
     private string _shipImagePath;
 
-    public string ShipImageSize { get; set; }
-    public int ShipBoardSpaceSize { get; set; }
-    public string[] ShipSizeValues { get; set; }
-    public Visibility EnlargeShipSizeVisibility { get; set; }
-    public Visibility ReduceShipSizeVisibility { get; set; }
+    private string _shipImageSize = "60";
+
+    public string ShipImageSize
+    {
+        get => _shipImageSize;
+        set => Update(ref _shipImageSize, value);
+    }
+
+    public int ShipBoardSpaceSize
+    {
+        get => _shipBoardSpaceSize;
+        set => Update(ref _shipBoardSpaceSize, value);
+    }
+
+    public string[] ShipSizeValues { get; set; } = { "60", "85", "110", "135", "160" };
+
+    public Visibility EnlargeShipSizeVisibility
+    {
+        get => _enlargeShipSizeVisibility;
+        set => Update(ref _enlargeShipSizeVisibility, value);
+    }
+
+    public Visibility ReduceShipSizeVisibility
+    {
+        get => _reduceShipSizeVisibility;
+        set => Update(ref _reduceShipSizeVisibility, value);
+    }
+
     public ShipSizeSelectorModel Instance { get; }
 
     public static ICommand? EnlargeShipSizeCommand => new RelayCommand(instance =>
@@ -49,8 +75,6 @@ public sealed class ShipSizeSelectorModel : ObservableObject
 
     public ShipSizeSelectorModel()
     {
-        _shipImagePathList = new string[5] { "../../../Ressources/Ships/1ShipPatrolHorizontal.png", "../../../Ressources/Ships/2ShipRescueHorizontal.png", "../../../Ressources/Ships/3ShipSubMarineHorizontal.png", "../../../Ressources/Ships/4ShipDestroyerHorizontal.png", "../../../Ressources/Ships/5ShipBattleshipHorizontal.png" };
-        ShipSizeValues = new string[5] { "60", "85", "110", "135", "160" };
         Instance = this;
         _shipImageListIndex = 0;
         ShipBoardSpaceSize = _shipImageListIndex + 1;
@@ -74,11 +98,5 @@ public sealed class ShipSizeSelectorModel : ObservableObject
             ReduceShipSizeVisibility = Visibility.Hidden;
         else
             ReduceShipSizeVisibility = Visibility.Visible;
-
-        OnPropertyChanged(nameof(ShipBoardSpaceSize));
-        OnPropertyChanged(nameof(ShipImageSize));
-        OnPropertyChanged(nameof(ShipImagePath));
-        OnPropertyChanged(nameof(EnlargeShipSizeVisibility));
-        OnPropertyChanged(nameof(ReduceShipSizeVisibility));
     }
 }
