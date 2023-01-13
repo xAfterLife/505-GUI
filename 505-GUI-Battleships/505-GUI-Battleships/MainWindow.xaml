@@ -6,38 +6,14 @@
         xmlns:viewModel="clr-namespace:_505_GUI_Battleships.MVVM.ViewModel"
         mc:Ignorable="d"
         Background="#1e1e1e"
-        WindowStyle="None"
         FontFamily="Segoe UI"
-        Title="MainWindow" Height="600" Width="1000">
+        Icon="Ressources/ship-icon.png"
+        Title="505GUI - Schiffe versenken" Height="600" Width="1000">
 
 
     <Window.DataContext>
         <viewModel:MainViewModel />
     </Window.DataContext>
 
-    <Grid Margin="0 2 0 0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="28" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-
-
-        <DockPanel Margin="2">
-            <Image DockPanel.Dock="Left" Width="20" Height="20" Source="/Ressources/BG1.jpg" />
-            <TextBlock DockPanel.Dock="Left" Foreground="White">Das ist ein Text</TextBlock>
-            <Button Style="{StaticResource TaskButton}" Command="{Binding ExitCommand}" Width="20" Height="20"
-                    DockPanel.Dock="Right" Content="X" />
-            <Button Style="{StaticResource TaskButton}" Command="{Binding MaximizeCommand}" Width="20" Height="20"
-                    DockPanel.Dock="Right" Content="🗖" />
-            <Button Style="{StaticResource TaskButton}" Command="{Binding MinimizeCommand}" Width="20" Height="20"
-                    DockPanel.Dock="Right" Content="_" />
-            <TextBlock DockPanel.Dock="Right" />
-        </DockPanel>
-
-        <ContentControl Grid.Row="1" Content="{Binding CurrentView, PresentationTraceSources.TraceLevel=High }" />
-    </Grid>
+    <ContentControl Content="{Binding CurrentView, PresentationTraceSources.TraceLevel=High }" />
 </Window>

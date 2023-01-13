@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -8,10 +9,8 @@ using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal sealed class PlayerSelectionViewModel : ObservableObject
+internal sealed class PlayerSelectionViewModel : ObservableObject, IDisposable
 {
-    private readonly GameDataService _gameService;
-
     /// <summary>
     ///     Collection of Players from which the PlayerSelectionCards are created
     /// </summary>
@@ -42,31 +41,18 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
     /// </summary>
     public PlayerSelectionViewModel()
     {
-        _gameService = GameDataService.GetInstance();
-        if ( !_gameService.PlayerModels.Any() )
+        var gameService = GameDataService.GetInstance();
+        if ( !gameService.PlayerModels.Any() )
             Players = new ObservableCollection<PlayerModel> { new(), new() };
         else
-            Players = _gameService.PlayerModels;
+            Players = gameService.PlayerModels;
 
         if ( Players.Count <= 2 )
             foreach ( var playerModel in Players )
                 playerModel.DeleteButtonVisibility = Visibility.Hidden;
 
         //Subscribe to DeleteButtonPressed and Remove the Players from the List
-        PlayerModel.DeleteButtonPressed += (sender, _) =>
-        {
-            if ( sender is PlayerModel player )
-                Players.Remove(player);
-
-            if ( Players.Count <= 2 )
-                foreach ( var playerModel in Players )
-                {
-                    playerModel.DeleteButtonVisibility = Visibility.Hidden;
-                    playerModel.UpdateDeleteButton();
-                }
-
-            OnPropertyChanged(nameof(AddPlayerButtonVisibility));
-        };
+        PlayerModel.DeleteButtonPressed += OnPlayerModelOnDeleteButtonPressed!;
 
         AddPlayerCommand = new RelayCommand(_ =>
         {
@@ -74,24 +60,38 @@ internal sealed class PlayerSelectionViewModel : ObservableObject
 
             if ( Players.Count > 2 )
                 foreach ( var playerModel in Players )
-                {
                     playerModel.DeleteButtonVisibility = Visibility.Visible;
-                    playerModel.UpdateDeleteButton();
-                }
 
             OnPropertyChanged(nameof(AddPlayerButtonVisibility));
         });
 
         GoToGameOptionsCommand = new RelayCommand(_ =>
         {
-            _gameService.PlayerModels = Players;
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.GameOptions);
+            gameService.PlayerModels = Players;
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.GameOptions, this);
         });
 
         BackCommand = new RelayCommand(_ =>
         {
-            _gameService.PlayerModels.Clear();
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
+            gameService.PlayerModels.Clear();
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
         });
+    }
+
+    public void Dispose()
+    {
+        PlayerModel.DeleteButtonPressed -= OnPlayerModelOnDeleteButtonPressed!;
+    }
+
+    private void OnPlayerModelOnDeleteButtonPressed(object sender, EventArgs _)
+    {
+        if ( sender is PlayerModel player )
+            Players.Remove(player);
+
+        if ( Players.Count <= 2 )
+            foreach ( var playerModel in Players )
+                playerModel.DeleteButtonVisibility = Visibility.Hidden;
+
+        OnPropertyChanged(nameof(AddPlayerButtonVisibility));
     }
 }

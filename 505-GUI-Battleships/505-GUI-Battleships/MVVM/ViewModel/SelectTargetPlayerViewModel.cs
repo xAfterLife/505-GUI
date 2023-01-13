@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
@@ -6,7 +7,7 @@ using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal sealed class SelectTargetPlayerViewModel : ObservableObject
+internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposable
 {
     private readonly GameDataService _gameService;
 
@@ -38,8 +39,6 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
         set => Update(ref _currentPlayer, value);
     }
 
-    private int _currentPlayerCounter { get; set; }
-
     public string RoundCountText
     {
         get => _roundCountText;
@@ -52,7 +51,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
     public SelectTargetPlayerViewModel()
     {
         _gameService = GameDataService.GetInstance();
-        _currentPlayer = _gameService.CurrentPlayer;
+        _currentPlayer = _gameService.CurrentPlayer!;
         TargetablePlayers = _gameService.PlayerModels;
         TargetablePlayers.Remove(_currentPlayer);
         OnPropertyChanged(nameof(TargetablePlayers));
@@ -60,14 +59,20 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject
         SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}!";
         // OnPropertyChanged(nameof(SelectTargetPlayerHeading));
         RoundCountText = _gameService.CurrentRound.ToString();
-        _playerBoard = _gameService.GameBoard.Board;
+        _playerBoard = _gameService.GameBoard!.Board;
 
-        PlayerModel.SelectTargetPlayerCommandPressed += (sender, _) =>
-        {
-            //TODO: Load in actual Target
-            if ( sender is PlayerModel player )
-                _gameService.CurrentTarget = player;
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack);
-        };
+        PlayerModel.SelectTargetPlayerCommandPressed += SelectTargetPlayerPressed;
+    }
+
+    public void Dispose()
+    {
+        PlayerModel.SelectTargetPlayerCommandPressed -= SelectTargetPlayerPressed;
+    }
+
+    private void SelectTargetPlayerPressed(object? sender, EventArgs args)
+    {
+        if ( sender is PlayerModel player )
+            _gameService.CurrentTarget = player;
+        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack, this);
     }
 }

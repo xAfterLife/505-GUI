@@ -11,7 +11,7 @@ using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal class ShipSelectionViewModel : ObservableObject
+internal class ShipSelectionViewModel : ObservableObject, IDisposable
 {
     private readonly (int Width, int Height) _boardDimensions;
     private readonly GameDataService _gameService;
@@ -52,7 +52,7 @@ internal class ShipSelectionViewModel : ObservableObject
             {
                 Trace.WriteLine(player.Ships[0].Position);
             }*/
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
             return;
         }
 
@@ -96,6 +96,8 @@ internal class ShipSelectionViewModel : ObservableObject
 
         InstantiateShips();
     }
+
+    public void Dispose() {}
 
     private void SetupBoardContainer()
     {
@@ -156,7 +158,7 @@ internal class ShipSelectionViewModel : ObservableObject
         Grid.SetRow(playerBoard, 1);
         Grid.SetColumn(playerBoard, 1);
 
-        playerBoard.DragOver += (sender, e) => DragBoardDrop(e, playerBoard, _boardDimensions);
+        playerBoard.DragOver += (_, e) => DragBoardDrop(e, playerBoard, _boardDimensions);
         playerBoard.DragEnter += (sender, e) => BoardEnter(e, playerBoard);
 
         BoardContainer.Children.Add(playerBoard);

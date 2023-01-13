@@ -25,6 +25,7 @@
 		<None Remove="Ressources\RingBlue.png" />
 		<None Remove="Ressources\RingRed.png" />
 		<None Remove="Ressources\Rocket.png" />
+		<None Remove="Ressources\ship-icon.png" />
 		<None Remove="Ressources\Ships\1ShipPatrolHorizontal.png" />
 		<None Remove="Ressources\Ships\1ShipPatrolVertical.png" />
 		<None Remove="Ressources\Ships\2ShipRescueHorizontal.png" />
@@ -126,6 +127,7 @@
 		<Resource Include="Ressources\Rocket.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Ressources\ship-icon.png" />
 		<Resource Include="Ressources\Ships\1ShipPatrolHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>

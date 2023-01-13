@@ -20,6 +20,8 @@ public sealed class ChangeViewModel
         BoardAttack = 5
     }
 
+    private static ViewType? _lastViewType;
+
     /// <summary>
     ///     Collection of our Views as Enum + Type Couples
     /// </summary>
@@ -42,8 +44,14 @@ public sealed class ChangeViewModel
     ///     Creates a View based on the given Enum and passes it to the Event Invoker
     /// </summary>
     /// <param name="viewType">Enum ViewType to guarantee safety of passed typed</param>
-    public static void ChangeView(ViewType viewType)
+    /// <param name="viewModel"></param>
+    public static void ChangeView(ViewType viewType, IDisposable viewModel)
     {
+        viewModel.Dispose();
+        if ( viewType == _lastViewType )
+            return;
+
+        _lastViewType = viewType;
         var view = Activator.CreateInstance(Views[viewType]);
         if ( view == null )
             return;

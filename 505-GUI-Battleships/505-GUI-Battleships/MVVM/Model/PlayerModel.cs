@@ -11,13 +11,14 @@ namespace _505_GUI_Battleships.MVVM.Model;
 
 public sealed class PlayerModel : ObservableObject
 {
+    private readonly string[] _playerImageList = { "../../../Ressources/ProfilePictures/profilePic1.png", "../../../Ressources/ProfilePictures/profilePic2.png", "../../../Ressources/ProfilePictures/profilePic3.png", "../../../Ressources/ProfilePictures/profilePic4.png", "../../../Ressources/ProfilePictures/profilePic5.png", "../../../Ressources/ProfilePictures/profilePic6.png", "../../../Ressources/ProfilePictures/profilePic7.png", "../../../Ressources/ProfilePictures/profilePic8.png", "../../../Ressources/ProfilePictures/profilePic9.png" };
+    private Visibility _deleteButtonVisibility;
     private uint _elo;
     private string _playerColor;
     private Guid _playerId;
     private string _playerImage;
     private string _playerName;
     private Canvas _visualPlayerBoard;
-    private string[] _playerImageList { get; }
 
     public string PlayerImage
     {
@@ -39,7 +40,11 @@ public sealed class PlayerModel : ObservableObject
     /// </summary>
     public PlayerModel Instance { get; }
 
-    public Visibility DeleteButtonVisibility { get; set; }
+    public Visibility DeleteButtonVisibility
+    {
+        get => _deleteButtonVisibility;
+        set => Update(ref _deleteButtonVisibility, value);
+    }
 
     /// <summary>
     ///     Command for removing the pressed PlayerSelectionCard
@@ -103,7 +108,6 @@ public sealed class PlayerModel : ObservableObject
     /// <param name="elo">Elo points of the Player</param>
     public PlayerModel(string playerName = "Enter name", uint elo = 1000)
     {
-        _playerImageList = new string[9] { "../../../Ressources/ProfilePictures/profilePic1.png", "../../../Ressources/ProfilePictures/profilePic2.png", "../../../Ressources/ProfilePictures/profilePic3.png", "../../../Ressources/ProfilePictures/profilePic4.png", "../../../Ressources/ProfilePictures/profilePic5.png", "../../../Ressources/ProfilePictures/profilePic6.png", "../../../Ressources/ProfilePictures/profilePic7.png", "../../../Ressources/ProfilePictures/profilePic8.png", "../../../Ressources/ProfilePictures/profilePic9.png" };
         Instance = this;
         _playerName = playerName;
         _elo = elo;
@@ -113,11 +117,6 @@ public sealed class PlayerModel : ObservableObject
         _playerImage = _playerImageList[rInt.Next(9)];
         Trace.WriteLine(rInt.Next(9));
         _playerColor = Color.FromRgb((byte)rInt.Next(256), (byte)rInt.Next(256), (byte)rInt.Next(256)).ToString();
-    }
-
-    public void UpdateDeleteButton()
-    {
-        OnPropertyChanged(nameof(DeleteButtonVisibility));
     }
 
     /// <summary>

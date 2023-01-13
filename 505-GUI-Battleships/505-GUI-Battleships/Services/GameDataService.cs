@@ -63,10 +63,10 @@ internal class GameDataService : ServiceBase
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
     }
 
-    public void PlayerKnockOut()
+    public void PlayerKnockOut(IDisposable sender)
     {
         if ( GameOptions.GameMode == GameMode.FirstOneOut )
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
 
         PlayerModels.Remove(CurrentTarget);
 
@@ -82,8 +82,6 @@ internal class GameDataService : ServiceBase
 
     public bool CheckGameOver()
     {
-        if ( PlayerModels.Count < 2 )
-            return true;
-        return false;
+        return PlayerModels.Count < 2;
     }
 }

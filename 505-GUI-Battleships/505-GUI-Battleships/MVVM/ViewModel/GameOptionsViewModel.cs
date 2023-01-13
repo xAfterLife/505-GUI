@@ -10,10 +10,8 @@ using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal sealed class GameOptionsViewModel : ObservableObject
+internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
 {
-    private readonly GameDataService _gameService;
-
     private int _boardHeight;
 
     private int _boardWith;
@@ -32,7 +30,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
 
     public ObservableCollection<ShipSizeSelectorModel> Ships { get; set; }
 
-    public static ICommand BackCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection));
+    public ICommand BackCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection, this));
     public static ICommand? StartGameCommand { get; set; }
     public static ICommand? AddShipCommand { get; set; }
     public static ICommand? DeleteShipCommand { get; set; }
@@ -182,8 +180,8 @@ internal sealed class GameOptionsViewModel : ObservableObject
             OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
         });
 
-        _gameService = GameDataService.GetInstance();
-        var players = _gameService.PlayerModels;
+        var gameService = GameDataService.GetInstance();
+        var players = gameService.PlayerModels;
 
         Ships = new ObservableCollection<ShipSizeSelectorModel> { new() };
 
@@ -216,7 +214,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
             else
                 rounds = null;
 
-            _gameService.Initialize(BoardHeight, BoardWidth, mode, rounds);
+            gameService.Initialize(BoardHeight, BoardWidth, mode, rounds);
 
             var shipList = Ships.Select(ship => ship.ShipImageListIndex + 1).ToList();
             var urisources = new Collection<Uri>
@@ -240,29 +238,30 @@ internal sealed class GameOptionsViewModel : ObservableObject
                 switch ( ship )
                 {
                     case 1:
-                        _gameService.ShipModels.Add(new ShipModel(1, bitmapImages[0], bitmapImages[1]));
+                        gameService.ShipModels.Add(new ShipModel(1, bitmapImages[0], bitmapImages[1]));
                         break;
 
                     case 2:
-                        _gameService.ShipModels.Add(new ShipModel(2, bitmapImages[2], bitmapImages[3]));
+                        gameService.ShipModels.Add(new ShipModel(2, bitmapImages[2], bitmapImages[3]));
                         break;
 
                     case 3:
-                        _gameService.ShipModels.Add(new ShipModel(3, bitmapImages[4], bitmapImages[5]));
+                        gameService.ShipModels.Add(new ShipModel(3, bitmapImages[4], bitmapImages[5]));
                         break;
 
                     case 4:
-                        _gameService.ShipModels.Add(new ShipModel(4, bitmapImages[6], bitmapImages[7]));
+                        gameService.ShipModels.Add(new ShipModel(4, bitmapImages[6], bitmapImages[7]));
                         break;
 
                     case 5:
-                        _gameService.ShipModels.Add(new ShipModel(5, bitmapImages[8], bitmapImages[9]));
+                        gameService.ShipModels.Add(new ShipModel(5, bitmapImages[8], bitmapImages[9]));
                         break;
                 }
 
-            _gameService.SetupPlayerShipModels();
-
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.ShipSelection);
+            gameService.SetupPlayerShipModels();
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.ShipSelection, this);
         });
     }
+
+    public void Dispose() {}
 }

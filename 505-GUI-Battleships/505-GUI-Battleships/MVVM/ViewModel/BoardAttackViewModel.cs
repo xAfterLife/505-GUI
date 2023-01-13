@@ -13,7 +13,7 @@ using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal sealed class BoardAttackViewModel : ObservableObject
+internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 {
     private readonly (int Width, int Height) _boardDimensions;
     private readonly GameDataService _gameService;
@@ -53,7 +53,7 @@ internal sealed class BoardAttackViewModel : ObservableObject
         set => Update(ref _attackerPlayerCard, value);
     }
 
-    public static ICommand? BackToSelectPlayerTargetView { get; set; }
+    public ICommand? BackToSelectPlayerTargetView { get; }
 
     /*public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard)
     {
@@ -65,17 +65,53 @@ internal sealed class BoardAttackViewModel : ObservableObject
     public BoardAttackViewModel()
     {
         _gameService = GameDataService.GetInstance();
-        _targetedPlayerCard = _gameService.CurrentTarget;
-        _attackerPlayerCard = _gameService.CurrentPlayer;
+        _targetedPlayerCard = _gameService.CurrentTarget!;
+        _attackerPlayerCard = _gameService.CurrentPlayer!;
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
-        SetupBoardContainer();
 
         BackToSelectPlayerTargetView = new RelayCommand(_ =>
         {
-            BoardContainer.Children.Remove(_playerBoard);
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
         });
+
+        SetupBoardContainer();
         //TestAufrufe();
+    }
+
+    /*  TODO:
+     * private void AnimateElement(ref Storyboard storyboard, UIElement target, double fromX, double toX, double fromY, double toY, TimeSpan duration)
+    {
+
+        // Create a DoubleAnimation for the X property
+        var doubleAnimationX = new DoubleAnimation();
+        doubleAnimationX.From = fromX;
+        doubleAnimationX.To = toX;
+        doubleAnimationX.BeginTime = new TimeSpan(beginTime)
+        doubleAnimationX.Duration = new Duration(duration);
+
+        // Create a DoubleAnimation for the Y property
+        var doubleAnimationY = new DoubleAnimation();
+        doubleAnimationY.From = fromY;
+        doubleAnimationY.To = toY;
+        doubleAnimationY.BeginTime = new TimeSpan(beginTime)
+        doubleAnimationY.Duration = new Duration(duration);
+
+        // Set the target and target properties for the animations
+        Storyboard.SetTarget(doubleAnimationX, target);
+        Storyboard.SetTargetProperty(doubleAnimationX, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
+        Storyboard.SetTarget(doubleAnimationY, target);
+        Storyboard.SetTargetProperty(doubleAnimationY, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+        // Add the animations to the storyboard
+        storyboard.Children.Add(doubleAnimationX);
+        storyboard.Children.Add(doubleAnimationY);
+
+        // Start the storyboard
+    }*/
+
+    public void Dispose()
+    {
+        PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
     }
 
     /*private void TestAufrufe()
@@ -138,14 +174,15 @@ internal sealed class BoardAttackViewModel : ObservableObject
         BoardContainer.Children.Add(xAxis);
         BoardContainer.Children.Add(yAxis);
 
-        PlayerBoard = _gameService.CurrentTarget.VisualPlayerBoard;
+        PlayerBoard = _gameService.CurrentTarget!.VisualPlayerBoard;
         PlayerBoard.ClipToBounds = false;
+
         PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
+
         Grid.SetRow(_playerBoard, 1);
         Grid.SetColumn(_playerBoard, 1);
 
-        if ( PlayerBoard.Parent != null )
-            ((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
+        ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
         //PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
         //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
         BoardContainer.Children.Add(PlayerBoard);
@@ -153,6 +190,8 @@ internal sealed class BoardAttackViewModel : ObservableObject
 
     private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
     {
+        PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
+
         var clickPosition = e.GetPosition((IInputElement)sender);
         clickPosition.X = Math.Round(clickPosition.X - 0.5);
         if ( clickPosition.X < 0 )
@@ -162,18 +201,18 @@ internal sealed class BoardAttackViewModel : ObservableObject
             clickPosition.Y = _boardDimensions.Height - 1;
         Trace.WriteLine(clickPosition.ToString());
         var isShipHit = false;
-        ShipPlacementModel struckShip = null;
-        foreach ( var hit in _playerBoard.Children.OfType<Image>() )
-            if ( (clickPosition.X == Canvas.GetLeft(hit)) & (clickPosition.Y == Canvas.GetTop(hit)) )
-                return;
+        ShipPlacementModel struckShip = null!;
 
-        foreach ( var ship in _gameService.CurrentTarget.Ships )
-            if ( ship.IsShipHit(clickPosition) )
-            {
-                isShipHit = true;
-                struckShip = ship;
-                break;
-            }
+        if ( _playerBoard.Children.OfType<Image>().Any(hit => (clickPosition.X == Canvas.GetLeft(hit)) & (clickPosition.Y == Canvas.GetTop(hit))) )
+            return;
+
+        var ship = _gameService.CurrentTarget!.Ships.FirstOrDefault(x => x.IsShipHit(clickPosition));
+
+        if ( ship != null )
+        {
+            isShipHit = true;
+            struckShip = ship;
+        }
 
         TestAnimation(clickPosition, isShipHit, struckShip!);
     }
@@ -183,39 +222,22 @@ internal sealed class BoardAttackViewModel : ObservableObject
         var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/Rocket.png", UriKind.RelativeOrAbsolute));
 
         var rocket = new Image { Width = 1, Height = 1, Source = imageSource };
-
         var tt = new TranslateTransform();
         rocket.RenderTransform = tt;
-        //RotateTransform rotateTransform = new RotateTransform();
-        //rect1.RenderTransform = rotateTransform;
-        //rotateTransform.Angle = 180;
-        var index = _playerBoard.Children.Add(rocket);
+        _playerBoard.Children.Add(rocket);
+
         //Image rect = (Image)_playerBoard.Children[index];
         var storyboard = new Storyboard();
 
         // Create a DoubleAnimation to animate the rectangle's Left property
-        var doubleAnimationX1 = new DoubleAnimation();
-        doubleAnimationX1.From = -4;
-        doubleAnimationX1.To = (clickPosition.X + 3) / 2 - 3;
-        doubleAnimationX1.Duration = new Duration(TimeSpan.FromSeconds(1));
+        var doubleAnimationX1 = new DoubleAnimation { From = -4, To = (clickPosition.X + 3) / 2 - 3, Duration = new Duration(TimeSpan.FromSeconds(1)) };
 
-        var doubleAnimationX2 = new DoubleAnimation();
-        doubleAnimationX2.From = (clickPosition.X + 3) / 2 - 3;
-        doubleAnimationX2.To = clickPosition.X;
-        doubleAnimationX2.BeginTime = doubleAnimationX1.Duration.TimeSpan;
-        doubleAnimationX2.Duration = new Duration(TimeSpan.FromSeconds(1));
+        var doubleAnimationX2 = new DoubleAnimation { From = (clickPosition.X + 3) / 2 - 3, To = clickPosition.X, BeginTime = doubleAnimationX1.Duration.TimeSpan, Duration = new Duration(TimeSpan.FromSeconds(1)) };
 
         // Create a second DoubleAnimation to animate the rectangle's Top property
-        var doubleAnimationY1 = new DoubleAnimation();
-        doubleAnimationY1.From = 1;
-        doubleAnimationY1.To = clickPosition.Y + 15;
-        doubleAnimationY1.Duration = new Duration(TimeSpan.FromSeconds(1));
+        var doubleAnimationY1 = new DoubleAnimation { From = 1, To = clickPosition.Y + 15, Duration = new Duration(TimeSpan.FromSeconds(1)) };
 
-        var doubleAnimationY2 = new DoubleAnimation();
-        doubleAnimationY2.From = clickPosition.Y + 15;
-        doubleAnimationY2.To = clickPosition.Y;
-        doubleAnimationY2.BeginTime = doubleAnimationY1.Duration.TimeSpan;
-        doubleAnimationY2.Duration = new Duration(TimeSpan.FromSeconds(1));
+        var doubleAnimationY2 = new DoubleAnimation { From = clickPosition.Y + 15, To = clickPosition.Y, BeginTime = doubleAnimationY1.Duration.TimeSpan, Duration = new Duration(TimeSpan.FromSeconds(1)) };
 
         // Create a Storyboard.TargetName and Storyboard.TargetProperty
         Storyboard.SetTarget(doubleAnimationX1, rocket);
@@ -235,12 +257,8 @@ internal sealed class BoardAttackViewModel : ObservableObject
         storyboard.Children.Add(doubleAnimationY2);
 
         // Start the storyboard
-        storyboard.Completed += (s, e) =>
+        void ActionDelegate(object? o, EventArgs e)
         {
-            /** 
-             RenderTransform needs a reset because the position is not changing the position so it gets a "fake" position 
-            and then we need to set the position relative to the canvas
-            */
             rocket.RenderTransform = new TranslateTransform();
             Canvas.SetLeft(rocket, clickPosition.X);
             Canvas.SetTop(rocket, clickPosition.Y);
@@ -254,14 +272,10 @@ internal sealed class BoardAttackViewModel : ObservableObject
 
                 /*PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
                 BoardContainer.Children.Remove(_playerBoard);*/
-                if ( PlayerBoard.Parent != null )
-                {
-                    ((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
-                    PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
-                    //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
-                }
 
-                ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
+                ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
+                //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
+                ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
             }
             else
             {
@@ -271,14 +285,7 @@ internal sealed class BoardAttackViewModel : ObservableObject
 
                 foreach ( var position in struckShip.GetPoisitionList() )
                 {
-                    xhit = false;
-
-                    foreach ( UIElement hit in _playerBoard.Children )
-                        if ( position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)) )
-                        {
-                            xhit = true;
-                            break;
-                        }
+                    xhit = _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)));
 
                     if ( xhit == false )
                         break;
@@ -293,39 +300,10 @@ internal sealed class BoardAttackViewModel : ObservableObject
             }
 
             IsInputEnabled = true;
-        };
+        }
+
+        storyboard.Completed += ActionDelegate;
         IsInputEnabled = false;
         storyboard.Begin();
     }
-
-    /*  TODO:
-     * private void AnimateElement(ref Storyboard storyboard, UIElement target, double fromX, double toX, double fromY, double toY, TimeSpan duration)
-    {
-
-        // Create a DoubleAnimation for the X property
-        var doubleAnimationX = new DoubleAnimation();
-        doubleAnimationX.From = fromX;
-        doubleAnimationX.To = toX;
-        doubleAnimationX.BeginTime = new TimeSpan(beginTime)
-        doubleAnimationX.Duration = new Duration(duration);
-
-        // Create a DoubleAnimation for the Y property
-        var doubleAnimationY = new DoubleAnimation();
-        doubleAnimationY.From = fromY;
-        doubleAnimationY.To = toY;
-        doubleAnimationY.BeginTime = new TimeSpan(beginTime)
-        doubleAnimationY.Duration = new Duration(duration);
-
-        // Set the target and target properties for the animations
-        Storyboard.SetTarget(doubleAnimationX, target);
-        Storyboard.SetTargetProperty(doubleAnimationX, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
-        Storyboard.SetTarget(doubleAnimationY, target);
-        Storyboard.SetTargetProperty(doubleAnimationY, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
-
-        // Add the animations to the storyboard
-        storyboard.Children.Add(doubleAnimationX);
-        storyboard.Children.Add(doubleAnimationY);
-
-        // Start the storyboard
-    }*/
 }
