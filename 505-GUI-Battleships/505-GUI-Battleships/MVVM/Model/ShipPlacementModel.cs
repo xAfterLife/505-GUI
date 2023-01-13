@@ -23,6 +23,21 @@ public class ShipPlacementModel
         Destroyed = false;
     }
 
+    public Collection<Point> GetPoisitionList()
+    {
+        Collection<Point> positionList = new Collection<Point>();
+        if (Horizontal) {
+            for (int i = 0; i < Length; i++)
+                positionList.Add(new Point(Position.X + i, Position.Y));
+        } 
+        else
+        {
+            for (int i = 0; i < Length; i++)
+                positionList.Add(new Point(Position.X, Position.Y + 1));
+        }
+        return positionList;
+    }
+
     public bool IsShipHit(Point shotPosition)
     {
         Point positionChecker = Position;
