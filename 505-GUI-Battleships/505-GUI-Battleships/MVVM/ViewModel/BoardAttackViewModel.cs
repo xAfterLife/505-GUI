@@ -267,16 +267,23 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingBlue.png", UriKind.RelativeOrAbsolute));
 
-                await Task.Delay(750);
+                await Task.Delay(1500);
 
                 _gameService.SetNextPlayer();
+
+                if ( _gameService.CurrentRound >= _gameService.GameOptions!.Rounds )
+                {
+                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
+                    return;
+                }
+
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
             }
             else
             {
                 //TODO: ADD PlayerScore
-                _gameService.CurrentPlayer!.Points += (6 - struckShip.Length);
+                _gameService.CurrentPlayer!.Points += 6 - struckShip.Length;
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingRed.png", UriKind.RelativeOrAbsolute));
 
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));
@@ -288,12 +295,13 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                     //Schiff getroffen
                     SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Treffer);
 
+                await Task.Delay(1500);
                 Trace.WriteLine(finalHit);
 
                 //TODO: Check if all Ships are Destroyed
                 var allShipsDestroyed = _gameService.CurrentTarget!.Ships.Select(x => x.GetPoisitionList()).All(ships => ships.All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))));
-
-                await Task.Delay(750);
+                if ( allShipsDestroyed )
+                    _gameService.PlayerKnockOut(this);
             }
 
             IsInputEnabled = true;

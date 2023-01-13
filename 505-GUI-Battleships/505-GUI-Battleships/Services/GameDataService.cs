@@ -8,6 +8,7 @@ namespace _505_GUI_Battleships.Services;
 internal class GameDataService : ServiceBase
 {
     private static GameDataService? _instance;
+    private int _firstPlayerIndex;
 
     public GameOptionsModel? GameOptions { get; private set; }
     public GameBoardModel? GameBoard { get; private set; }
@@ -34,9 +35,8 @@ internal class GameDataService : ServiceBase
         GameOptions = new GameOptionsModel(gameMode, rounds);
         GameBoard = new GameBoardModel(boardHeight, boardWidth);
 
-        Random rInt = new();
-        CurrentPlayerIndex = rInt.Next(PlayerModels.Count - 1);
-        CurrentPlayer = PlayerModels[CurrentPlayerIndex];
+        _firstPlayerIndex = Random.Shared.Next(PlayerModels.Count - 1);
+        CurrentPlayer = PlayerModels[_firstPlayerIndex];
         CurrentRound = 1;
         foreach ( var player in PlayerModels )
             player.VisualPlayerBoard = new GameBoardModel(boardHeight, boardWidth).Board;
@@ -61,6 +61,9 @@ internal class GameDataService : ServiceBase
         else
             CurrentPlayerIndex++;
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
+
+        if ( CurrentPlayerIndex == _firstPlayerIndex )
+            CurrentRound++;
     }
 
     public void PlayerKnockOut(IDisposable sender)
@@ -72,8 +75,13 @@ internal class GameDataService : ServiceBase
 
         PlayerModels.Remove(CurrentTarget);
 
-        int i;
+        if ( CheckGameOver() )
+        {
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
+            ResetInstance();
+        }
 
+        int i;
         for ( i = 0; i < PlayerModels.Count; i++ )
             if ( PlayerModels[i] == CurrentTarget )
                 break;
@@ -85,5 +93,10 @@ internal class GameDataService : ServiceBase
     public bool CheckGameOver()
     {
         return PlayerModels.Count == 1;
+    }
+
+    private void ResetInstance()
+    {
+        _instance = new GameDataService();
     }
 }
