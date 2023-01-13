@@ -47,8 +47,8 @@
             </Button>
 
             <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}"
-                    Command="{Binding StartShipSelectionCommand}">
-                <TextBlock>Leaderboard</TextBlock>
+                    Command="{Binding SoundTestCommand}">
+                <TextBlock>Sound Test</TextBlock>
             </Button>
 
             <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}">

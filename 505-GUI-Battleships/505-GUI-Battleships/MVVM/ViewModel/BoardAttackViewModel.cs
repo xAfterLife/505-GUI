@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -231,12 +232,10 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
         // Create a DoubleAnimation to animate the rectangle's Left property
         var doubleAnimationX1 = new DoubleAnimation { From = -4, To = (clickPosition.X + 3) / 2 - 3, Duration = new Duration(TimeSpan.FromSeconds(1)) };
-
         var doubleAnimationX2 = new DoubleAnimation { From = (clickPosition.X + 3) / 2 - 3, To = clickPosition.X, BeginTime = doubleAnimationX1.Duration.TimeSpan, Duration = new Duration(TimeSpan.FromSeconds(1)) };
 
         // Create a second DoubleAnimation to animate the rectangle's Top property
         var doubleAnimationY1 = new DoubleAnimation { From = 1, To = clickPosition.Y + 15, Duration = new Duration(TimeSpan.FromSeconds(1)) };
-
         var doubleAnimationY2 = new DoubleAnimation { From = clickPosition.Y + 15, To = clickPosition.Y, BeginTime = doubleAnimationY1.Duration.TimeSpan, Duration = new Duration(TimeSpan.FromSeconds(1)) };
 
         // Create a Storyboard.TargetName and Storyboard.TargetProperty
@@ -257,46 +256,45 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         storyboard.Children.Add(doubleAnimationY2);
 
         // Start the storyboard
-        void ActionDelegate(object? o, EventArgs e)
+        async void ActionDelegate(object? o, EventArgs e)
         {
             rocket.RenderTransform = new TranslateTransform();
             Canvas.SetLeft(rocket, clickPosition.X);
             Canvas.SetTop(rocket, clickPosition.Y);
 
-            // TODO Animation Explosion + kurz wirken lassen
             if ( !isShipHit )
             {
+                SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingBlue.png", UriKind.RelativeOrAbsolute));
+
+                // TODO Animation Explosion + kurz wirken lassen
+                await Task.Delay(750);
+
                 //TODO: SET NEXT PLAYER
                 //_gameService.SetNextPlayer()
-
-                /*PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
-                BoardContainer.Children.Remove(_playerBoard);*/
-
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
-                //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
             }
             else
             {
                 //TODO: ADD PlayerScore
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingRed.png", UriKind.RelativeOrAbsolute));
-                var xhit = false;
-
-                foreach ( var position in struckShip.GetPoisitionList() )
-                {
-                    xhit = _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)));
-
-                    if ( xhit == false )
-                        break;
-                }
-
-                Trace.WriteLine(xhit);
-                //xhit true = finaltreffer
-                //xhit false = random treffer
 
                 //TODO: Check if ship is Destroyed
+                var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));
+                if ( finalHit )
+                    //Schiff versenkt
+                    SoundPlayerService.PlaySound(SoundPlayerService.SoundType.FinalTreffer);
+                else
+                    //Schiff getroffen
+                    SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Treffer);
+
+                Trace.WriteLine(finalHit);
+
                 //TODO: Check if all Ships are Destroyed
+
+                // TODO Animation Explosion + kurz wirken lassen
+                await Task.Delay(750);
             }
 
             IsInputEnabled = true;
@@ -305,5 +303,6 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         storyboard.Completed += ActionDelegate;
         IsInputEnabled = false;
         storyboard.Begin();
+        SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Geschoss);
     }
 }
