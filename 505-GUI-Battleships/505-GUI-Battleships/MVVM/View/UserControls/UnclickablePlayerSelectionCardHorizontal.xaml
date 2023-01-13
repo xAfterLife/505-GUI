@@ -17,8 +17,8 @@
         Background="#262536"
         BorderBrush="White"
         BorderThickness="1">
-            <UniformGrid
-                Rows="1">
+        <UniformGrid
+            Rows="1">
             <DockPanel>
                 <Image
                     Margin="3"
@@ -47,16 +47,16 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
-                        <TextBlock 
-                            FontSize="10"
-                            TextAlignment="Center"
-                            Foreground="White"
-                            Text="Points: "/>
                         <TextBlock
                             FontSize="10"
                             TextAlignment="Center"
                             Foreground="White"
-                            Text="{Binding Points, FallbackValue=0}"/>
+                            Text="Points: " />
+                        <TextBlock
+                            FontSize="10"
+                            TextAlignment="Center"
+                            Foreground="White"
+                            Text="{Binding Points, FallbackValue=0}" />
                     </StackPanel>
                 </DockPanel>
             </DockPanel>

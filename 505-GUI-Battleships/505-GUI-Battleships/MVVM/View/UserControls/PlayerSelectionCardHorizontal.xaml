@@ -52,16 +52,16 @@
                         VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal">
-                        <TextBlock 
-                        FontSize="10"
-                        TextAlignment="Center"
-                        Foreground="White"
-                        Text="Points: "/>
                         <TextBlock
-                        FontSize="10"
-                        TextAlignment="Center"
-                        Foreground="White"
-                        Text="{Binding Points, FallbackValue=0}"/>
+                            FontSize="10"
+                            TextAlignment="Center"
+                            Foreground="White"
+                            Text="Points: " />
+                        <TextBlock
+                            FontSize="10"
+                            TextAlignment="Center"
+                            Foreground="White"
+                            Text="{Binding Points, FallbackValue=0}" />
                     </StackPanel>
                 </DockPanel>
             </UniformGrid>
