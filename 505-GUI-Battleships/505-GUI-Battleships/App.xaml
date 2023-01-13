@@ -39,6 +39,9 @@
             <DataTemplate DataType="{x:Type viewModel:BoardAttackViewModel}">
                 <view:BoardAttackView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:EndOfGameViewModel}">
+                <view:EndOfGameView />
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

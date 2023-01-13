@@ -62,6 +62,7 @@
 		<None Remove="Resources\Sounds\Wassertreffer_2.wav" />
 		<None Remove="Resources\Sounds\Wassertreffer_3.mp3" />
 		<None Remove="Resources\Sounds\Wassertreffer_3.wav" />
+		<None Remove="Resources\trophy.png" />
 		<None Remove="Resources\XRed.png" />
 		<None Remove="Services\ILoggableService" />
 	</ItemGroup>
@@ -161,6 +162,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Resources\Ships\5ShipBattleshipVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\trophy.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Resources\XRed.png">

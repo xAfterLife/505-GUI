@@ -17,7 +17,8 @@ public sealed class ChangeViewModel
         GameOptions = 2,
         ShipSelection = 3,
         SelectTargetPlayer = 4,
-        BoardAttack = 5
+        BoardAttack = 5,
+        EndOfGame = 6,
     }
 
     private static ViewType? _lastViewType;
@@ -32,7 +33,8 @@ public sealed class ChangeViewModel
         { ViewType.ShipSelection, typeof(ShipSelectionViewModel) },
         { ViewType.GameOptions, typeof(GameOptionsViewModel) },
         { ViewType.SelectTargetPlayer, typeof(SelectTargetPlayerViewModel) },
-        { ViewType.BoardAttack, typeof(BoardAttackViewModel) }
+        { ViewType.BoardAttack, typeof(BoardAttackViewModel) },
+        { ViewType.EndOfGame, typeof(EndOfGameViewModel) }
     };
 
     /// <summary>
