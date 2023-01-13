@@ -19,13 +19,9 @@ public partial class MainWindow : Window
         base.OnRenderSizeChanged(sizeInfo);
 
         if ( sizeInfo.HeightChanged )
-        {
             Width = sizeInfo.NewSize.Height * AspectRatio;
-        }
 
         if ( sizeInfo.WidthChanged )
-        {
             Height = sizeInfo.NewSize.Width / AspectRatio;
-        }
     }
 }
