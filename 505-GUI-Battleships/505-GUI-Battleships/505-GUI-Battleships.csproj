@@ -25,6 +25,7 @@
 		<None Remove="Resources\RingBlue.png" />
 		<None Remove="Resources\RingRed.png" />
 		<None Remove="Resources\Rocket.png" />
+		<None Remove="Resources\RocketStraight.png" />
 		<None Remove="Resources\ship-icon.png" />
 		<None Remove="Resources\Ships\1ShipPatrolHorizontal.png" />
 		<None Remove="Resources\Ships\1ShipPatrolVertical.png" />
@@ -61,6 +62,7 @@
 		<None Remove="Resources\Sounds\Wassertreffer_2.wav" />
 		<None Remove="Resources\Sounds\Wassertreffer_3.mp3" />
 		<None Remove="Resources\Sounds\Wassertreffer_3.wav" />
+		<None Remove="Resources\XRed.png" />
 		<None Remove="Services\ILoggableService" />
 	</ItemGroup>
 
@@ -127,6 +129,9 @@
 		<Resource Include="Resources\Rocket.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
+		<Resource Include="Resources\RocketStraight.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
 		<Resource Include="Resources\ship-icon.png" />
 		<Resource Include="Resources\Ships\1ShipPatrolHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -156,6 +161,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Resources\Ships\5ShipBattleshipVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\XRed.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>
