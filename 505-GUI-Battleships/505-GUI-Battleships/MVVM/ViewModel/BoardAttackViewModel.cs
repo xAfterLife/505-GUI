@@ -1,7 +1,4 @@
-﻿using _505_GUI_Battleships.Core;
-using _505_GUI_Battleships.MVVM.Model;
-using _505_GUI_Battleships.Services;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -10,18 +7,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using _505_GUI_Battleships.Core;
+using _505_GUI_Battleships.MVVM.Model;
+using _505_GUI_Battleships.Services;
 
 namespace _505_GUI_Battleships.MVVM.ViewModel;
 
-internal sealed class BoardAttackViewModel: ObservableObject
+internal sealed class BoardAttackViewModel : ObservableObject
 {
-    private PlayerModel _targetedPlayerCard;
-    private PlayerModel _attackerPlayerCard;
-    private Canvas _playerBoard;
-    private Grid _boardContainer;
     private readonly (int Width, int Height) _boardDimensions;
     private readonly GameDataService _gameService;
+    private PlayerModel _attackerPlayerCard;
+    private Grid _boardContainer;
     private bool _isInputEnabled = true;
+    private Canvas _playerBoard;
+    private PlayerModel _targetedPlayerCard;
 
     public bool IsInputEnabled
     {
@@ -55,15 +55,12 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     public static ICommand? BackToSelectPlayerTargetView { get; set; }
 
-
-
     /*public void SetupBoardAttack(PlayerModel targetedPlayerCard, PlayerModel attackerPlayerCard)
     {
         TargetedPlayerCard = targetedPlayerCard;
         AttackerPlayerCard = attackerPlayerCard;
         PlayerBoard = playerBoard;
     }*/
-
 
     public BoardAttackViewModel()
     {
@@ -73,7 +70,8 @@ internal sealed class BoardAttackViewModel: ObservableObject
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
         SetupBoardContainer();
 
-        BackToSelectPlayerTargetView = new RelayCommand(_ => {
+        BackToSelectPlayerTargetView = new RelayCommand(_ =>
+        {
             BoardContainer.Children.Remove(_playerBoard);
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
         });
@@ -87,7 +85,6 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
     private void SetupBoardContainer()
     {
-
         BoardContainer = new Grid();
         BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
         BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(_boardDimensions.Height, GridUnitType.Star) });
@@ -97,7 +94,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
         Canvas xAxis = new() { Width = _boardDimensions.Width, Height = 1, LayoutTransform = new ScaleTransform(1, -1) };
         Canvas yAxis = new() { Width = 1, Height = _boardDimensions.Height, LayoutTransform = new ScaleTransform(1, -1) };
 
-        for (var i = 0; i < _boardDimensions.Width; i++)
+        for ( var i = 0; i < _boardDimensions.Width; i++ )
         {
             var textBlock = new TextBlock
             {
@@ -118,7 +115,7 @@ internal sealed class BoardAttackViewModel: ObservableObject
         Grid.SetRow(xAxis, 0);
         Grid.SetColumn(xAxis, 1);
 
-        for (var i = 0; i < _boardDimensions.Height; i++)
+        for ( var i = 0; i < _boardDimensions.Height; i++ )
         {
             var textBlock = new TextBlock
             {
@@ -147,14 +144,10 @@ internal sealed class BoardAttackViewModel: ObservableObject
         Grid.SetRow(_playerBoard, 1);
         Grid.SetColumn(_playerBoard, 1);
 
-        if (PlayerBoard.Parent != null)
-        {
+        if ( PlayerBoard.Parent != null )
             ((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
-            
-            //PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
-            //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
-        }
-
+        //PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
+        //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
         BoardContainer.Children.Add(PlayerBoard);
     }
 
@@ -162,51 +155,43 @@ internal sealed class BoardAttackViewModel: ObservableObject
     {
         var clickPosition = e.GetPosition((IInputElement)sender);
         clickPosition.X = Math.Round(clickPosition.X - 0.5);
-        if ( clickPosition.X < 0)
+        if ( clickPosition.X < 0 )
             clickPosition.X = 0;
         clickPosition.Y = Math.Round(clickPosition.Y - 0.5);
-        if (clickPosition.Y > _boardDimensions.Height - 1)
+        if ( clickPosition.Y > _boardDimensions.Height - 1 )
             clickPosition.Y = _boardDimensions.Height - 1;
         Trace.WriteLine(clickPosition.ToString());
-        bool isShipHit = false;
+        var isShipHit = false;
         ShipPlacementModel struckShip = null;
-        foreach (Image hit in _playerBoard.Children.OfType<Image>())
-        {
-            if (clickPosition.X == Canvas.GetLeft(hit) & clickPosition.Y == Canvas.GetTop(hit))
+        foreach ( var hit in _playerBoard.Children.OfType<Image>() )
+            if ( (clickPosition.X == Canvas.GetLeft(hit)) & (clickPosition.Y == Canvas.GetTop(hit)) )
                 return;
-        }
-        foreach (var ship in _gameService.CurrentTarget.Ships)
-        {
-            if (ship.IsShipHit(clickPosition))
+
+        foreach ( var ship in _gameService.CurrentTarget.Ships )
+            if ( ship.IsShipHit(clickPosition) )
             {
                 isShipHit = true;
                 struckShip = ship;
                 break;
             }
-        }
+
         TestAnimation(clickPosition, isShipHit, struckShip!);
     }
 
     private void TestAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
     {
+        var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/Rocket.png", UriKind.RelativeOrAbsolute));
 
-        BitmapImage imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/Rocket.png", UriKind.RelativeOrAbsolute));
+        var rocket = new Image { Width = 1, Height = 1, Source = imageSource };
 
-        Image rocket = new Image()
-        {
-            Width = 1,
-            Height = 1, 
-            Source = imageSource
-        };
-
-        TranslateTransform tt = new TranslateTransform();
+        var tt = new TranslateTransform();
         rocket.RenderTransform = tt;
         //RotateTransform rotateTransform = new RotateTransform();
         //rect1.RenderTransform = rotateTransform;
         //rotateTransform.Angle = 180;
-        int index = _playerBoard.Children.Add(rocket);
+        var index = _playerBoard.Children.Add(rocket);
         //Image rect = (Image)_playerBoard.Children[index];
-        Storyboard storyboard = new Storyboard();
+        var storyboard = new Storyboard();
 
         // Create a DoubleAnimation to animate the rectangle's Left property
         var doubleAnimationX1 = new DoubleAnimation();
@@ -259,8 +244,9 @@ internal sealed class BoardAttackViewModel: ObservableObject
             rocket.RenderTransform = new TranslateTransform();
             Canvas.SetLeft(rocket, clickPosition.X);
             Canvas.SetTop(rocket, clickPosition.Y);
+
             // TODO Animation Explosion + kurz wirken lassen
-            if (!isShipHit)
+            if ( !isShipHit )
             {
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingBlue.png", UriKind.RelativeOrAbsolute));
                 //TODO: SET NEXT PLAYER
@@ -268,32 +254,36 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
                 /*PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
                 BoardContainer.Children.Remove(_playerBoard);*/
-                if (PlayerBoard.Parent != null)
+                if ( PlayerBoard.Parent != null )
                 {
                     ((Panel)PlayerBoard.Parent).Children.Remove(PlayerBoard);
                     PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
                     //PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
                 }
+
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer);
-            } else
+            }
+            else
             {
                 //TODO: ADD PlayerScore
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingRed.png", UriKind.RelativeOrAbsolute));
-                bool xhit = false;
-                foreach (Point position in struckShip.GetPoisitionList())
+                var xhit = false;
+
+                foreach ( var position in struckShip.GetPoisitionList() )
                 {
                     xhit = false;
-                    foreach (UIElement hit in _playerBoard.Children)
-                    {
-                        if (position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))
+
+                    foreach ( UIElement hit in _playerBoard.Children )
+                        if ( position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)) )
                         {
                             xhit = true;
                             break;
                         }
-                    }
-                    if (xhit == false ) { break; }
 
+                    if ( xhit == false )
+                        break;
                 }
+
                 Trace.WriteLine(xhit);
                 //xhit true = finaltreffer
                 //xhit false = random treffer
@@ -301,9 +291,8 @@ internal sealed class BoardAttackViewModel: ObservableObject
                 //TODO: Check if ship is Destroyed
                 //TODO: Check if all Ships are Destroyed
             }
-            IsInputEnabled = true;
 
-            
+            IsInputEnabled = true;
         };
         IsInputEnabled = false;
         storyboard.Begin();
@@ -339,5 +328,4 @@ internal sealed class BoardAttackViewModel: ObservableObject
 
         // Start the storyboard
     }*/
-
 }

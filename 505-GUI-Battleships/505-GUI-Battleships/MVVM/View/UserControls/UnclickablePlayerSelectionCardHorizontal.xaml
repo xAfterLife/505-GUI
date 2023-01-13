@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model" 
+             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
              d:DesignHeight="120" d:DesignWidth="220"
@@ -18,28 +18,28 @@
         BorderBrush="White"
         BorderThickness="1">
         <DockPanel
-                HorizontalAlignment="Stretch">
+            HorizontalAlignment="Stretch">
             <Image
-                    Margin="3"
-                    Height="80"
-                    Width="80"
-                    Source="{Binding PlayerImage}"
-                    Stretch="Fill" />
+                Margin="3"
+                Height="80"
+                Width="80"
+                Source="{Binding PlayerImage}"
+                Stretch="Fill" />
             <DockPanel>
                 <TextBlock
-                        DockPanel.Dock="Top"
-                        TextAlignment="Center"
-                        Background="Transparent"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Text="{Binding PlayerName, FallbackValue=NAME}"
-                        Foreground="White"/>
+                    DockPanel.Dock="Top"
+                    TextAlignment="Center"
+                    Background="Transparent"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Text="{Binding PlayerName, FallbackValue=NAME}"
+                    Foreground="White" />
                 <Label
-                        BorderThickness="1"
-                        BorderBrush="White"
-                        Height="30"
-                        Width="30"
-                        Background="{Binding PlayerColor}" />
+                    BorderThickness="1"
+                    BorderBrush="White"
+                    Height="30"
+                    Width="30"
+                    Background="{Binding PlayerColor}" />
             </DockPanel>
         </DockPanel>
     </Border>

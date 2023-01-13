@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows.Controls;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
 
@@ -15,7 +13,6 @@ internal class GameDataService : ServiceBase
     public GameBoardModel? GameBoard { get; private set; }
     public ObservableCollection<PlayerModel> PlayerModels { get; set; }
     public ObservableCollection<ShipModel> ShipModels { get; set; }
-    
     public PlayerModel? CurrentPlayer { get; set; }
     public int CurrentPlayerIndex { get; set; }
     public PlayerModel? CurrentTarget { get; set; }
@@ -37,21 +34,18 @@ internal class GameDataService : ServiceBase
         GameOptions = new GameOptionsModel(gameMode, rounds);
         GameBoard = new GameBoardModel(boardHeight, boardWidth);
 
-
         Random rInt = new();
         CurrentPlayerIndex = rInt.Next(PlayerModels.Count - 1);
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
         CurrentRound = 1;
-        foreach (var player in PlayerModels)
-        {
+        foreach ( var player in PlayerModels )
             player.VisualPlayerBoard = new GameBoardModel(boardHeight, boardWidth).Board;
-        }
     }
 
     public void SetupPlayerShipModels()
     {
         foreach ( var player in PlayerModels )
-            foreach (ShipModel shipModel in ShipModels)
+            foreach ( var shipModel in ShipModels )
                 player.Ships.Add(new ShipPlacementModel(-1, -1, true, shipModel.Id, -1));
     }
 
@@ -60,38 +54,36 @@ internal class GameDataService : ServiceBase
         CurrentTarget = currentTarget;
     }
 
-    public void SetNextPlayer() 
+    public void SetNextPlayer()
     {
-        if( CurrentPlayerIndex == PlayerModels.Count - 1)
-        {
+        if ( CurrentPlayerIndex == PlayerModels.Count - 1 )
             CurrentPlayerIndex = 0;
-        } else CurrentPlayerIndex++;
+        else
+            CurrentPlayerIndex++;
         CurrentPlayer = PlayerModels[CurrentPlayerIndex];
     }
 
     public void PlayerKnockOut()
     {
-        if(GameOptions.GameMode == GameMode.FirstOneOut) ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
-        
+        if ( GameOptions.GameMode == GameMode.FirstOneOut )
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start);
+
         PlayerModels.Remove(CurrentTarget);
 
         int i;
 
-        for(i = 0; i < PlayerModels.Count; i++) {
-            if (PlayerModels[i] == CurrentTarget) break;
-        }
-        
-        if( CurrentPlayerIndex > i ) CurrentPlayerIndex--;
+        for ( i = 0; i < PlayerModels.Count; i++ )
+            if ( PlayerModels[i] == CurrentTarget )
+                break;
 
+        if ( CurrentPlayerIndex > i )
+            CurrentPlayerIndex--;
     }
 
     public bool CheckGameOver()
     {
-        if(PlayerModels.Count < 2)
-        {
+        if ( PlayerModels.Count < 2 )
             return true;
-        }
         return false;
     }
-
 }

@@ -6,7 +6,7 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="FontSize" Value="15" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Cursor" Value="Hand" />
 
         <!--One Way of Rounding a Button-->
         <Setter Property="Template">

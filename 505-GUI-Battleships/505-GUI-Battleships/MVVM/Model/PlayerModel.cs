@@ -14,10 +14,11 @@ public sealed class PlayerModel : ObservableObject
     private uint _elo;
     private string _playerColor;
     private Guid _playerId;
-    private string _playerName;
     private string _playerImage;
+    private string _playerName;
     private Canvas _visualPlayerBoard;
-    private string[] _playerImageList { get; set; }
+    private string[] _playerImageList { get; }
+
     public string PlayerImage
     {
         get => _playerImage;
@@ -29,7 +30,6 @@ public sealed class PlayerModel : ObservableObject
         get => _visualPlayerBoard;
         set => Update(ref _visualPlayerBoard, value);
     }
-
 
     public ObservableCollection<PlayerAttackModel> Attacks { get; set; } = new();
     public ObservableCollection<ShipPlacementModel> Ships { get; set; } = new();
@@ -55,12 +55,11 @@ public sealed class PlayerModel : ObservableObject
 
     public static ICommand SelectTargetPlayerCommand => new RelayCommand(instance =>
     {
-        if (instance is not PlayerModel player)
+        if ( instance is not PlayerModel player )
             return;
 
         SelectTargetPlayerCommandPressed?.Invoke(player, EventArgs.Empty);
     });
-
 
     /// <summary>
     ///     Name of the Player
@@ -104,15 +103,7 @@ public sealed class PlayerModel : ObservableObject
     /// <param name="elo">Elo points of the Player</param>
     public PlayerModel(string playerName = "Enter name", uint elo = 1000)
     {
-        _playerImageList = new string[9] { "../../../Ressources/ProfilePictures/profilePic1.png",
-            "../../../Ressources/ProfilePictures/profilePic2.png",
-            "../../../Ressources/ProfilePictures/profilePic3.png",
-            "../../../Ressources/ProfilePictures/profilePic4.png",
-            "../../../Ressources/ProfilePictures/profilePic5.png",
-            "../../../Ressources/ProfilePictures/profilePic6.png",
-            "../../../Ressources/ProfilePictures/profilePic7.png",
-            "../../../Ressources/ProfilePictures/profilePic8.png",
-            "../../../Ressources/ProfilePictures/profilePic9.png"};
+        _playerImageList = new string[9] { "../../../Ressources/ProfilePictures/profilePic1.png", "../../../Ressources/ProfilePictures/profilePic2.png", "../../../Ressources/ProfilePictures/profilePic3.png", "../../../Ressources/ProfilePictures/profilePic4.png", "../../../Ressources/ProfilePictures/profilePic5.png", "../../../Ressources/ProfilePictures/profilePic6.png", "../../../Ressources/ProfilePictures/profilePic7.png", "../../../Ressources/ProfilePictures/profilePic8.png", "../../../Ressources/ProfilePictures/profilePic9.png" };
         Instance = this;
         _playerName = playerName;
         _elo = elo;

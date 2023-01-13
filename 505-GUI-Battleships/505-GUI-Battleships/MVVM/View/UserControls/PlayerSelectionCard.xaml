@@ -51,16 +51,15 @@
                     BorderThickness="0"
                     Padding="0,10,0,10" />
 
-                <Border 
+                <Border
                     BorderBrush="White"
                     BorderThickness="1"
                     Height="70"
                     Width="80"
                     Grid.Row="1">
                     <Image
-                    Grid.Row="1"
-                    Source="{Binding PlayerImage}"
-                    Stretch="UniformToFill" />
+                        Source="{Binding PlayerImage}"
+                        Stretch="UniformToFill" />
                 </Border>
 
                 <!-- Color-Picker Extension -->

@@ -57,12 +57,12 @@
             Grid.Column="2"
             Style="{StaticResource AddPlayerButton}" />
 
-        <TextBlock 
+        <TextBlock
             Foreground="White"
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Text="{Binding ShipBoardSpaceSize, FallbackValue=2}"
-            Grid.Column="3"/>
+            Grid.Column="3" />
 
 
     </Grid>

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model" 
+             xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
              d:DesignHeight="110" d:DesignWidth="210"
@@ -17,7 +17,7 @@
         Background="#262536"
         BorderBrush="White"
         BorderThickness="1">
-        <Button 
+        <Button
             Style="{DynamicResource PlayerSelectionCardHorizontalButton}"
             Command="{Binding SelectTargetPlayerCommand}"
             CommandParameter="{Binding Instance}"
@@ -38,7 +38,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Text="{Binding PlayerName, FallbackValue=NAME}"
-                        Foreground="White"/>
+                        Foreground="White" />
                     <Label
                         BorderThickness="1"
                         BorderBrush="White"

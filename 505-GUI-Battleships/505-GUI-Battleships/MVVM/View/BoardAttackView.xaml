@@ -43,7 +43,7 @@
                 </LinearGradientBrush>
             </Image.OpacityMask>
         </Image>
-        
+
         <TextBlock
             Grid.Column="1"
             Grid.ColumnSpan="3"
@@ -58,7 +58,7 @@
             Grid.Column="2">
             <ContentPresenter Content="{Binding BoardContainer}" Focusable="true" />
         </Viewbox>
-        
+
         <Button
             Command="{Binding BackToSelectPlayerTargetView}"
             Grid.Row="1"

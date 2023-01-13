@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Windows;
-using Point = System.Windows.Point;
 
 namespace _505_GUI_Battleships.MVVM.Model;
 
 public class ShipPlacementModel
 {
-    public Point Position { get; set; } 
+    public Point Position { get; set; }
     public int Length { get; set; }
     public bool Destroyed { get; set; }
     public bool Horizontal { get; set; }
@@ -25,35 +23,31 @@ public class ShipPlacementModel
 
     public Collection<Point> GetPoisitionList()
     {
-        Collection<Point> positionList = new Collection<Point>();
-        if (Horizontal) {
-            for (int i = 0; i < Length; i++)
+        var positionList = new Collection<Point>();
+        if ( Horizontal )
+            for ( var i = 0; i < Length; i++ )
                 positionList.Add(new Point(Position.X + i, Position.Y));
-        } 
         else
-        {
-            for (int i = 0; i < Length; i++)
+            for ( var i = 0; i < Length; i++ )
                 positionList.Add(new Point(Position.X, Position.Y + 1));
-        }
         return positionList;
     }
 
     public bool IsShipHit(Point shotPosition)
     {
-        Point positionChecker = Position;
-        for (int i = 0; i < Length; i++)
+        var positionChecker = Position;
+
+        for ( var i = 0; i < Length; i++ )
         {
-            if (shotPosition == positionChecker)
+            if ( shotPosition == positionChecker )
                 return true;
 
-            if (Horizontal == true)
-            {
+            if ( Horizontal )
                 positionChecker.X += 1;
-            } else
-            {
+            else
                 positionChecker.Y += 1;
-            }
         }
+
         return false;
     }
 

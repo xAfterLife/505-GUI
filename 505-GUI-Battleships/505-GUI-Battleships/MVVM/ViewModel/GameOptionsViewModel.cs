@@ -177,6 +177,7 @@ internal sealed class GameOptionsViewModel : ObservableObject
                     RoundCount = null;
                     break;
             }
+
             OnPropertyChanged(nameof(RoundCountTextBlockVisibility));
             OnPropertyChanged(nameof(RoundCountTextBoxVisibility));
         });
