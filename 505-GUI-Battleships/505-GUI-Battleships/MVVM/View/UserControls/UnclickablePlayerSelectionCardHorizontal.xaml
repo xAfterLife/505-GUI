@@ -17,30 +17,49 @@
         Background="#262536"
         BorderBrush="White"
         BorderThickness="1">
-        <DockPanel
-            HorizontalAlignment="Stretch">
-            <Image
-                Margin="3"
-                Height="80"
-                Width="80"
-                Source="{Binding PlayerImage}"
-                Stretch="Fill" />
+            <UniformGrid
+                Rows="1">
             <DockPanel>
-                <TextBlock
-                    DockPanel.Dock="Top"
-                    TextAlignment="Center"
-                    Background="Transparent"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{Binding PlayerName, FallbackValue=NAME}"
-                    Foreground="White" />
-                <Label
-                    BorderThickness="1"
-                    BorderBrush="White"
-                    Height="30"
-                    Width="30"
-                    Background="{Binding PlayerColor}" />
+                <Image
+                    Margin="3"
+                    Height="80"
+                    Width="80"
+                    Source="{Binding PlayerImage}"
+                    Stretch="Fill" />
+                <DockPanel>
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        DockPanel.Dock="Top"
+                        TextAlignment="Center"
+                        Background="Transparent"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Text="{Binding PlayerName, FallbackValue=NAME}"
+                        Foreground="White" />
+                    <Label
+                        DockPanel.Dock="Top"
+                        BorderThickness="1"
+                        BorderBrush="White"
+                        Height="30"
+                        Width="30"
+                        Background="{Binding PlayerColor}" />
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock 
+                            FontSize="10"
+                            TextAlignment="Center"
+                            Foreground="White"
+                            Text="Points: "/>
+                        <TextBlock
+                            FontSize="10"
+                            TextAlignment="Center"
+                            Foreground="White"
+                            Text="{Binding Points, FallbackValue=0}"/>
+                    </StackPanel>
+                </DockPanel>
             </DockPanel>
-        </DockPanel>
+        </UniformGrid>
     </Border>
 </UserControl>
