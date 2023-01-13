@@ -18,11 +18,6 @@ public static class SoundPlayerService
     }
 
     /// <summary>
-    ///     Random
-    /// </summary>
-    private static readonly Random Rnd = new((int)(Environment.TickCount * DateTime.Now.ToFileTimeUtc()));
-
-    /// <summary>
     ///     Plays Sound based on SoundType enum
     /// </summary>
     /// <param name="type">SoundType</param>
@@ -31,10 +26,10 @@ public static class SoundPlayerService
         var assembly = Assembly.GetExecutingAssembly();
         var stream = assembly.GetManifestResourceStream($@"_505_GUI_Battleships.Resources.Sounds.{type switch
         {
-            SoundType.FinalTreffer  => $"Final_Treffer_{Rnd.Next(1, 3)}.wav",
-            SoundType.Geschoss      => $"Geschoss_{Rnd.Next(1, 2)}.wav",
-            SoundType.Treffer       => $"Treffer_{Rnd.Next(1, 4)}.wav",
-            SoundType.Wassertreffer => $"Wassertreffer_{Rnd.Next(1, 3)}.wav",
+            SoundType.FinalTreffer  => $"Final_Treffer_{Random.Shared.Next(1, 3)}.wav",
+            SoundType.Geschoss      => $"Geschoss_{Random.Shared.Next(1, 2)}.wav",
+            SoundType.Treffer       => $"Treffer_{Random.Shared.Next(1, 4)}.wav",
+            SoundType.Wassertreffer => $"Wassertreffer_{Random.Shared.Next(1, 3)}.wav",
             _                       => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         }}");
         var player = new SoundPlayer(stream);

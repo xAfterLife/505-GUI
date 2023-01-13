@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -18,12 +17,12 @@ public sealed class PlayerModel : ObservableObject
     private Guid _playerId;
     private string _playerImage;
     private string _playerName;
+    private int _points;
     private Canvas _visualPlayerBoard;
-    private int _points = 0;
 
     public int Points
     {
-        get => _points; 
+        get => _points;
         set => Update(ref _points, value);
     }
 
@@ -119,10 +118,8 @@ public sealed class PlayerModel : ObservableObject
         _elo = elo;
         _playerId = Guid.NewGuid();
 
-        Random rInt = new();
-        _playerImage = _playerImageList[rInt.Next(9)];
-        Trace.WriteLine(rInt.Next(9));
-        _playerColor = Color.FromRgb((byte)rInt.Next(256), (byte)rInt.Next(256), (byte)rInt.Next(256)).ToString();
+        _playerImage = _playerImageList[Random.Shared.Next(9)];
+        _playerColor = Color.FromRgb((byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256)).ToString();
     }
 
     /// <summary>

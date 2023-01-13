@@ -45,9 +45,9 @@ public sealed class ChangeViewModel
     /// </summary>
     /// <param name="viewType">Enum ViewType to guarantee safety of passed typed</param>
     /// <param name="viewModel"></param>
-    public static void ChangeView(ViewType viewType, IDisposable viewModel)
+    public static void ChangeView(ViewType viewType, IDisposable? viewModel)
     {
-        viewModel.Dispose();
+        viewModel?.Dispose();
         if ( viewType == _lastViewType )
             return;
 

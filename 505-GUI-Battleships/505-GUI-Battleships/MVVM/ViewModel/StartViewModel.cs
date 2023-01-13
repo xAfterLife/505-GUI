@@ -14,10 +14,10 @@ internal class StartViewModel : ObservableObject, IDisposable
     /// </summary>
     public ICommand StartGameCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection, this));
 
-    public ICommand SoundTestCommand => new RelayCommand(async _ =>
+    public ICommand SoundTestCommand => new RelayCommand(_ =>
     {
         SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Geschoss);
-        await Task.Delay(1000);
+        Task.Delay(1000);
         SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
     });
 
