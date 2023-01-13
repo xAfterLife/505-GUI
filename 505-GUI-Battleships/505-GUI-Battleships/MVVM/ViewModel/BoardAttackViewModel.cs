@@ -271,7 +271,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 await Task.Delay(750);
 
                 //TODO: SET NEXT PLAYER
-                //_gameService.SetNextPlayer()
+                _gameService.SetNextPlayer();
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
             }

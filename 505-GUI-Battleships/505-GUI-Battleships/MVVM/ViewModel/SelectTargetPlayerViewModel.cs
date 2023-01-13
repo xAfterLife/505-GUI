@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
@@ -52,8 +53,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
     {
         _gameService = GameDataService.GetInstance();
         _currentPlayer = _gameService.CurrentPlayer!;
-        TargetablePlayers = _gameService.PlayerModels;
-        TargetablePlayers.Remove(_currentPlayer);
+        TargetablePlayers = new ObservableCollection<PlayerModel>(_gameService.PlayerModels.Where(x => x != _currentPlayer));
 
         SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}!";
         RoundCountText = _gameService.CurrentRound.ToString();
