@@ -267,10 +267,8 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingBlue.png", UriKind.RelativeOrAbsolute));
 
-                // TODO Animation Explosion + kurz wirken lassen
                 await Task.Delay(750);
 
-                //TODO: SET NEXT PLAYER
                 _gameService.SetNextPlayer();
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
@@ -280,8 +278,8 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 //TODO: ADD PlayerScore
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingRed.png", UriKind.RelativeOrAbsolute));
 
-                //TODO: Check if ship is Destroyed
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));
+
                 if ( finalHit )
                     //Schiff versenkt
                     SoundPlayerService.PlaySound(SoundPlayerService.SoundType.FinalTreffer);
@@ -292,8 +290,8 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 Trace.WriteLine(finalHit);
 
                 //TODO: Check if all Ships are Destroyed
+                var allShipsDestroyed = _gameService.CurrentTarget!.Ships.Select(x => x.GetPoisitionList()).All(ships => ships.All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))));
 
-                // TODO Animation Explosion + kurz wirken lassen
                 await Task.Delay(750);
             }
 
