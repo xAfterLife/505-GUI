@@ -10,73 +10,73 @@
 
 	<ItemGroup>
 		<None Remove="BG1.png" />
-		<None Remove="Ressources\AttackSymbole.png" />
-		<None Remove="Ressources\BG1.jpg" />
-		<None Remove="Ressources\BG2.jpg" />
-		<None Remove="Ressources\ProfilePictures\profilePic1.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic2.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic3.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic4.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic5.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic6.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic7.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic8.png" />
-		<None Remove="Ressources\ProfilePictures\profilePic9.png" />
-		<None Remove="Ressources\RingBlue.png" />
-		<None Remove="Ressources\RingRed.png" />
-		<None Remove="Ressources\Rocket.png" />
-		<None Remove="Ressources\ship-icon.png" />
-		<None Remove="Ressources\Ships\1ShipPatrolHorizontal.png" />
-		<None Remove="Ressources\Ships\1ShipPatrolVertical.png" />
-		<None Remove="Ressources\Ships\2ShipRescueHorizontal.png" />
-		<None Remove="Ressources\Ships\2ShipRescueVertical.png" />
-		<None Remove="Ressources\Ships\3ShipSubMarineHorizontal.png" />
-		<None Remove="Ressources\Ships\3ShipSubMarineVertical.png" />
-		<None Remove="Ressources\Ships\4ShipDestroyerHorizontal.png" />
-		<None Remove="Ressources\Ships\4ShipDestroyerVertical.png" />
-		<None Remove="Ressources\Ships\5ShipBattleshipHorizontal.png" />
-		<None Remove="Ressources\Ships\5ShipBattleshipHVertical.png" />
-		<None Remove="Ressources\Ships\5ShipBattleshipVertical.png" />
-		<None Remove="Ressources\Sounds\Final_Treffer_1.mp3" />
-		<None Remove="Ressources\Sounds\Final_Treffer_1.wav" />
-		<None Remove="Ressources\Sounds\Final_Treffer_2.mp3" />
-		<None Remove="Ressources\Sounds\Final_Treffer_2.wav" />
-		<None Remove="Ressources\Sounds\Final_Treffer_3.mp3" />
-		<None Remove="Ressources\Sounds\Final_Treffer_3.wav" />
-		<None Remove="Ressources\Sounds\Geschoss_1.mp3" />
-		<None Remove="Ressources\Sounds\Geschoss_1.wav" />
-		<None Remove="Ressources\Sounds\Geschoss_2.mp3" />
-		<None Remove="Ressources\Sounds\Geschoss_2.wav" />
-		<None Remove="Ressources\Sounds\Treffer_1.mp3" />
-		<None Remove="Ressources\Sounds\Treffer_1.wav" />
-		<None Remove="Ressources\Sounds\Treffer_2.mp3" />
-		<None Remove="Ressources\Sounds\Treffer_2.wav" />
-		<None Remove="Ressources\Sounds\Treffer_3.mp3" />
-		<None Remove="Ressources\Sounds\Treffer_3.wav" />
-		<None Remove="Ressources\Sounds\Treffer_4.mp3" />
-		<None Remove="Ressources\Sounds\Treffer_4.wav" />
-		<None Remove="Ressources\Sounds\Wassertreffer_1.mp3" />
-		<None Remove="Ressources\Sounds\Wassertreffer_1.wav" />
-		<None Remove="Ressources\Sounds\Wassertreffer_2.mp3" />
-		<None Remove="Ressources\Sounds\Wassertreffer_2.wav" />
-		<None Remove="Ressources\Sounds\Wassertreffer_3.mp3" />
-		<None Remove="Ressources\Sounds\Wassertreffer_3.wav" />
+		<None Remove="Resources\AttackSymbole.png" />
+		<None Remove="Resources\BG1.jpg" />
+		<None Remove="Resources\BG2.jpg" />
+		<None Remove="Resources\ProfilePictures\profilePic1.png" />
+		<None Remove="Resources\ProfilePictures\profilePic2.png" />
+		<None Remove="Resources\ProfilePictures\profilePic3.png" />
+		<None Remove="Resources\ProfilePictures\profilePic4.png" />
+		<None Remove="Resources\ProfilePictures\profilePic5.png" />
+		<None Remove="Resources\ProfilePictures\profilePic6.png" />
+		<None Remove="Resources\ProfilePictures\profilePic7.png" />
+		<None Remove="Resources\ProfilePictures\profilePic8.png" />
+		<None Remove="Resources\ProfilePictures\profilePic9.png" />
+		<None Remove="Resources\RingBlue.png" />
+		<None Remove="Resources\RingRed.png" />
+		<None Remove="Resources\Rocket.png" />
+		<None Remove="Resources\ship-icon.png" />
+		<None Remove="Resources\Ships\1ShipPatrolHorizontal.png" />
+		<None Remove="Resources\Ships\1ShipPatrolVertical.png" />
+		<None Remove="Resources\Ships\2ShipRescueHorizontal.png" />
+		<None Remove="Resources\Ships\2ShipRescueVertical.png" />
+		<None Remove="Resources\Ships\3ShipSubMarineHorizontal.png" />
+		<None Remove="Resources\Ships\3ShipSubMarineVertical.png" />
+		<None Remove="Resources\Ships\4ShipDestroyerHorizontal.png" />
+		<None Remove="Resources\Ships\4ShipDestroyerVertical.png" />
+		<None Remove="Resources\Ships\5ShipBattleshipHorizontal.png" />
+		<None Remove="Resources\Ships\5ShipBattleshipHVertical.png" />
+		<None Remove="Resources\Ships\5ShipBattleshipVertical.png" />
+		<None Remove="Resources\Sounds\Final_Treffer_1.mp3" />
+		<None Remove="Resources\Sounds\Final_Treffer_1.wav" />
+		<None Remove="Resources\Sounds\Final_Treffer_2.mp3" />
+		<None Remove="Resources\Sounds\Final_Treffer_2.wav" />
+		<None Remove="Resources\Sounds\Final_Treffer_3.mp3" />
+		<None Remove="Resources\Sounds\Final_Treffer_3.wav" />
+		<None Remove="Resources\Sounds\Geschoss_1.mp3" />
+		<None Remove="Resources\Sounds\Geschoss_1.wav" />
+		<None Remove="Resources\Sounds\Geschoss_2.mp3" />
+		<None Remove="Resources\Sounds\Geschoss_2.wav" />
+		<None Remove="Resources\Sounds\Treffer_1.mp3" />
+		<None Remove="Resources\Sounds\Treffer_1.wav" />
+		<None Remove="Resources\Sounds\Treffer_2.mp3" />
+		<None Remove="Resources\Sounds\Treffer_2.wav" />
+		<None Remove="Resources\Sounds\Treffer_3.mp3" />
+		<None Remove="Resources\Sounds\Treffer_3.wav" />
+		<None Remove="Resources\Sounds\Treffer_4.mp3" />
+		<None Remove="Resources\Sounds\Treffer_4.wav" />
+		<None Remove="Resources\Sounds\Wassertreffer_1.mp3" />
+		<None Remove="Resources\Sounds\Wassertreffer_1.wav" />
+		<None Remove="Resources\Sounds\Wassertreffer_2.mp3" />
+		<None Remove="Resources\Sounds\Wassertreffer_2.wav" />
+		<None Remove="Resources\Sounds\Wassertreffer_3.mp3" />
+		<None Remove="Resources\Sounds\Wassertreffer_3.wav" />
 		<None Remove="Services\ILoggableService" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Ressources\Sounds\Final_Treffer_1.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Final_Treffer_2.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Final_Treffer_3.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Geschoss_1.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Geschoss_2.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Treffer_1.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Treffer_2.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Treffer_3.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Treffer_4.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Wassertreffer_1.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Wassertreffer_2.wav" />
-	  <EmbeddedResource Include="Ressources\Sounds\Wassertreffer_3.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_3.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Geschoss_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Geschoss_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_3.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Treffer_4.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Wassertreffer_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Wassertreffer_2.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\Wassertreffer_3.wav" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -84,78 +84,78 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Resource Include="Ressources\AttackSymbole.png">
+		<Resource Include="Resources\AttackSymbole.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\BG1.jpg">
+		<Resource Include="Resources\BG1.jpg">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\BG2.jpg" />
-		<Resource Include="Ressources\ProfilePictures\profilePic1.png">
+		<Resource Include="Resources\BG2.jpg" />
+		<Resource Include="Resources\ProfilePictures\profilePic1.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic2.png">
+		<Resource Include="Resources\ProfilePictures\profilePic2.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic3.png">
+		<Resource Include="Resources\ProfilePictures\profilePic3.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic4.png">
+		<Resource Include="Resources\ProfilePictures\profilePic4.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic5.png">
+		<Resource Include="Resources\ProfilePictures\profilePic5.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic6.png">
+		<Resource Include="Resources\ProfilePictures\profilePic6.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic7.png">
+		<Resource Include="Resources\ProfilePictures\profilePic7.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic8.png">
+		<Resource Include="Resources\ProfilePictures\profilePic8.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ProfilePictures\profilePic9.png">
+		<Resource Include="Resources\ProfilePictures\profilePic9.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\RingBlue.png">
+		<Resource Include="Resources\RingBlue.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\RingRed.png">
+		<Resource Include="Resources\RingRed.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Rocket.png">
+		<Resource Include="Resources\Rocket.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\ship-icon.png" />
-		<Resource Include="Ressources\Ships\1ShipPatrolHorizontal.png">
+		<Resource Include="Resources\ship-icon.png" />
+		<Resource Include="Resources\Ships\1ShipPatrolHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\1ShipPatrolVertical.png">
+		<Resource Include="Resources\Ships\1ShipPatrolVertical.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\2ShipRescueHorizontal.png">
+		<Resource Include="Resources\Ships\2ShipRescueHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\2ShipRescueVertical.png">
+		<Resource Include="Resources\Ships\2ShipRescueVertical.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\3ShipSubMarineHorizontal.png">
+		<Resource Include="Resources\Ships\3ShipSubMarineHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\3ShipSubMarineVertical.png">
+		<Resource Include="Resources\Ships\3ShipSubMarineVertical.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\4ShipDestroyerHorizontal.png">
+		<Resource Include="Resources\Ships\4ShipDestroyerHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\4ShipDestroyerVertical.png">
+		<Resource Include="Resources\Ships\4ShipDestroyerVertical.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\5ShipBattleshipHorizontal.png">
+		<Resource Include="Resources\Ships\5ShipBattleshipHorizontal.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Ressources\Ships\5ShipBattleshipVertical.png">
+		<Resource Include="Resources\Ships\5ShipBattleshipVertical.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 	</ItemGroup>

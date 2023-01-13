@@ -33,7 +33,7 @@
         <Image Grid.ColumnSpan="4"
                Grid.RowSpan="6"
                Stretch="Fill"
-               Source="../../Ressources/BG2.jpg"
+               Source="../../Resources/BG2.jpg"
                RenderOptions.BitmapScalingMode="HighQuality">
             <Image.OpacityMask>
                 <LinearGradientBrush StartPoint="0.1,0" EndPoint="0.9,0">
@@ -81,7 +81,7 @@
         <Image
             Grid.Row="3"
             Grid.Column="1"
-            Source="../../Ressources/AttackSymbole.png" />
+            Source="../../Resources/AttackSymbole.png" />
         <Viewbox Grid.Row="4" Grid.Column="1">
             <ContentControl Content="{Binding AttackerPlayerCard}">
                 <ContentControl.ContentTemplate>

@@ -220,7 +220,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
     private void TestAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
     {
-        var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/Rocket.png", UriKind.RelativeOrAbsolute));
+        var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Rocket.png", UriKind.RelativeOrAbsolute));
 
         var rocket = new Image { Width = 1, Height = 1, Source = imageSource };
         var tt = new TranslateTransform();
@@ -265,7 +265,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             if ( !isShipHit )
             {
                 SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
-                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingBlue.png", UriKind.RelativeOrAbsolute));
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingBlue.png", UriKind.RelativeOrAbsolute));
 
                 // TODO Animation Explosion + kurz wirken lassen
                 await Task.Delay(750);
@@ -278,7 +278,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             else
             {
                 //TODO: ADD PlayerScore
-                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Ressources/RingRed.png", UriKind.RelativeOrAbsolute));
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingRed.png", UriKind.RelativeOrAbsolute));
 
                 //TODO: Check if ship is Destroyed
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));

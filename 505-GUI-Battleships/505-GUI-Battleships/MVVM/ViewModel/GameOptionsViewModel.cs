@@ -216,16 +216,16 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
             var shipList = Ships.Select(ship => ship.ShipImageListIndex + 1).ToList();
             var urisources = new Collection<Uri>
             {
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/1ShipPatrolHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/1ShipPatrolVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/2ShipRescueHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/2ShipRescueVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/3ShipSubMarineHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/3ShipSubMarineVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/4ShipDestroyerHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/4ShipDestroyerVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/5ShipBattleshipHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Ressources/Ships/5ShipBattleshipVertical.png")
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolHorizontal.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolVertical.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueHorizontal.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueVertical.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineHorizontal.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineVertical.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerHorizontal.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerVertical.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipHorizontal.png"),
+                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipVertical.png")
             };
             var bitmapImages = new Collection<BitmapImage>();
             foreach ( var uri in urisources )

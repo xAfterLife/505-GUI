@@ -11,7 +11,7 @@ namespace _505_GUI_Battleships.MVVM.Model;
 
 public sealed class PlayerModel : ObservableObject
 {
-    private readonly string[] _playerImageList = { "../../../Ressources/ProfilePictures/profilePic1.png", "../../../Ressources/ProfilePictures/profilePic2.png", "../../../Ressources/ProfilePictures/profilePic3.png", "../../../Ressources/ProfilePictures/profilePic4.png", "../../../Ressources/ProfilePictures/profilePic5.png", "../../../Ressources/ProfilePictures/profilePic6.png", "../../../Ressources/ProfilePictures/profilePic7.png", "../../../Ressources/ProfilePictures/profilePic8.png", "../../../Ressources/ProfilePictures/profilePic9.png" };
+    private readonly string[] _playerImageList = { "../../../Resources/ProfilePictures/profilePic1.png", "../../../Resources/ProfilePictures/profilePic2.png", "../../../Resources/ProfilePictures/profilePic3.png", "../../../Resources/ProfilePictures/profilePic4.png", "../../../Resources/ProfilePictures/profilePic5.png", "../../../Resources/ProfilePictures/profilePic6.png", "../../../Resources/ProfilePictures/profilePic7.png", "../../../Resources/ProfilePictures/profilePic8.png", "../../../Resources/ProfilePictures/profilePic9.png" };
     private Visibility _deleteButtonVisibility;
     private uint _elo;
     private string _playerColor;

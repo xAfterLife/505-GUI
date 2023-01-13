@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Background="#1e1e1e"
         FontFamily="Segoe UI"
-        Icon="Ressources/ship-icon.png"
+        Icon="/Resources/ship-icon.png"
         Title="505GUI - Schiffe versenken" Height="600" Width="1000">
 
 

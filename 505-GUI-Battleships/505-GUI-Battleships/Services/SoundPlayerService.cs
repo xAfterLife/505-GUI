@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Media;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace _505_GUI_Battleships.Services;
 
@@ -38,6 +39,7 @@ public static class SoundPlayerService
             _                       => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         }}");
         var player = new SoundPlayer(stream);
+        player.Load();
         player.Play();
     }
 }

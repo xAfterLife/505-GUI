@@ -6,7 +6,7 @@ namespace _505_GUI_Battleships.MVVM.Model;
 
 public sealed class ShipSizeSelectorModel : ObservableObject
 {
-    private readonly string[] _shipImagePathList = { "../../../Ressources/Ships/1ShipPatrolHorizontal.png", "../../../Ressources/Ships/2ShipRescueHorizontal.png", "../../../Ressources/Ships/3ShipSubMarineHorizontal.png", "../../../Ressources/Ships/4ShipDestroyerHorizontal.png", "../../../Ressources/Ships/5ShipBattleshipHorizontal.png" };
+    private readonly string[] _shipImagePathList = { "../../../Resources/Ships/1ShipPatrolHorizontal.png", "../../../Resources/Ships/2ShipRescueHorizontal.png", "../../../Resources/Ships/3ShipSubMarineHorizontal.png", "../../../Resources/Ships/4ShipDestroyerHorizontal.png", "../../../Resources/Ships/5ShipBattleshipHorizontal.png" };
     private Visibility _enlargeShipSizeVisibility;
     private Visibility _reduceShipSizeVisibility;
     private int _shipBoardSpaceSize;
