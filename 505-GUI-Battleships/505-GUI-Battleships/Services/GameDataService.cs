@@ -84,6 +84,6 @@ internal class GameDataService : ServiceBase
 
     public bool CheckGameOver()
     {
-        return PlayerModels.Count < 2;
+        return PlayerModels.Count == 1;
     }
 }

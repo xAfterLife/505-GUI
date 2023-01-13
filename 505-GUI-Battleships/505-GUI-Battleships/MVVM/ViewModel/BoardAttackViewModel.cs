@@ -216,7 +216,8 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             else
             {
                 //TODO: ADD PlayerScore
-                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/XRed.png", UriKind.RelativeOrAbsolute));
+                _gameService.CurrentPlayer!.Points += (6 - struckShip.Length);
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingRed.png", UriKind.RelativeOrAbsolute));
                 rocket.Height = 1;
 
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));

@@ -98,5 +98,6 @@ public sealed class ShipSizeSelectorModel : ObservableObject
             ReduceShipSizeVisibility = Visibility.Hidden;
         else
             ReduceShipSizeVisibility = Visibility.Visible;
+        OnPropertyChanged(nameof(ShipImagePath));
     }
 }

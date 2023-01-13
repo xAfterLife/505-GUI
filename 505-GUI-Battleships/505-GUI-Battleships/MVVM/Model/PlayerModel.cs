@@ -19,6 +19,13 @@ public sealed class PlayerModel : ObservableObject
     private string _playerImage;
     private string _playerName;
     private Canvas _visualPlayerBoard;
+    private int _points = 0;
+
+    public int Points
+    {
+        get => _points; 
+        set => Update(ref _points, value);
+    }
 
     public string PlayerImage
     {
