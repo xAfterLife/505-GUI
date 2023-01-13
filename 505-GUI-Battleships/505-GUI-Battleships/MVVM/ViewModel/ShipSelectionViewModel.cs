@@ -50,8 +50,8 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         {
             if ( _gameService.PlayerModels.Count == 2 )
             {
-                ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack, this);
                 _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _currentPlayer);
+                ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack, this);
             }
             else
                 ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
