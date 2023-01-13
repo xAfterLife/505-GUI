@@ -145,7 +145,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
     private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
     {
-        PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
+        //PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
 
         var clickPosition = e.GetPosition((IInputElement)sender);
         clickPosition.X = Math.Round(clickPosition.X - 0.5);
@@ -169,10 +169,10 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             struckShip = ship;
         }
 
-        TestAnimation(clickPosition, isShipHit, struckShip!);
+        StartAnimation(clickPosition, isShipHit, struckShip!);
     }
 
-    private void TestAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
+    private void StartAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
     {
         var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RocketStraight.png", UriKind.RelativeOrAbsolute));
 
@@ -224,7 +224,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             {
                 //TODO: ADD PlayerScore
                 _gameService.CurrentPlayer!.Points += 6 - struckShip.Length;
-                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingRed.png", UriKind.RelativeOrAbsolute));
+                rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/XRed.png", UriKind.RelativeOrAbsolute));
                 rocket.Height = 1;
 
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));
