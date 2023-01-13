@@ -13,6 +13,7 @@ internal class GameDataService : ServiceBase
     public GameOptionsModel? GameOptions { get; private set; }
     public GameBoardModel? GameBoard { get; private set; }
     public ObservableCollection<PlayerModel> PlayerModels { get; set; }
+    public ObservableCollection<PlayerModel> EliminatedPlayers { get; set; }
     public ObservableCollection<ShipModel> ShipModels { get; set; }
     public PlayerModel? CurrentPlayer { get; set; }
     public int CurrentPlayerIndex { get; set; }
@@ -73,13 +74,8 @@ internal class GameDataService : ServiceBase
         if ( GameOptions.GameMode == GameMode.FirstOneOut )
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
 
+        EliminatedPlayers.Add(CurrentTarget);
         PlayerModels.Remove(CurrentTarget);
-
-        if ( CheckGameOver() )
-        {
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
-            ResetInstance();
-        }
 
         int i;
         for ( i = 0; i < PlayerModels.Count; i++ )
@@ -95,7 +91,7 @@ internal class GameDataService : ServiceBase
         return PlayerModels.Count == 1;
     }
 
-    private void ResetInstance()
+    public void ResetInstance()
     {
         _instance = new GameDataService();
     }
