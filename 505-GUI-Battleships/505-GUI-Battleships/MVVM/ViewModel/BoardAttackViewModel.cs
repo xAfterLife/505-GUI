@@ -266,7 +266,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                     {
                         if ( _gameService.PlayerModels.Count == 2 )
                         {
-                            _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _gameService.CurrentTarget);
+                            _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _gameService.CurrentPlayer);
                             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.BoardAttack, this);
                         }
                         else

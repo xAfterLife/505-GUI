@@ -49,6 +49,7 @@ public sealed class ChangeViewModel
     {
         viewModel?.Dispose();
 
+        //Creates a new Instance of specified Type (ViewModel)
         var view = Activator.CreateInstance(Views[viewType]);
         if ( view == null )
             return;

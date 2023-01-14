@@ -6,9 +6,19 @@ namespace _505_GUI_Battleships.MVVM.Model;
 
 public class GameBoardModel
 {
+    /// <summary>
+    ///     Height of the GameBoard
+    /// </summary>
     public int Height { get; }
+
+    /// <summary>
+    ///     Width of the GameBoard
+    /// </summary>
     public int Width { get; }
 
+    /// <summary>
+    ///     The Visual Representation of the GameBoard
+    /// </summary>
     public Canvas Board => new()
     {
         Uid = "PlayerBoard",
@@ -28,6 +38,11 @@ public class GameBoardModel
         }
     };
 
+    /// <summary>
+    ///     Constructor of GameBoardModel
+    /// </summary>
+    /// <param name="height">default value 10</param>
+    /// <param name="width">default value 10</param>
     public GameBoardModel(int height = 10, int width = 10)
     {
         Height = height;

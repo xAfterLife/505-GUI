@@ -45,7 +45,7 @@
         </Image>
 
         <TextBlock
-            Grid.Row="0" 
+            Grid.Row="0"
             Grid.Column="1"
             FontSize="16"
             Foreground="White"
