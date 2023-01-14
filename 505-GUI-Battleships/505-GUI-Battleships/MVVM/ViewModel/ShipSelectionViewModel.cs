@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,7 +32,9 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         get => _buttonText;
         set => Update(ref _buttonText, value);
     }
+
     public Canvas PlacementShips { get; set; }
+
     /// <summary>
     ///     Container for Board and Axis-Descriptors
     /// </summary>
@@ -42,6 +43,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         get => _boardContainer;
         set => Update(ref _boardContainer, value);
     }
+
     /// <summary>
     ///     visiblity of the button that navigates to the next player
     /// </summary>
@@ -50,6 +52,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         get => _nextPlayerBttonVisibility;
         set => Update(ref _nextPlayerBttonVisibility, value);
     }
+
     /// <summary>
     ///     String for heading
     /// </summary>
@@ -252,7 +255,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
     private static bool DetectCollision(Panel playerBoard, FrameworkElement element, Point dropPosition)
     {
         var placementBounds = new Rect(dropPosition, new Size(element.Width - 1, element.Height - 1));
-        
+
         // loops through all the board elements and checks for intersection
         foreach ( var ship in playerBoard.Children.OfType<Image>() )
         {
@@ -295,9 +298,8 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         CheckIfAllShipsArePlaced();
     }
 
-
     /// <summary>
-    /// Prevents the overlapping of ships
+    ///     Prevents the overlapping of ships
     /// </summary>
     /// <param name="playerBoard"></param>
     /// <param name="element"></param>
@@ -321,6 +323,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
                 else
                     dropPosition.Y += 1;
             }
+
             //returns false if theres no valid position
             if ( dropPosition == initialPos )
                 return false;
@@ -334,7 +337,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// Enables the button if PlacementShips is empty
+    ///     Enables the button if PlacementShips is empty
     /// </summary>
     private void CheckIfAllShipsArePlaced()
     {
@@ -344,7 +347,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// Calculates the y position of the shipList
+    ///     Calculates the y position of the shipList
     /// </summary>
     /// <param name="shipPosition"></param>
     /// <returns></returns>
@@ -354,7 +357,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// creates all the ships with the attributes set io GameService
+    ///     creates all the ships with the attributes set io GameService
     /// </summary>
     private void InstantiateShips()
     {
@@ -404,7 +407,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// Performs the Flip of the element
+    ///     Performs the Flip of the element
     /// </summary>
     /// <param name="e"></param>
     /// <param name="ship"></param>

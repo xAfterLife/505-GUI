@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Controls;
 using _505_GUI_Battleships.Core;
 using _505_GUI_Battleships.MVVM.Model;
 using _505_GUI_Battleships.Services;
@@ -16,7 +15,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
     private string _selectTargetPlayerHeading = string.Empty;
 
     /// <summary>
-    /// Binding for the Heading
+    ///     Binding for the Heading
     /// </summary>
     public string SelectTargetPlayerHeading
     {
@@ -27,7 +26,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
     public ObservableCollection<PlayerModel> TargetablePlayers { get; set; }
 
     /// <summary>
-    /// Binding for the PlayerCard that shows the currently playing player
+    ///     Binding for the PlayerCard that shows the currently playing player
     /// </summary>
     public PlayerModel CurrentPlayer
     {
@@ -36,7 +35,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
     }
 
     /// <summary>
-    /// Binding for the displayed RoundCount
+    ///     Binding for the displayed RoundCount
     /// </summary>
     public string RoundCountText
     {
@@ -45,7 +44,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
     }
 
     /// <summary>
-    /// ctor
+    ///     ctor
     /// </summary>
     public SelectTargetPlayerViewModel()
     {
@@ -59,8 +58,9 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
         //Subscribe to electTargetPlayerPressed
         PlayerModel.SelectTargetPlayerCommandPressed += SelectTargetPlayerPressed;
     }
+
     /// <summary>
-    /// Dispose current view model and unsubscribe SelectTargetPlayerPressed
+    ///     Dispose current view model and unsubscribe SelectTargetPlayerPressed
     /// </summary>
     public void Dispose()
     {
@@ -68,7 +68,7 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
     }
 
     /// <summary>
-    /// select CurrentTarget and change into BoardAttackView
+    ///     select CurrentTarget and change into BoardAttackView
     /// </summary>
     private void SelectTargetPlayerPressed(object? sender, EventArgs args)
     {

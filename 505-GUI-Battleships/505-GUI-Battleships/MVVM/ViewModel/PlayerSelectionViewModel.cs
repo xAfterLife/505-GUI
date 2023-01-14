@@ -81,7 +81,7 @@ internal sealed class PlayerSelectionViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// Dispose current view model and unsubscribe OnPlayerModelOnDeleteButtonPressed
+    ///     Dispose current view model and unsubscribe OnPlayerModelOnDeleteButtonPressed
     /// </summary>
     public void Dispose()
     {
@@ -89,8 +89,8 @@ internal sealed class PlayerSelectionViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    /// removes player from Players list and turns visibility of delete button
-    /// if only 2 players are in said list
+    ///     removes player from Players list and turns visibility of delete button
+    ///     if only 2 players are in said list
     /// </summary>
     private void OnPlayerModelOnDeleteButtonPressed(object sender, EventArgs _)
     {
