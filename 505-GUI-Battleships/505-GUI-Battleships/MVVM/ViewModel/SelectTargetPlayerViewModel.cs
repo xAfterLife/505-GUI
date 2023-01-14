@@ -11,15 +11,13 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposable
 {
     private readonly GameDataService _gameService;
-
     private PlayerModel _currentPlayer;
-
-    private Canvas _playerBoard;
-
     private string _roundCountText = string.Empty;
-
     private string _selectTargetPlayerHeading = string.Empty;
 
+    /// <summary>
+    /// Binding for the Heading
+    /// </summary>
     public string SelectTargetPlayerHeading
     {
         get => _selectTargetPlayerHeading;
@@ -28,27 +26,27 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
 
     public ObservableCollection<PlayerModel> TargetablePlayers { get; set; }
 
-    public Canvas PlayerBoard
-    {
-        get => _playerBoard;
-        set => Update(ref _playerBoard, value);
-    }
-
+    /// <summary>
+    /// Binding for the PlayerCard that shows the currently playing player
+    /// </summary>
     public PlayerModel CurrentPlayer
     {
         get => _currentPlayer;
         set => Update(ref _currentPlayer, value);
     }
 
+    /// <summary>
+    /// Binding for the displayed RoundCount
+    /// </summary>
     public string RoundCountText
     {
         get => _roundCountText;
         set => Update(ref _roundCountText, value);
     }
 
-    //TODO: Implement CurrentPlayer
-    //TODO: Implement CurrentRound
-
+    /// <summary>
+    /// ctor
+    /// </summary>
     public SelectTargetPlayerViewModel()
     {
         _gameService = GameDataService.GetInstance();
@@ -57,16 +55,21 @@ internal sealed class SelectTargetPlayerViewModel : ObservableObject, IDisposabl
 
         SelectTargetPlayerHeading = $"It's your turn to attack, {_currentPlayer.PlayerName}!";
         RoundCountText = _gameService.CurrentRound.ToString();
-        _playerBoard = _gameService.GameBoard!.Board;
 
+        //Subscribe to electTargetPlayerPressed
         PlayerModel.SelectTargetPlayerCommandPressed += SelectTargetPlayerPressed;
     }
-
+    /// <summary>
+    /// Dispose current view model and unsubscribe SelectTargetPlayerPressed
+    /// </summary>
     public void Dispose()
     {
         PlayerModel.SelectTargetPlayerCommandPressed -= SelectTargetPlayerPressed;
     }
 
+    /// <summary>
+    /// select CurrentTarget and change into BoardAttackView
+    /// </summary>
     private void SelectTargetPlayerPressed(object? sender, EventArgs args)
     {
         if ( sender is PlayerModel player )
