@@ -17,17 +17,17 @@ internal sealed class PlayerSelectionViewModel : ObservableObject, IDisposable
     public ObservableCollection<PlayerModel> Players { get; set; }
 
     /// <summary>
-    ///     Binding for the AddPlayerButton
+    ///     Binding for the AddPlayerButton Visibility property
     /// </summary>
     public Visibility AddPlayerButtonVisibility => Players.Count >= 4 ? Visibility.Collapsed : Visibility.Visible;
 
     /// <summary>
-    ///     AddPlayer Command
+    ///     AddPlayer Command, adds new PlayerModel Object to list and enables deletebutton visibility if conditions are met
     /// </summary>
     public static ICommand? AddPlayerCommand { get; set; }
 
     /// <summary>
-    ///     GoToGameOptionsCommand Command
+    ///     GoToGameOptionsCommand Command, changes current view to GameOptionsView and passes Players to the gameservice
     /// </summary>
     public static ICommand? GoToGameOptionsCommand { get; set; }
 
@@ -42,6 +42,8 @@ internal sealed class PlayerSelectionViewModel : ObservableObject, IDisposable
     public PlayerSelectionViewModel()
     {
         var gameService = GameDataService.GetInstance();
+
+        //creates Players-List if no players exist, loads in players if they already exist
         if ( !gameService.PlayerModels.Any() )
             Players = new ObservableCollection<PlayerModel> { new(), new() };
         else
@@ -78,11 +80,18 @@ internal sealed class PlayerSelectionViewModel : ObservableObject, IDisposable
         });
     }
 
+    /// <summary>
+    /// Dispose current view model and unsubscribe OnPlayerModelOnDeleteButtonPressed
+    /// </summary>
     public void Dispose()
     {
         PlayerModel.DeleteButtonPressed -= OnPlayerModelOnDeleteButtonPressed!;
     }
 
+    /// <summary>
+    /// removes player from Players list and turns visibility of delete button
+    /// if only 2 players are in said list
+    /// </summary>
     private void OnPlayerModelOnDeleteButtonPressed(object sender, EventArgs _)
     {
         if ( sender is PlayerModel player )
