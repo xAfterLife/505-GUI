@@ -28,11 +28,11 @@ public static class SoundPlayerService
         var stream = assembly.GetManifestResourceStream($@"_505_GUI_Battleships.Resources.Sounds.{type switch
         {
             SoundType.EnemyDestroyed => $"AllShipsDestroyed_{Random.Shared.Next(1, 3)}.wav",
-            SoundType.FinalTreffer   => $"Final_Treffer_{Random.Shared.Next(1, 3)}.wav",
-            SoundType.Geschoss       => $"Geschoss_{Random.Shared.Next(1, 2)}.wav",
-            SoundType.Treffer        => $"Treffer_{Random.Shared.Next(1, 4)}.wav",
-            SoundType.Wassertreffer  => $"Wassertreffer_{Random.Shared.Next(1, 3)}.wav",
-            _                        => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            SoundType.FinalTreffer => $"Final_Treffer_{Random.Shared.Next(1, 3)}.wav",
+            SoundType.Geschoss => $"Geschoss_{Random.Shared.Next(1, 2)}.wav",
+            SoundType.Treffer => $"Treffer_{Random.Shared.Next(1, 4)}.wav",
+            SoundType.Wassertreffer => $"Wassertreffer_{Random.Shared.Next(1, 3)}.wav",
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         }}");
         var player = new SoundPlayer(stream);
         player.Load();

@@ -60,7 +60,7 @@
         </Viewbox>
 
         <Button
-            Command="{Binding BackToSelectPlayerTargetView}"
+            Command="{Binding SelectPlayerViewCommand}"
             Grid.Row="1"
             Grid.Column="1"
             Margin="20,10"

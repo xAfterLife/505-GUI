@@ -24,63 +24,89 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
     private Canvas _playerBoard;
     private PlayerModel _targetedPlayerCard;
 
+    /// <summary>
+    ///     Current Round Binding
+    /// </summary>
     public string Round => $"Round {_gameService.CurrentRound}";
+    /// <summary>
+    ///     Visibility for the Back Button to prevent players from going into the Target Selection when only 2 Players are left
+    /// </summary>
     public Visibility BackButtonVisibility => _gameService.PlayerModels.Count > 2 ? Visibility.Visible : Visibility.Hidden;
-
+    /// <summary>
+    ///     Disable Input during the Rocket Animation
+    /// </summary>
     public bool IsInputEnabled
     {
         get => _isInputEnabled;
         set => Update(ref _isInputEnabled, value);
     }
-
+    /// <summary>
+    ///     Container for Board and Axis-Descriptors
+    /// </summary>
     public Grid BoardContainer
     {
         get => _boardContainer;
         set => Update(ref _boardContainer, value);
     }
-
+    /// <summary>
+    ///     The Board of the Target player to Attack on
+    /// </summary>
     public Canvas PlayerBoard
     {
         get => _playerBoard;
         set => Update(ref _playerBoard, value);
     }
-
+    /// <summary>
+    ///     Display your Target, to see the fear in their eyes
+    /// </summary>
     public PlayerModel TargetedPlayerCard
     {
         get => _targetedPlayerCard;
         set => Update(ref _targetedPlayerCard, value);
     }
-
+    /// <summary>
+    ///     Display your own Playercard
+    /// </summary>
     public PlayerModel AttackerPlayerCard
     {
         get => _attackerPlayerCard;
         set => Update(ref _attackerPlayerCard, value);
     }
 
-    public ICommand? BackToSelectPlayerTargetView { get; }
+    /// <summary>
+    ///     
+    /// </summary>
+    public ICommand? SelectPlayerViewCommand { get; }
 
+    /// <summary>
+    ///     Constructor for BoardAttackViewModel
+    /// </summary>
     public BoardAttackViewModel()
     {
         _gameService = GameDataService.GetInstance();
-        _targetedPlayerCard = _gameService.CurrentTarget!;
-        _attackerPlayerCard = _gameService.CurrentPlayer!;
+        TargetedPlayerCard = _gameService.CurrentTarget!;
+        AttackerPlayerCard = _gameService.CurrentPlayer!;
         _boardDimensions = (_gameService.GameBoard!.Width, _gameService.GameBoard!.Height);
 
-        BackToSelectPlayerTargetView = new RelayCommand(_ =>
-        {
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this);
-        });
-
+        //Late Binding because we need the Current Instance
+        SelectPlayerViewCommand = new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.SelectTargetPlayer, this));
         SetupBoardContainer();
     }
 
+    /// <summary>
+    ///     Dispose the Instance and remove the EventListener
+    /// </summary>
     public void Dispose()
     {
         PlayerBoard.MouseLeftButtonDown -= MouseLeftButtonDownHandler;
     }
 
+    /// <summary>
+    ///     Initialize the Board
+    /// </summary>
     private void SetupBoardContainer()
     {
+        //Create the Board which is a Grid and Add Definitions
         BoardContainer = new Grid();
         BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
         BoardContainer.RowDefinitions.Add(new RowDefinition { Height = new GridLength(_boardDimensions.Height, GridUnitType.Star) });
@@ -90,6 +116,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         Canvas xAxis = new() { Width = _boardDimensions.Width, Height = 1, LayoutTransform = new ScaleTransform(1, -1) };
         Canvas yAxis = new() { Width = 1, Height = _boardDimensions.Height, LayoutTransform = new ScaleTransform(1, -1) };
 
+        //Fill the X-Asis Descriptors
         for ( var i = 0; i < _boardDimensions.Width; i++ )
         {
             var textBlock = new TextBlock
@@ -111,6 +138,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         Grid.SetRow(xAxis, 0);
         Grid.SetColumn(xAxis, 1);
 
+        //Fill the Y-Asis Descriptors
         for ( var i = 0; i < _boardDimensions.Height; i++ )
         {
             var textBlock = new TextBlock
@@ -131,12 +159,14 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         Grid.SetRow(yAxis, 1);
         Grid.SetColumn(yAxis, 0);
 
+        //Add the Legend/Descriptors
         BoardContainer.Children.Add(xAxis);
         BoardContainer.Children.Add(yAxis);
 
         PlayerBoard = _gameService.CurrentTarget!.VisualPlayerBoard;
         PlayerBoard.ClipToBounds = false;
 
+        //Add an EventListener to get the Targeted Cell
         PlayerBoard.MouseLeftButtonDown += MouseLeftButtonDownHandler;
 
         Grid.SetRow(_playerBoard, 1);
@@ -146,8 +176,17 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         BoardContainer.Children.Add(PlayerBoard);
     }
 
+    /// <summary>
+    ///     Handle attack on a Cell
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void MouseLeftButtonDownHandler(object sender, MouseButtonEventArgs e)
     {
+        var isShipHit = false;
+        ShipPlacementModel struckShip = null!;
+
+        //Get the Click-Position and fix it to the Tile
         var clickPosition = e.GetPosition((IInputElement)sender);
         clickPosition.X = Math.Round(clickPosition.X - 0.5);
         if ( clickPosition.X < 0 )
@@ -155,15 +194,12 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         clickPosition.Y = Math.Round(clickPosition.Y - 0.5);
         if ( clickPosition.Y > _boardDimensions.Height - 1 )
             clickPosition.Y = _boardDimensions.Height - 1;
-        Trace.WriteLine(clickPosition.ToString());
-        var isShipHit = false;
-        ShipPlacementModel struckShip = null!;
 
+        //If the Field has already been clicked on
         if ( _playerBoard.Children.OfType<Image>().Any(hit => (clickPosition.X == Canvas.GetLeft(hit)) & (clickPosition.Y == Canvas.GetTop(hit))) )
             return;
 
         var ship = _gameService.CurrentTarget!.Ships.FirstOrDefault(x => x.IsShipHit(clickPosition));
-
         if ( ship != null )
         {
             isShipHit = true;
@@ -173,6 +209,12 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         StartAnimation(clickPosition, isShipHit, struckShip!);
     }
 
+    /// <summary>
+    ///     Start the Animation of the Rocket
+    /// </summary>
+    /// <param name="clickPosition"></param>
+    /// <param name="isShipHit"></param>
+    /// <param name="struckShip"></param>
     private void StartAnimation(Point clickPosition, bool isShipHit, ShipPlacementModel struckShip)
     {
         var imageSource = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RocketStraight.png", UriKind.RelativeOrAbsolute));
@@ -196,7 +238,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         storyboard.Children.Add(rocketAnimationX);
         storyboard.Children.Add(rocketAnimationY);
 
-        // Start the storyboard
+        // Action that Fires once the Animation has ended
         async void ActionDelegate(object? o, EventArgs e)
         {
             rocket.RenderTransform = new TranslateTransform();
@@ -205,22 +247,24 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
             if ( !isShipHit )
             {
+                // Indicate the miss by a Blue Circle and a Water-Sound
                 SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Wassertreffer);
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/RingBlue.png", UriKind.RelativeOrAbsolute));
                 rocket.Height = 1;
 
+                //Wait for the Sound and Animation to play and the User to see the Result of his Decision
                 await Task.Delay(1500);
-
                 _gameService.SetNextPlayer();
 
+                // Game has ended?
                 if ( _gameService.CurrentRound >= _gameService.GameOptions!.Rounds )
                 {
                     ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     return;
                 }
 
+                // Throw next Player into StarterScreen or Directly into the next Attack
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
-
                 if ( _gameService.PlayerModels.Count == 2 )
                 {
                     _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _gameService.CurrentTarget);
@@ -233,36 +277,39 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             }
             else
             {
-                //TODO: ADD PlayerScore
+                SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Treffer);
+
                 _gameService.CurrentPlayer!.Points += 6 - struckShip.Length;
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/XRed.png", UriKind.RelativeOrAbsolute));
                 rocket.Height = 1;
 
+                // Detect if a Ship has sunk
                 var finalHit = struckShip.GetPoisitionList().All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit))));
 
                 if ( finalHit )
-                    //Schiff versenkt
+                {
+                    await Task.Delay(1500);
                     SoundPlayerService.PlaySound(SoundPlayerService.SoundType.FinalTreffer);
-                else
-                    //Schiff getroffen
-                    SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Treffer);
+                }
 
                 await Task.Delay(1500);
                 Trace.WriteLine(finalHit);
 
-                //TODO: Check if all Ships are Destroyed
+                // Detect if all Ships from this player sunk
                 var allShipsDestroyed = _gameService.CurrentTarget!.Ships.Select(x => x.GetPoisitionList()).All(ships => ships.All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))));
-
                 if ( allShipsDestroyed )
                 {
                     _gameService.PlayerKnockOut(this);
 
+                    // End the Game
                     if ( _gameService.CheckGameOver() )
                     {
                         _gameService.CurrentPlayer.Winner = true;
+                        await Task.Delay(500);
                         SoundPlayerService.PlaySound(SoundPlayerService.SoundType.EnemyDestroyed);
                         ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     }
+                    // Same CurrentUser next Attack
                     else
                     {
                         if ( _gameService.PlayerModels.Count == 2 )

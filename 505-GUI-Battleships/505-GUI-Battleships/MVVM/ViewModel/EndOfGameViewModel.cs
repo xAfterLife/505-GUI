@@ -10,10 +10,19 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 
 internal sealed class EndOfGameViewModel : ObservableObject, IDisposable
 {
+    /// <summary>
+    ///     The List of all Players to Dispay their Playercards (Alive and Eliminated)
+    /// </summary>
     public ObservableCollection<PlayerModel> Players { get; set; }
 
+    /// <summary>
+    ///     Command to get back to the Start-Screen
+    /// </summary>
     public ICommand ReturnToStartCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this));
 
+    /// <summary>
+    ///     Constructor of the EndOfGameViewModel
+    /// </summary>
     public EndOfGameViewModel()
     {
         Players = new ObservableCollection<PlayerModel>();
@@ -27,6 +36,9 @@ internal sealed class EndOfGameViewModel : ObservableObject, IDisposable
             Players[0].Winner = true;
     }
 
+    /// <summary>
+    ///     Dispose the Current ViewModel and Reset the Instance of the GameDataService to start a new Game
+    /// </summary>
     public void Dispose()
     {
         GameDataService.GetInstance().ResetInstance();

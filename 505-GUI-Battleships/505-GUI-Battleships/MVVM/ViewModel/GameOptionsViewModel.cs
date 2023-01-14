@@ -13,32 +13,49 @@ namespace _505_GUI_Battleships.MVVM.ViewModel;
 internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
 {
     private int _boardHeight;
-
     private int _boardWith;
-
     private bool _firstOneOutCheck;
-
     private bool _lastManStandingCheck;
-
     private bool _playWithRoundsCheck;
-
     private int _roundCount;
-
     private Visibility _roundCountTextBlockVisibility;
-
     private Visibility _roundCountTextVisibility;
 
+    /// <summary>
+    ///     The Ships that every Player can set
+    /// </summary>
     public ObservableCollection<ShipSizeSelectorModel> Ships { get; set; }
-
+    /// <summary>
+    ///     Get Back to the PlayerSelection
+    /// </summary>
     public ICommand BackCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection, this));
+    /// <summary>
+    ///     Start the Game Command
+    /// </summary>
     public static ICommand? StartGameCommand { get; set; }
+    /// <summary>
+    ///     Add a Ship Command
+    /// </summary>
     public static ICommand? AddShipCommand { get; set; }
+    /// <summary>
+    ///     Remove a Ship Command
+    /// </summary>
     public static ICommand? DeleteShipCommand { get; set; }
+    /// <summary>
+    ///     The Visibility of the AddShipCommand Button
+    /// </summary>
     public Visibility AddShipCommandVisibility => Ships.Count >= 5 ? Visibility.Collapsed : Visibility.Visible;
+    /// <summary>
+    ///     The Visibility of the DeleteShipCommand Button
+    /// </summary>
     public Visibility DeleteShipCommandVisibility => Ships.Count > 1 ? Visibility.Visible : Visibility.Hidden;
-
+    /// <summary>
+    ///     The LastManStanding Command
+    /// </summary>
     public static ICommand? LastManStandingCommand { get; set; }
-
+    /// <summary>
+    ///     Gets if LastManStanding is Checked
+    /// </summary>
     public bool LastManStandingCheck
     {
         get => _lastManStandingCheck;
