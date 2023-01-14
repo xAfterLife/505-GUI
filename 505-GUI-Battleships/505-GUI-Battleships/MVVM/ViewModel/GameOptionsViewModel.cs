@@ -57,7 +57,7 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
     public Visibility DeleteShipCommandVisibility => Ships.Count > 1 ? Visibility.Visible : Visibility.Hidden;
 
     /// <summary>
-    ///     The LastManStanding Command
+    ///     Toggles FirstOneOut off
     /// </summary>
     public static ICommand? LastManStandingCommand { get; set; }
 
@@ -70,34 +70,55 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         set => Update(ref _lastManStandingCheck, value);
     }
 
+    /// <summary>
+    ///     Toggles LastManStanding off
+    /// </summary>
     public static ICommand? FirstOneOutCommand { get; set; }
 
+    /// <summary>
+    ///     Gets if FirstOneOut is Checked
+    /// </summary>
     public bool FirstOneOutCheck
     {
         get => _firstOneOutCheck;
         set => Update(ref _firstOneOutCheck, value);
     }
 
+    /// <summary>
+    ///     Check if PlayWithRounds is checked
+    /// </summary>
     public bool PlayWithRoundsCheck
     {
         get => _playWithRoundsCheck;
         set => Update(ref _playWithRoundsCheck, value);
     }
 
+    /// <summary>
+    ///     Toggle on/off the Rounds-Menu
+    /// </summary>
     public static ICommand? PlayWithRoundsCommand { get; set; }
 
+    /// <summary>
+    ///     The Visibility for one of the RoundCount Options
+    /// </summary>
     public Visibility RoundCountTextBlockVisibility
     {
         get => _roundCountTextVisibility;
         set => Update(ref _roundCountTextBlockVisibility, value);
     }
 
+    /// <summary>
+    ///     The Visibility for one of the RoundCount Options
+    /// </summary>
     public Visibility RoundCountTextBoxVisibility
     {
         get => _roundCountTextVisibility;
         set => Update(ref _roundCountTextVisibility, value);
     }
 
+    /// <summary>
+    ///     The Max-Rounds Double-Binding
+    /// </summary>
     public int? RoundCount
     {
         get => _roundCount;
@@ -106,6 +127,7 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
             if ( !value.HasValue )
                 return;
 
+            // Sanity Checking the Input
             switch ( value )
             {
                 case > 50:
@@ -122,11 +144,15 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         }
     }
 
+    /// <summary>
+    ///     Width of the PlayerBoard Double-Binding
+    /// </summary>
     public int BoardWidth
     {
         get => _boardWith;
         set
         {
+            // Sanity Checking the Input
             switch ( value )
             {
                 case > 15:
@@ -143,6 +169,9 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         }
     }
 
+    /// <summary>
+    ///     Height of the PlayerBoard Double-Binding
+    /// </summary>
     public int BoardHeight
     {
         get => _boardHeight;
@@ -150,6 +179,7 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         {
             switch ( value )
             {
+                // Sanity Checking the Input
                 case > 15:
                     value = 15;
                     MessageBox.Show("BoardWidth and Height need to be between 7 and 15", "Information", MessageBoxButton.OK);
@@ -164,27 +194,26 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         }
     }
 
+    /// <summary>
+    ///     Constructor of the GameOptionsViewModel
+    /// </summary>
     public GameOptionsViewModel()
     {
         LastManStandingCheck = true;
         FirstOneOutCheck = false;
         PlayWithRoundsCheck = true;
 
-        // TODO: Set min/max width/height, rule for round count would be advisible
+        //Default Initializers
         BoardWidth = 10;
         BoardHeight = 10;
         RoundCount = 15;
 
-        LastManStandingCommand = new RelayCommand(_ =>
-        {
-            FirstOneOutCheck = !LastManStandingCheck;
-        });
+        var gameService = GameDataService.GetInstance();
+        Ships = new ObservableCollection<ShipSizeSelectorModel> { new() };
 
-        FirstOneOutCommand = new RelayCommand(_ =>
-        {
-            LastManStandingCheck = !FirstOneOutCheck;
-        });
-
+        //Late Bind the Commands
+        LastManStandingCommand = new RelayCommand(_ => FirstOneOutCheck = !LastManStandingCheck);
+        FirstOneOutCommand = new RelayCommand(_ => LastManStandingCheck = !FirstOneOutCheck);
         PlayWithRoundsCommand = new RelayCommand(_ =>
         {
             switch ( PlayWithRoundsCheck )
@@ -201,16 +230,11 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
                     break;
             }
         });
-
-        var gameService = GameDataService.GetInstance();
-        var players = gameService.PlayerModels;
-
-        Ships = new ObservableCollection<ShipSizeSelectorModel> { new() };
-
         AddShipCommand = new RelayCommand(_ =>
         {
             Ships.Add(new ShipSizeSelectorModel());
 
+            //Call the OnPropertyChanged Function because those Fields don't Update themselves
             OnPropertyChanged(nameof(AddShipCommandVisibility));
             OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
@@ -219,43 +243,34 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         {
             Ships.RemoveAt(Ships.Count - 1);
 
+            //Call the OnPropertyChanged Function because those Fields don't Update themselves
             OnPropertyChanged(nameof(AddShipCommandVisibility));
             OnPropertyChanged(nameof(DeleteShipCommandVisibility));
         });
 
         StartGameCommand = new RelayCommand(_ =>
         {
-            GameMode mode = 0;
-            int? rounds;
-
-            if ( FirstOneOutCheck )
-                mode = (GameMode)1;
-
-            if ( PlayWithRoundsCheck )
-                rounds = RoundCount;
-            else
-                rounds = null;
+            var shipList = Ships.Select(ship => ship.ShipImageListIndex + 1).ToList();
+            var mode = FirstOneOutCheck ? GameMode.FirstOneOut : GameMode.LastManStanding;
+            var rounds = PlayWithRoundsCheck ? RoundCount : null;
+            // Create a List of the Ships we use
+            var bitmapImages = new Collection<BitmapImage>
+            {
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolHorizontal.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolVertical.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueHorizontal.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueVertical.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineHorizontal.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineVertical.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerHorizontal.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerVertical.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipHorizontal.png")),
+                new(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipVertical.png"))
+            };
 
             gameService.Initialize(BoardHeight, BoardWidth, mode, rounds);
 
-            var shipList = Ships.Select(ship => ship.ShipImageListIndex + 1).ToList();
-            var urisources = new Collection<Uri>
-            {
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/1ShipPatrolVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/2ShipRescueVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/3ShipSubMarineVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/4ShipDestroyerVertical.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipHorizontal.png"),
-                new("pack://application:,,,/505-GUI-Battleships;component/Resources/Ships/5ShipBattleshipVertical.png")
-            };
-            var bitmapImages = new Collection<BitmapImage>();
-            foreach ( var uri in urisources )
-                bitmapImages.Add(new BitmapImage(uri));
-
+            // Fill the Game Options Shiplist via the set Ships in the Options Screen
             foreach ( var ship in shipList )
                 switch ( ship )
                 {
@@ -285,5 +300,8 @@ internal sealed class GameOptionsViewModel : ObservableObject, IDisposable
         });
     }
 
+    /// <summary>
+    ///     Implement the IDisposable Interface
+    /// </summary>
     public void Dispose() {}
 }

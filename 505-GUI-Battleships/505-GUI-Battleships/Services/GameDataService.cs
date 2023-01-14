@@ -5,7 +5,7 @@ using _505_GUI_Battleships.MVVM.Model;
 
 namespace _505_GUI_Battleships.Services;
 
-internal class GameDataService : ServiceBase
+internal class GameDataService
 {
     private static GameDataService? _instance;
     private int _firstPlayerIndex;

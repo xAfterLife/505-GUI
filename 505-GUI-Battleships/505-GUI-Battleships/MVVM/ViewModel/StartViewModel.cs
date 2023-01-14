@@ -14,6 +14,9 @@ internal class StartViewModel : ObservableObject, IDisposable
     /// </summary>
     public ICommand StartGameCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.PlayerSelection, this));
 
+    /// <summary>
+    ///     Command to Test the SoundPlayer
+    /// </summary>
     public ICommand SoundTestCommand => new RelayCommand(_ =>
     {
         SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Geschoss);
@@ -26,5 +29,8 @@ internal class StartViewModel : ObservableObject, IDisposable
     /// </summary>
     public static ICommand ExitCommand => new RelayCommand(_ => Application.Current.Shutdown());
 
+    /// <summary>
+    ///     Implement the IDisposable Interface
+    /// </summary>
     public void Dispose() {}
 }

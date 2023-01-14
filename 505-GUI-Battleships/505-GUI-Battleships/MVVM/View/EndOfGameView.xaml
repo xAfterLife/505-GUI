@@ -56,10 +56,9 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Text="Finish!"
+                Text="Game Ended!"
                 FontSize="40"
                 Foreground="White" />
 

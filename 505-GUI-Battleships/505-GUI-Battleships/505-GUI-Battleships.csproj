@@ -6,6 +6,7 @@
 		<RootNamespace>_505_GUI_Battleships</RootNamespace>
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
+		<ApplicationIcon>Resources\ship-icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -61,6 +62,10 @@
 		<None Remove="Resources\trophy.png" />
 		<None Remove="Resources\XRed.png" />
 		<None Remove="Services\ILoggableService" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Resources\ship-icon.ico" />
 	</ItemGroup>
 
 	<ItemGroup>

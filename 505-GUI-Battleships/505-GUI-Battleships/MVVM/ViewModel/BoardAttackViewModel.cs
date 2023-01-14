@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -284,9 +283,8 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             }
             else
             {
-                SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Treffer);
-
                 _gameService.CurrentPlayer!.Points += 6 - struckShip.Length;
+                SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Treffer);
                 rocket.Source = new BitmapImage(new Uri("pack://application:,,,/505-GUI-Battleships;component/Resources/XRed.png", UriKind.RelativeOrAbsolute));
                 rocket.Height = 1;
 
@@ -300,7 +298,6 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 }
 
                 await Task.Delay(1500);
-                Trace.WriteLine(finalHit);
 
                 // Detect if all Ships from this player sunk
                 var allShipsDestroyed = _gameService.CurrentTarget!.Ships.Select(x => x.GetPoisitionList()).All(ships => ships.All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))));
@@ -308,13 +305,13 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                 if ( allShipsDestroyed )
                 {
                     _gameService.PlayerKnockOut(this);
+                    await Task.Delay(500);
+                    SoundPlayerService.PlaySound(SoundPlayerService.SoundType.EnemyDestroyed);
 
                     // End the Game
                     if ( _gameService.CheckGameOver() )
                     {
                         _gameService.CurrentPlayer.Winner = true;
-                        await Task.Delay(500);
-                        SoundPlayerService.PlaySound(SoundPlayerService.SoundType.EnemyDestroyed);
                         ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     }
                     // Same CurrentUser next Attack
