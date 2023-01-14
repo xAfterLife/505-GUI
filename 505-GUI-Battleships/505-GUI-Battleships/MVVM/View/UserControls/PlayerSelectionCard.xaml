@@ -62,7 +62,9 @@
                         Stretch="UniformToFill" />
                 </Border>
 
-                <!-- Color-Picker Extension -->
+                <!-- Color-Picker Extension WPF Toolkit 
+                     Copyright by Exceed 
+                     https://github.com/xceedsoftware/wpftoolkit -->
                 <xctk:ColorPicker
                     Grid.Row="2"
                     Margin="8"
@@ -73,14 +75,6 @@
                     Name="ClrPcker_Background"
                     Height="25"
                     Width="25" />
-
-                <!--<TextBlock
-                    Grid.Row="3"
-                    Text="{Binding PlayerId}"
-                    HorizontalAlignment="Center"
-                    Foreground="White"
-                    FontSize="12"
-                    Padding="5,5,5,5" />-->
             </Grid>
 
         </StackPanel>
