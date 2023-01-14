@@ -12,13 +12,13 @@ public sealed class PlayerModel : ObservableObject
 {
     private readonly string[] _playerImageList = { "../../../Resources/ProfilePictures/profilePic1.png", "../../../Resources/ProfilePictures/profilePic2.png", "../../../Resources/ProfilePictures/profilePic3.png", "../../../Resources/ProfilePictures/profilePic4.png", "../../../Resources/ProfilePictures/profilePic5.png", "../../../Resources/ProfilePictures/profilePic6.png", "../../../Resources/ProfilePictures/profilePic7.png", "../../../Resources/ProfilePictures/profilePic8.png", "../../../Resources/ProfilePictures/profilePic9.png" };
     private Visibility _deleteButtonVisibility;
-    private uint _elo;
     private string _playerColor;
     private Guid _playerId;
     private string _playerImage;
     private string _playerName;
     private int _points;
     private Canvas _visualPlayerBoard;
+    private bool _winner;
 
     public int Points
     {
@@ -81,13 +81,22 @@ public sealed class PlayerModel : ObservableObject
     }
 
     /// <summary>
-    ///     Elo-Points of the Player
+    ///     Is the Player Winning, son?
     /// </summary>
-    public uint Elo
+    public bool Winner
     {
-        get => _elo;
-        set => Update(ref _elo, value);
+        get => _winner;
+        set
+        {
+            Update(ref _winner, value);
+            OnPropertyChanged(nameof(CrownVisibility));
+        }
     }
+
+    /// <summary>
+    ///     Visibility if the Winner's Crown is being displayed
+    /// </summary>
+    public Visibility CrownVisibility => Winner ? Visibility.Visible : Visibility.Hidden;
 
     /// <summary>
     ///     Guid as a Unique-ID for the Player
@@ -110,12 +119,10 @@ public sealed class PlayerModel : ObservableObject
     /// <summary>
     /// </summary>
     /// <param name="playerName">Name of the Player</param>
-    /// <param name="elo">Elo points of the Player</param>
-    public PlayerModel(string playerName = "Enter name", uint elo = 1000)
+    public PlayerModel(string playerName = "Enter name")
     {
         Instance = this;
         _playerName = playerName;
-        _elo = elo;
         _playerId = Guid.NewGuid();
 
         _playerImage = _playerImageList[Random.Shared.Next(9)];

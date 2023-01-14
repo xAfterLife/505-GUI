@@ -10,6 +10,9 @@
     <Compile Update="MVVM\View\BoardAttackView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="MVVM\View\EndOfGameView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MVVM\View\GameOptionsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\BoardAttackView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\View\EndOfGameView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MVVM\View\GameOptionsView.xaml">

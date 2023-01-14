@@ -24,6 +24,9 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
     private Canvas _playerBoard;
     private PlayerModel _targetedPlayerCard;
 
+    public string Round => $"Round {_gameService.CurrentRound}";
+    public Visibility BackButtonVisibility => _gameService.PlayerModels.Count > 2 ? Visibility.Visible : Visibility.Hidden;
+
     public bool IsInputEnabled
     {
         get => _isInputEnabled;
@@ -212,7 +215,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                 if ( _gameService.CurrentRound >= _gameService.GameOptions!.Rounds )
                 {
-                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
+                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     return;
                 }
 
@@ -257,8 +260,8 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                     if ( _gameService.CheckGameOver() )
                     {
-                        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
-                        _gameService.ResetInstance();
+                        _gameService.CurrentPlayer.Winner = true;
+                        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     }
                     else
                     {

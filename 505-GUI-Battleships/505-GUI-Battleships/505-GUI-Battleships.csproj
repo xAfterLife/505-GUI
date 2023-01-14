@@ -23,8 +23,6 @@
 		<None Remove="Resources\ProfilePictures\profilePic8.png" />
 		<None Remove="Resources\ProfilePictures\profilePic9.png" />
 		<None Remove="Resources\RingBlue.png" />
-		<None Remove="Resources\RingRed.png" />
-		<None Remove="Resources\Rocket.png" />
 		<None Remove="Resources\RocketStraight.png" />
 		<None Remove="Resources\ship-icon.png" />
 		<None Remove="Resources\Ships\1ShipPatrolHorizontal.png" />
@@ -62,6 +60,7 @@
 		<None Remove="Resources\Sounds\Wassertreffer_2.wav" />
 		<None Remove="Resources\Sounds\Wassertreffer_3.mp3" />
 		<None Remove="Resources\Sounds\Wassertreffer_3.wav" />
+		<None Remove="Resources\trophy.png" />
 		<None Remove="Resources\XRed.png" />
 		<None Remove="Services\ILoggableService" />
 	</ItemGroup>
@@ -123,12 +122,6 @@
 		<Resource Include="Resources\RingBlue.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
-		<Resource Include="Resources\RingRed.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
-		<Resource Include="Resources\Rocket.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Resource>
 		<Resource Include="Resources\RocketStraight.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
@@ -161,6 +154,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Resources\Ships\5ShipBattleshipVertical.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Resources\trophy.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Resources\XRed.png">

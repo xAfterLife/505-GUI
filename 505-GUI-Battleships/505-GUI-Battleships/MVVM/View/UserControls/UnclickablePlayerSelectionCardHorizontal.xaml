@@ -6,20 +6,22 @@
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
-             d:DesignHeight="120" d:DesignWidth="220"
+             d:DesignHeight="100" d:DesignWidth="220"
              Margin="0"
              Padding="0">
 
     <Border
-        Margin="20"
         Width="180"
         Height="80"
         Background="#262536"
         BorderBrush="White"
         BorderThickness="1">
-        <UniformGrid
-            Rows="1">
+        <UniformGrid Rows="1">
             <DockPanel>
+                <Canvas Width="0" ZIndex="999">
+                    <Image Canvas.Top="-15" Canvas.Left="-15" Width="35" Visibility="{Binding CrownVisibility}"
+                           Source="../../../Resources/trophy.png" />
+                </Canvas>
                 <Image
                     Margin="3"
                     Height="80"

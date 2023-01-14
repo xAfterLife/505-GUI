@@ -24,6 +24,7 @@ internal class GameDataService : ServiceBase
     {
         PlayerModels = new ObservableCollection<PlayerModel>();
         ShipModels = new ObservableCollection<ShipModel>();
+        EliminatedPlayers = new ObservableCollection<PlayerModel>();
     }
 
     public static GameDataService GetInstance()
@@ -36,9 +37,10 @@ internal class GameDataService : ServiceBase
         GameOptions = new GameOptionsModel(gameMode, rounds);
         GameBoard = new GameBoardModel(boardHeight, boardWidth);
 
-        _firstPlayerIndex = Random.Shared.Next(PlayerModels.Count - 1);
+        CurrentPlayerIndex = _firstPlayerIndex = Random.Shared.Next(PlayerModels.Count - 1);
         CurrentPlayer = PlayerModels[_firstPlayerIndex];
         CurrentRound = 1;
+
         foreach ( var player in PlayerModels )
             player.VisualPlayerBoard = new GameBoardModel(boardHeight, boardWidth).Board;
     }
@@ -57,7 +59,7 @@ internal class GameDataService : ServiceBase
 
     public void SetNextPlayer()
     {
-        if ( CurrentPlayerIndex == PlayerModels.Count - 1 )
+        if ( CurrentPlayerIndex >= PlayerModels.Count - 1 )
             CurrentPlayerIndex = 0;
         else
             CurrentPlayerIndex++;
@@ -72,10 +74,7 @@ internal class GameDataService : ServiceBase
         if ( GameOptions == null || CurrentTarget == null )
             throw new Exception("Service is not Initialized");
         if ( GameOptions.GameMode == GameMode.FirstOneOut )
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
-
-        EliminatedPlayers.Add(CurrentTarget);
-        PlayerModels.Remove(CurrentTarget);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, sender);
 
         int i;
         for ( i = 0; i < PlayerModels.Count; i++ )
@@ -84,6 +83,12 @@ internal class GameDataService : ServiceBase
 
         if ( CurrentPlayerIndex > i )
             CurrentPlayerIndex--;
+
+        EliminatedPlayers.Add(CurrentTarget);
+        PlayerModels.Remove(CurrentTarget);
+
+        if (_firstPlayerIndex >= PlayerModels.Count)
+            _firstPlayerIndex = 0;
     }
 
     public bool CheckGameOver()
