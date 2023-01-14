@@ -24,6 +24,7 @@ internal class GameDataService : ServiceBase
     {
         PlayerModels = new ObservableCollection<PlayerModel>();
         ShipModels = new ObservableCollection<ShipModel>();
+        EliminatedPlayers = new ObservableCollection<PlayerModel>();
     }
 
     public static GameDataService GetInstance()
@@ -73,7 +74,7 @@ internal class GameDataService : ServiceBase
         if ( GameOptions == null || CurrentTarget == null )
             throw new Exception("Service is not Initialized");
         if ( GameOptions.GameMode == GameMode.FirstOneOut )
-            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, sender);
+            ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, sender);
 
         EliminatedPlayers.Add(CurrentTarget);
         PlayerModels.Remove(CurrentTarget);

@@ -212,7 +212,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                 if ( _gameService.CurrentRound >= _gameService.GameOptions!.Rounds )
                 {
-                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
+                    ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     return;
                 }
 
@@ -256,8 +256,9 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                     if ( _gameService.CheckGameOver() )
                     {
-                        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
-                        _gameService.ResetInstance();
+                        _gameService.CurrentPlayer.Winner = true;
+                        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
+
                     }
                     else
                     {
