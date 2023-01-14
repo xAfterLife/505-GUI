@@ -20,6 +20,7 @@ public class ObservableObject : INotifyPropertyChanged
     /// <param name="propertyName">Automaticly pulled by CallerMemberName Attribute</param>
     protected void Update<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
+        //Return if old and new value are the same
         if ( EqualityComparer<T>.Default.Equals(field, value) )
             return;
         field = value;

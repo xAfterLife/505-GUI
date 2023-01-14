@@ -13,31 +13,42 @@ public sealed class PlayerModel : ObservableObject
     private readonly string[] _playerImageList = { "../../../Resources/ProfilePictures/profilePic1.png", "../../../Resources/ProfilePictures/profilePic2.png", "../../../Resources/ProfilePictures/profilePic3.png", "../../../Resources/ProfilePictures/profilePic4.png", "../../../Resources/ProfilePictures/profilePic5.png", "../../../Resources/ProfilePictures/profilePic6.png", "../../../Resources/ProfilePictures/profilePic7.png", "../../../Resources/ProfilePictures/profilePic8.png", "../../../Resources/ProfilePictures/profilePic9.png" };
     private Visibility _deleteButtonVisibility;
     private string _playerColor;
-    private Guid _playerId;
     private string _playerImage;
     private string _playerName;
     private int _points;
-    private Canvas _visualPlayerBoard;
+    private Canvas? _visualPlayerBoard;
     private bool _winner;
 
+    /// <summary>
+    ///     Points of the Player in the current Game
+    /// </summary>
     public int Points
     {
         get => _points;
         set => Update(ref _points, value);
     }
 
+    /// <summary>
+    ///     Image of the Player
+    /// </summary>
     public string PlayerImage
     {
         get => _playerImage;
         set => Update(ref _playerImage, value);
     }
 
+    /// <summary>
+    ///     The Board that is Visual to all the Opponents
+    /// </summary>
     public Canvas VisualPlayerBoard
     {
-        get => _visualPlayerBoard;
+        get => _visualPlayerBoard!;
         set => Update(ref _visualPlayerBoard, value);
     }
 
+    /// <summary>
+    ///     List of the placed Ships by the Player
+    /// </summary>
     public ObservableCollection<ShipPlacementModel> Ships { get; set; } = new();
 
     /// <summary>
@@ -45,6 +56,9 @@ public sealed class PlayerModel : ObservableObject
     /// </summary>
     public PlayerModel Instance { get; }
 
+    /// <summary>
+    ///     The Visibility if this Instance can be Removed from the PlayerList or not
+    /// </summary>
     public Visibility DeleteButtonVisibility
     {
         get => _deleteButtonVisibility;
@@ -63,6 +77,10 @@ public sealed class PlayerModel : ObservableObject
         DeleteButtonPressed?.Invoke(player, EventArgs.Empty);
     });
 
+    /// <summary>
+    ///     Command that Selects a Player as Opponent and starts an Attack
+    ///     -> Raises SelectTargetPlayerCommand Event
+    /// </summary>
     public static ICommand SelectTargetPlayerCommand => new RelayCommand(instance =>
     {
         if ( instance is not PlayerModel player )
@@ -99,15 +117,6 @@ public sealed class PlayerModel : ObservableObject
     public Visibility CrownVisibility => Winner ? Visibility.Visible : Visibility.Hidden;
 
     /// <summary>
-    ///     Guid as a Unique-ID for the Player
-    /// </summary>
-    public Guid PlayerId
-    {
-        get => _playerId;
-        set => Update(ref _playerId, value);
-    }
-
-    /// <summary>
     ///     Color of the Player
     /// </summary>
     public string PlayerColor
@@ -123,8 +132,8 @@ public sealed class PlayerModel : ObservableObject
     {
         Instance = this;
         _playerName = playerName;
-        _playerId = Guid.NewGuid();
 
+        //Set Random PlayerImage & Color
         _playerImage = _playerImageList[Random.Shared.Next(9)];
         _playerColor = Color.FromRgb((byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256), (byte)Random.Shared.Next(256)).ToString();
     }

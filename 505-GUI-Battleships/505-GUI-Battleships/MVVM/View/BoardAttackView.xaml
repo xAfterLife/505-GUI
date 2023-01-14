@@ -45,7 +45,7 @@
         </Image>
 
         <TextBlock
-            Grid.Row="0" 
+            Grid.Row="0"
             Grid.Column="1"
             FontSize="16"
             Foreground="White"
@@ -69,7 +69,7 @@
             Content="⇦ Change Target"
             Visibility="{Binding BackButtonVisibility}"
             Style="{StaticResource MenuButton}" />
-        <Viewbox Grid.Row="2" Grid.Column="1">
+        <Viewbox Grid.Row="2" Grid.Column="1" >
             <ContentControl Content="{Binding TargetedPlayerCard}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate DataType="{x:Type model:PlayerModel}">

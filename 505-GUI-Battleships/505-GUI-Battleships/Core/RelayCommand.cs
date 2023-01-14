@@ -3,6 +3,9 @@ using System.Windows.Input;
 
 namespace _505_GUI_Battleships.Core;
 
+/// <summary>
+///     Wrapper for ICommand creations
+/// </summary>
 public class RelayCommand : ICommand
 {
     /// <summary>
