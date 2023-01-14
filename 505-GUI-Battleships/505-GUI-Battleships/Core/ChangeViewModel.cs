@@ -18,7 +18,7 @@ public sealed class ChangeViewModel
         ShipSelection = 3,
         SelectTargetPlayer = 4,
         BoardAttack = 5,
-        EndOfGame = 6,
+        EndOfGame = 6
     }
 
     /// <summary>
