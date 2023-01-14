@@ -68,7 +68,7 @@
             VerticalAlignment="Center"
             Content="⇦ Change Target"
             Style="{StaticResource MenuButton}" />
-        <Viewbox Grid.Row="2" Grid.Column="1">
+        <Viewbox Grid.Row="2" Grid.Column="1" >
             <ContentControl Content="{Binding TargetedPlayerCard}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate DataType="{x:Type model:PlayerModel}">
