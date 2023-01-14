@@ -11,10 +11,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
-            <RowDefinition Height="8*" />
+            <RowDefinition Height="10*" />
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
 
@@ -44,8 +43,8 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="2.5*" />
-                <RowDefinition Height="10*" />
-                <RowDefinition Height="3*" />
+                <RowDefinition Height="12*" />
+                <RowDefinition Height="1.7*" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -64,11 +63,13 @@
                 FontSize="40"
                 Foreground="White" />
 
-            <ItemsControl
-                ItemsSource="{Binding Path=Players}"
+            <Viewbox
+                Stretch="Uniform"
                 Grid.Column="1"
                 Grid.Row="1">
-                <ItemsControl.ItemsPanel>
+                <ItemsControl
+                ItemsSource="{Binding Path=Players}">
+                    <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <UniformGrid Columns="1" />
                     </ItemsPanelTemplate>
@@ -79,6 +80,7 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            </Viewbox>
 
             <Button
                 Width="100"

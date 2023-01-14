@@ -12,11 +12,7 @@ internal sealed class EndOfGameViewModel : ObservableObject, IDisposable
 {
     public ObservableCollection<PlayerModel> Players { get; set; }
 
-    public ICommand ReturnToStartCommand => new RelayCommand(_ =>
-    {
-        GameDataService.GetInstance().ResetInstance();
-        ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this);
-    });
+    public ICommand ReturnToStartCommand => new RelayCommand(_ => ChangeViewModel.ChangeView(ChangeViewModel.ViewType.Start, this));
 
     public EndOfGameViewModel()
     {
@@ -31,5 +27,8 @@ internal sealed class EndOfGameViewModel : ObservableObject, IDisposable
             Players[0].Winner = true;
     }
 
-    public void Dispose() {}
+    public void Dispose() 
+    {
+        GameDataService.GetInstance().ResetInstance();
+    }
 }

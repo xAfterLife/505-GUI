@@ -6,11 +6,12 @@
              xmlns:model="clr-namespace:_505_GUI_Battleships.MVVM.Model"
              d:DataContext="{d:DesignInstance Type=model:PlayerModel}"
              mc:Ignorable="d"
-             d:DesignHeight="100" d:DesignWidth="220"
+             d:DesignHeight="120" d:DesignWidth="220"
              Margin="0"
              Padding="0">
 
     <Border
+        Margin="10"
         Width="180"
         Height="80"
         Background="#262536"
