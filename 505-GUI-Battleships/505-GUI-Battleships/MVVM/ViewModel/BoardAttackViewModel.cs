@@ -255,7 +255,6 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                 if ( allShipsDestroyed )
                 {
-                    TestAnimation1();
                     _gameService.PlayerKnockOut(this);
 
                     if ( _gameService.CheckGameOver() )
@@ -285,32 +284,5 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         IsInputEnabled = false;
         storyboard.Begin();
         SoundPlayerService.PlaySound(SoundPlayerService.SoundType.Geschoss);
-    }
-
-    private void TestAnimation1()
-    {
-        Storyboard myStoryboard = new Storyboard();
-        DoubleAnimation myOpacityAnimation = new DoubleAnimation();
-        myOpacityAnimation.From = 0;
-        myOpacityAnimation.To = 1;
-        myOpacityAnimation.Duration = new Duration(TimeSpan.FromSeconds(1));
-        myOpacityAnimation.AutoReverse = true;
-        myOpacityAnimation.RepeatBehavior = RepeatBehavior.Forever;
-        Storyboard.SetTargetName(myOpacityAnimation, "MyTextBlock");
-        Storyboard.SetTargetProperty(myOpacityAnimation, new PropertyPath(Canvas.OpacityProperty));
-        myStoryboard.Children.Add(myOpacityAnimation);
-
-        DoubleAnimation myTranslateAnimation = new DoubleAnimation();
-        myTranslateAnimation.From = -50;
-        myTranslateAnimation.To = 50;
-        myTranslateAnimation.Duration = new Duration(TimeSpan.FromSeconds(5));
-        myTranslateAnimation.AutoReverse = true;
-        myTranslateAnimation.RepeatBehavior = RepeatBehavior.Forever;
-
-        TranslateTransform myTranslateTransform = new TranslateTransform();
-        PlayerBoard.RenderTransform = myTranslateTransform;
-        Storyboard.SetTarget(myTranslateAnimation, myTranslateTransform);
-        Storyboard.SetTargetProperty(myTranslateAnimation, new PropertyPath("X"));
-        myStoryboard.Children.Add(myTranslateAnimation);
     }
 }
