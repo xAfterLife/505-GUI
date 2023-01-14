@@ -51,10 +51,6 @@
                 <TextBlock>Sound Test</TextBlock>
             </Button>
 
-            <Button DockPanel.Dock="Top" Style="{StaticResource MenuButton}">
-                <TextBlock>Settings</TextBlock>
-            </Button>
-
             <Button DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Style="{StaticResource MenuButton}"
                     Command="{Binding ExitCommand }">
                 <TextBlock>Quit</TextBlock>

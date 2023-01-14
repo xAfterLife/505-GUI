@@ -260,6 +260,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                     if ( _gameService.CheckGameOver() )
                     {
                         _gameService.CurrentPlayer.Winner = true;
+                        SoundPlayerService.PlaySound(SoundPlayerService.SoundType.EnemyDestroyed);
                         ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
                     }
                     else

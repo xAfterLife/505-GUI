@@ -36,6 +36,8 @@
 		<None Remove="Resources\Ships\5ShipBattleshipHorizontal.png" />
 		<None Remove="Resources\Ships\5ShipBattleshipHVertical.png" />
 		<None Remove="Resources\Ships\5ShipBattleshipVertical.png" />
+		<None Remove="Resources\Sounds\AllShipsDestroyed_1.wav" />
+		<None Remove="Resources\Sounds\AllShipsDestroyed_2.wav" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.mp3" />
 		<None Remove="Resources\Sounds\Final_Treffer_1.wav" />
 		<None Remove="Resources\Sounds\Final_Treffer_2.mp3" />
@@ -66,6 +68,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Sounds\AllShipsDestroyed_1.wav" />
+	  <EmbeddedResource Include="Resources\Sounds\AllShipsDestroyed_2.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_1.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_2.wav" />
 	  <EmbeddedResource Include="Resources\Sounds\Final_Treffer_3.wav" />

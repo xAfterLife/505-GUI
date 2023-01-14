@@ -18,12 +18,12 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
     private readonly int _shipAmount;
 
     private Grid _boardContainer;
+    private string _buttonText;
     private PlayerModel _currentPlayer;
     private int _currentPlayerCounter;
 
     private Visibility _nextPlayerBttonVisibility;
     private string _shipPlacementHeading;
-    private string _buttonText;
 
     public string ButtonText
     {
@@ -71,7 +71,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
             return;
         }
 
-        if (_currentPlayerCounter == _gameService.PlayerModels.Count - 2)
+        if ( _currentPlayerCounter == _gameService.PlayerModels.Count - 2 )
             ButtonText = "Start Game";
 
         _currentPlayerCounter++;

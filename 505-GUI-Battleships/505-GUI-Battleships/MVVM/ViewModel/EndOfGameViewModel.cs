@@ -27,7 +27,7 @@ internal sealed class EndOfGameViewModel : ObservableObject, IDisposable
             Players[0].Winner = true;
     }
 
-    public void Dispose() 
+    public void Dispose()
     {
         GameDataService.GetInstance().ResetInstance();
     }

@@ -87,7 +87,7 @@ internal class GameDataService : ServiceBase
         EliminatedPlayers.Add(CurrentTarget);
         PlayerModels.Remove(CurrentTarget);
 
-        if (_firstPlayerIndex >= PlayerModels.Count)
+        if ( _firstPlayerIndex >= PlayerModels.Count )
             _firstPlayerIndex = 0;
     }
 
