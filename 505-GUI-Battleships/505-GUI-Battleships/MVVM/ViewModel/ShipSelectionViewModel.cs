@@ -23,6 +23,13 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
 
     private Visibility _nextPlayerBttonVisibility;
     private string _shipPlacementHeading;
+    private string _buttonText;
+
+    public string ButtonText
+    {
+        get => _buttonText;
+        set => Update(ref _buttonText, value);
+    }
 
     public Canvas PlacementShips { get; set; }
 
@@ -44,6 +51,9 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         set => Update(ref _shipPlacementHeading, value);
     }
 
+    /// <summary>
+    ///     Command to Change the Current Player to the next player
+    /// </summary>
     public ICommand NextPlayerCommand => new RelayCommand(_ =>
     {
         if ( _currentPlayerCounter == _gameService.PlayerModels.Count - 1 )
@@ -61,6 +71,9 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
             return;
         }
 
+        if (_currentPlayerCounter == _gameService.PlayerModels.Count - 2)
+            ButtonText = "Start Game";
+
         _currentPlayerCounter++;
         _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
         ShipPlacementHeading = $"Place your ships, {_currentPlayer.PlayerName}!";
@@ -77,6 +90,7 @@ internal class ShipSelectionViewModel : ObservableObject, IDisposable
         _shipAmount = _gameService.ShipModels.Count;
         _currentPlayerCounter = 0;
         _currentPlayer = _gameService.PlayerModels[_currentPlayerCounter];
+        _buttonText = "Next Player";
 
         ShipPlacementHeading = $"Place your ships, {_currentPlayer.PlayerName}!";
         NextPlayerButtonVisible = Visibility.Hidden;

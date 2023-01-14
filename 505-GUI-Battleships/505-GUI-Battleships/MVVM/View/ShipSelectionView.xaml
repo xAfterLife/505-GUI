@@ -65,8 +65,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Command="{Binding NextPlayerCommand}"
-            Content="Next Player"
-            Visibility="{Binding NextPlayerButtonVisible}" />
+            Content="{Binding ButtonText}"
+            Visibility="{Binding NextPlayerButtonVisible}" Cursor="Hand" />
 
     </Grid>
 </UserControl>
