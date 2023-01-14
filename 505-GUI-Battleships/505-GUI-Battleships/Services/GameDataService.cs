@@ -59,7 +59,7 @@ internal class GameDataService : ServiceBase
 
     public void SetNextPlayer()
     {
-        if ( CurrentPlayerIndex == PlayerModels.Count - 1 )
+        if ( CurrentPlayerIndex >= PlayerModels.Count - 1 )
             CurrentPlayerIndex = 0;
         else
             CurrentPlayerIndex++;
@@ -76,12 +76,6 @@ internal class GameDataService : ServiceBase
         if ( GameOptions.GameMode == GameMode.FirstOneOut )
             ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, sender);
 
-        EliminatedPlayers.Add(CurrentTarget);
-        PlayerModels.Remove(CurrentTarget);
-
-        if ( _firstPlayerIndex >= PlayerModels.Count )
-            _firstPlayerIndex = 0;
-
         int i;
         for ( i = 0; i < PlayerModels.Count; i++ )
             if ( PlayerModels[i] == CurrentTarget )
@@ -89,6 +83,12 @@ internal class GameDataService : ServiceBase
 
         if ( CurrentPlayerIndex > i )
             CurrentPlayerIndex--;
+
+        EliminatedPlayers.Add(CurrentTarget);
+        PlayerModels.Remove(CurrentTarget);
+
+        if (_firstPlayerIndex >= PlayerModels.Count)
+            _firstPlayerIndex = 0;
     }
 
     public bool CheckGameOver()
