@@ -17,9 +17,13 @@ Re-Creating Battle-Ships in C# using the WPF Framework and MVVM
 
 
 ## Features
-
-- TBA.
-
+* Play Battleships with your Friends locally!
+* Multiple Game-Modes
+    - First one Out
+    - Last one Standing
+    - Limit the Maximum amount of Rounds played
+* Play with 2~4 Players
+* Custome Sounds and UI-Animations
     
 ## License
 
@@ -31,4 +35,3 @@ Re-Creating Battle-Ships in C# using the WPF Framework and MVVM
 * .NET 6.0
 * WPF
 * MVVM
-* Dependency Injection
