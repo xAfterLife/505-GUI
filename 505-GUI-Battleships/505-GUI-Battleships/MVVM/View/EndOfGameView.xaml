@@ -72,7 +72,7 @@
                 Grid.Row="1">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Rows="1" />
+                        <UniformGrid Columns="1" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -81,6 +81,15 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+
+            <Button
+                Width="100"
+                Height="30"
+                Grid.Row="2"
+                Grid.Column="1"
+                Content="Return"
+                Command="{Binding ReturnToStartCommand}"
+                Style="{StaticResource MenuButton}"/>
         </Grid>
     </Grid>
 </UserControl>
