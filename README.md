@@ -23,7 +23,7 @@ Re-Creating Battle-Ships in C# using the WPF Framework and MVVM
     - Last one Standing
     - Limit the Maximum amount of Rounds played
 * Play with 2~4 Players
-* Custome Sounds and UI-Animations
+* Custom Sounds and UI-Animations
     
 ## License
 
