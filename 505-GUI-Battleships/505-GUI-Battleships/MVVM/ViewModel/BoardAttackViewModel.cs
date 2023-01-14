@@ -28,10 +28,12 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
     ///     Current Round Binding
     /// </summary>
     public string Round => $"Round {_gameService.CurrentRound}";
+
     /// <summary>
     ///     Visibility for the Back Button to prevent players from going into the Target Selection when only 2 Players are left
     /// </summary>
     public Visibility BackButtonVisibility => _gameService.PlayerModels.Count > 2 ? Visibility.Visible : Visibility.Hidden;
+
     /// <summary>
     ///     Disable Input during the Rocket Animation
     /// </summary>
@@ -40,6 +42,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         get => _isInputEnabled;
         set => Update(ref _isInputEnabled, value);
     }
+
     /// <summary>
     ///     Container for Board and Axis-Descriptors
     /// </summary>
@@ -48,6 +51,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         get => _boardContainer;
         set => Update(ref _boardContainer, value);
     }
+
     /// <summary>
     ///     The Board of the Target player to Attack on
     /// </summary>
@@ -56,6 +60,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         get => _playerBoard;
         set => Update(ref _playerBoard, value);
     }
+
     /// <summary>
     ///     Display your Target, to see the fear in their eyes
     /// </summary>
@@ -64,6 +69,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
         get => _targetedPlayerCard;
         set => Update(ref _targetedPlayerCard, value);
     }
+
     /// <summary>
     ///     Display your own Playercard
     /// </summary>
@@ -74,7 +80,6 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
     }
 
     /// <summary>
-    ///     
     /// </summary>
     public ICommand? SelectPlayerViewCommand { get; }
 
@@ -200,6 +205,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
             return;
 
         var ship = _gameService.CurrentTarget!.Ships.FirstOrDefault(x => x.IsShipHit(clickPosition));
+
         if ( ship != null )
         {
             isShipHit = true;
@@ -265,6 +271,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                 // Throw next Player into StarterScreen or Directly into the next Attack
                 ((Panel)PlayerBoard.Parent)?.Children.Remove(PlayerBoard);
+
                 if ( _gameService.PlayerModels.Count == 2 )
                 {
                     _gameService.CurrentTarget = _gameService.PlayerModels.First(x => x != _gameService.CurrentTarget);
@@ -297,6 +304,7 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
 
                 // Detect if all Ships from this player sunk
                 var allShipsDestroyed = _gameService.CurrentTarget!.Ships.Select(x => x.GetPoisitionList()).All(ships => ships.All(position => _playerBoard.Children.Cast<UIElement>().Any(hit => position == new Point(Canvas.GetLeft(hit), Canvas.GetTop(hit)))));
+
                 if ( allShipsDestroyed )
                 {
                     _gameService.PlayerKnockOut(this);
