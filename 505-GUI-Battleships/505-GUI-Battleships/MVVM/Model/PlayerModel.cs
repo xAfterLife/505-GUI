@@ -86,8 +86,17 @@ public sealed class PlayerModel : ObservableObject
     public bool Winner
     {
         get => _winner;
-        set => Update(ref _winner, value);
+        set
+        {
+            Update(ref _winner, value);
+            OnPropertyChanged(nameof(CrownVisibility));
+        }
     }
+
+    /// <summary>
+    ///     Visibility if the Winner's Crown is being displayed
+    /// </summary>
+    public Visibility CrownVisibility => Winner ? Visibility.Visible : Visibility.Hidden;
 
     /// <summary>
     ///     Guid as a Unique-ID for the Player

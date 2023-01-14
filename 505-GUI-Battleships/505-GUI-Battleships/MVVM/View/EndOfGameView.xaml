@@ -84,12 +84,11 @@
 
             <Button
                 Width="100"
-                Height="30"
                 Grid.Row="2"
                 Grid.Column="1"
                 Content="Return"
                 Command="{Binding ReturnToStartCommand}"
-                Style="{StaticResource MenuButton}"/>
+                Style="{StaticResource MenuButton}" />
         </Grid>
     </Grid>
 </UserControl>

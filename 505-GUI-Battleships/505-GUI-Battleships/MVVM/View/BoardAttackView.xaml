@@ -45,11 +45,11 @@
         </Image>
 
         <TextBlock
+            Grid.Row="0" 
             Grid.Column="1"
-            Grid.ColumnSpan="3"
-            FontSize="48"
+            FontSize="16"
             Foreground="White"
-            Text="{Binding ShipPlacementHeading}"
+            Text="{Binding Round}"
             TextAlignment="Center" />
 
         <Viewbox
@@ -67,6 +67,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Content="⇦ Change Target"
+            Visibility="{Binding BackButtonVisibility}"
             Style="{StaticResource MenuButton}" />
         <Viewbox Grid.Row="2" Grid.Column="1">
             <ContentControl Content="{Binding TargetedPlayerCard}">

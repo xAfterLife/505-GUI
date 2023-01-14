@@ -24,6 +24,9 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
     private Canvas _playerBoard;
     private PlayerModel _targetedPlayerCard;
 
+    public string Round => $"Round {_gameService.CurrentRound}";
+    public Visibility BackButtonVisibility => _gameService.PlayerModels.Count > 2 ? Visibility.Visible : Visibility.Hidden;
+
     public bool IsInputEnabled
     {
         get => _isInputEnabled;
@@ -258,7 +261,6 @@ internal sealed class BoardAttackViewModel : ObservableObject, IDisposable
                     {
                         _gameService.CurrentPlayer.Winner = true;
                         ChangeViewModel.ChangeView(ChangeViewModel.ViewType.EndOfGame, this);
-
                     }
                     else
                     {
